@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Posts on Chenwan HALLEY Zhong</title>
+    <link>http://localhost:1313/posts/</link>
+    <description>Recent content in Posts on Chenwan HALLEY Zhong</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <lastBuildDate>Mon, 12 Jan 2026 00:00:00 +0000</lastBuildDate>
+    <atom:link href="http://localhost:1313/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Bug Catcher: Robotic Sorting System</title>
+      <link>http://localhost:1313/posts/project1/</link>
+      <pubDate>Mon, 12 Jan 2026 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/posts/project1/</guid>
+      <description>&lt;h2 id=&#34;overview&#34;&gt;Overview&lt;/h2&gt;&#xA;&lt;p&gt;This project was a collaborative effort for Northwestern&amp;rsquo;s &lt;strong&gt;MECH_ENG 450: Embedded Systems in Robotics&lt;/strong&gt;. Our team (Rishika Bera, Nolan Knight, and myself) built an autonomous system to sort HexBugs by color using a Franka Emika Research (FER) arm.&lt;/p&gt;&#xA;&lt;p&gt;The project involved three main pillars:&lt;/p&gt;&#xA;&lt;ol&gt;&#xA;&lt;li&gt;&lt;strong&gt;Camera Calibration:&lt;/strong&gt; Determining the camera&amp;rsquo;s extrinsic parameters relative to the robot base.&lt;/li&gt;&#xA;&lt;li&gt;&lt;strong&gt;Computer Vision:&lt;/strong&gt; Tracking the real-time positions of moving HexBugs and sorting bins using OpenCV.&lt;/li&gt;&#xA;&lt;li&gt;&lt;strong&gt;Motion Planning:&lt;/strong&gt; Executing precise trajectories to intercept and sort moving targets.&lt;/li&gt;&#xA;&lt;/ol&gt;&#xA;&lt;h2 id=&#34;motion-control-strategy&#34;&gt;Motion Control Strategy&lt;/h2&gt;&#xA;&lt;p&gt;Because HexBugs move randomly, standard static trajectories weren&amp;rsquo;t enough. We needed a dynamic approach:&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

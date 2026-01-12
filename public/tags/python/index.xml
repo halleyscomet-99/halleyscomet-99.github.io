@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Python on Chenwan HALLEY Zhong</title>
+    <link>http://localhost:1313/tags/python/</link>
+    <description>Recent content in Python on Chenwan HALLEY Zhong</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sun, 28 Jul 2024 00:00:00 +0000</lastBuildDate>
+    <atom:link href="http://localhost:1313/tags/python/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Advanced Bipedal Robot Platform</title>
+      <link>http://localhost:1313/posts/project1/</link>
+      <pubDate>Sun, 28 Jul 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/posts/project1/</guid>
+      <description>&lt;h3 id=&#34;-humanoid-motion--balance&#34;&gt;🚶‍♂️ Humanoid Motion &amp;amp; Balance&lt;/h3&gt;&#xA;&lt;p&gt;这是一个关于我开发的双足机器人平台项目。该项目专注于实现高效、稳定的类人行走步态，并探索在复杂地形中的自适应平衡控制。&lt;/p&gt;&#xA;&#xA;&#xA;&#xA;  &#xA;  &#xA;  &#xA;  &lt;div class=&#34;alert alert-note&#34;&gt;&#xA;    &lt;div class=&#34;alert-header&#34;&gt;&#xA;      &lt;span class=&#34;alert-icon&#34;&gt;ℹ️&lt;/span&gt;&#xA;      &lt;span class=&#34;alert-title&#34;&gt;&#xA;        &#xA;          Note&#xA;        &#xA;      &lt;/span&gt;&#xA;      &#xA;    &lt;/div&gt;&#xA;    &lt;div class=&#34;alert-content&#34; id=&#34;alert-0&#34;&gt;&#xA;      &lt;p&gt;该平台旨在作为一个研究原型，未来将用于部署更复杂的 AI 驱动行为。&lt;/p&gt;&#xA;    &lt;/div&gt;&#xA;  &lt;/div&gt;&#xA;&#xA;&lt;h4 id=&#34;项目亮点&#34;&gt;&lt;strong&gt;项目亮点：&lt;/strong&gt;&lt;/h4&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;&lt;strong&gt;步态生成算法：&lt;/strong&gt; 基于零力矩点（ZMP）控制与模型预测控制（MPC）实现平滑自然的行走步态。&lt;/li&gt;&#xA;&lt;li&gt;&lt;strong&gt;多传感器融合：&lt;/strong&gt; 集成了 IMU、力矩传感器和视觉系统，提供全面的环境感知和状态估计。&lt;/li&gt;&#xA;&lt;li&gt;&lt;strong&gt;实时平衡控制：&lt;/strong&gt; 针对外部扰动和不平地面，通过先进的反馈回路实现快速恢复。&lt;/li&gt;&#xA;&lt;li&gt;&lt;strong&gt;模块化软件架构：&lt;/strong&gt; 基于 ROS2 构建，易于扩展和集成新的功能模块。&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;h4 id=&#34;技术栈&#34;&gt;&lt;strong&gt;技术栈：&lt;/strong&gt;&lt;/h4&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;&lt;strong&gt;硬件：&lt;/strong&gt; 定制化伺服电机，轻量化铝合金框架，嵌入式控制器（如 Raspberry Pi 或 Jetson Nano）。&lt;/li&gt;&#xA;&lt;li&gt;&lt;strong&gt;软件：&lt;/strong&gt; Python, C++, ROS2, Gazebo (仿真), PyTorch (可选用于强化学习).&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;p&gt;你可以&lt;a href=&#34;https://github.com/halleyscomet-99/bipedal-robot-repo&#34;&gt;点击这里查看项目代码&lt;/a&gt;（如果你有的话，替换成你的实际 GitHub 仓库链接）。&lt;/p&gt;&#xA;&lt;hr&gt;&#xA;&lt;p&gt;&lt;strong&gt;未来展望：&lt;/strong&gt; 我计划为该平台增加更高级的导航能力和人机交互模块。&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

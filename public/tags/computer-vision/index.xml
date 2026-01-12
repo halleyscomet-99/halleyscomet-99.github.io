@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Computer Vision on Chenwan HALLEY Zhong</title>
+    <link>http://localhost:1313/tags/computer-vision/</link>
+    <description>Recent content in Computer Vision on Chenwan HALLEY Zhong</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <lastBuildDate>Mon, 12 Jan 2026 00:00:00 +0000</lastBuildDate>
+    <atom:link href="http://localhost:1313/tags/computer-vision/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Bug Catcher: Robotic Sorting System</title>
+      <link>http://localhost:1313/posts/project1/</link>
+      <pubDate>Mon, 12 Jan 2026 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/posts/project1/</guid>
+      <description>&lt;h2 id=&#34;overview&#34;&gt;Overview&lt;/h2&gt;&#xA;&lt;p&gt;This project was a collaborative effort for Northwestern&amp;rsquo;s &lt;strong&gt;MECH_ENG 450: Embedded Systems in Robotics&lt;/strong&gt;. Our team (Rishika Bera, Nolan Knight, and myself) built an autonomous system to sort HexBugs by color using a Franka Emika Research (FER) arm.&lt;/p&gt;&#xA;&lt;p&gt;The project involved three main pillars:&lt;/p&gt;&#xA;&lt;ol&gt;&#xA;&lt;li&gt;&lt;strong&gt;Camera Calibration:&lt;/strong&gt; Determining the camera&amp;rsquo;s extrinsic parameters relative to the robot base.&lt;/li&gt;&#xA;&lt;li&gt;&lt;strong&gt;Computer Vision:&lt;/strong&gt; Tracking the real-time positions of moving HexBugs and sorting bins using OpenCV.&lt;/li&gt;&#xA;&lt;li&gt;&lt;strong&gt;Motion Planning:&lt;/strong&gt; Executing precise trajectories to intercept and sort moving targets.&lt;/li&gt;&#xA;&lt;/ol&gt;&#xA;&#xA;&#xA;&#xA;  &#xA;  &#xA;  &#xA;  &lt;div class=&#34;alert alert-note&#34;&gt;&#xA;    &lt;div class=&#34;alert-header&#34;&gt;&#xA;      &lt;span class=&#34;alert-icon&#34;&gt;ℹ️&lt;/span&gt;&#xA;      &lt;span class=&#34;alert-title&#34;&gt;&#xA;        &#xA;          Note&#xA;        &#xA;      &lt;/span&gt;&#xA;      &#xA;    &lt;/div&gt;&#xA;    &lt;div class=&#34;alert-content&#34; id=&#34;alert-0&#34;&gt;&#xA;      &lt;p&gt;My primary focus was &lt;strong&gt;Motion Planning&lt;/strong&gt;, though I also contributed to the vision pipeline and designed custom hardware to stabilize the wooden arena around the robot base.&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>
