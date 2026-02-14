@@ -35,7 +35,7 @@
         "type:check": "tsc --noEmit --pretty",
         "prepare": "husky",
         "predeploy": "npm run build",
-        "deploy": "gh-pages -d out"
+        "deploy": "gh-pages -t true -d out"
     },
     "dependencies": {
         "@base-ui/react": "^1.0.0",
