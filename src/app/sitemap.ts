@@ -1,6 +1,8 @@
 import type { MetadataRoute } from "next";
 
-const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
+export const dynamic = "force-static";
+
+const baseUrl = "https://halleyscomet-99.github.io";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     const staticRoute: MetadataRoute.Sitemap = [
