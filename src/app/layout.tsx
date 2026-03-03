@@ -42,7 +42,7 @@ export default function RootLayout({
         <html
             lang="en"
             className={`${outfit.variable}`}
-            suppressHydrationWarning
+            suppressHydrationWarning={true}
         >
             <body
                 className={`${outfit.className} w-screen min-h-screen m-0 p-0 overflow-x-hidden dark:bg-[#0b0a09]`}

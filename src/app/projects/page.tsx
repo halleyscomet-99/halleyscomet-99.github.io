@@ -31,29 +31,30 @@ export default function Page() {
         <>
             <Navbar />
             <div className="flex flex-col items-center gap-12 p-8 w-full">
-                <section className="w-full flex flex-col md:flex-row md:items-center justify-between gap-6 pb-4">
-                    <div className="space-y-2">
-                        <p className="font-normal text-muted-foreground text-base">
-                            hi there 👋, these are
-                        </p>
-                        <div>
-                            <h1 className="font-bold text-primary/90 text-4xl tracking-tight">
-                                My Projects.
-                            </h1>
-                            <div className="mt-1 text-primary/90 text-sm text-base font-normal ">
-                                Robotics | Game Development | HCI | Music
+                
+                <section className="w-full space-y-4 pb-4">
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+                        <div className="space-y-2">
+                            <p className="font-normal text-muted-foreground text-base">
+                                hi there 👋, these are
+                            </p>
+                            <div>
+                                <h1 className="font-bold text-primary/90 text-4xl tracking-tight">
+                                    My Projects.
+                                </h1>
+                                <div className="mt-1 text-primary/90 text-sm font-normal">
+                                    Robotics | Game Development | HCI | Music
+                                </div>
                             </div>
                         </div>
-                    </div>
 
-                    <div className="relative w-full md:w-130 group">
-                        <div className="relative w-full max-w-3xl group">
+                        <div className="relative group w-full">
                             <div className="absolute inset-y-0 left-4 flex items-center pointer-events-none text-muted-foreground group-focus-within:text-primary transition-colors">
                                 <Search size={18} />
                             </div>
                             <input
                                 type="text"
-                                placeholder="Search relevant tags, tools, or project titles..."
+                                placeholder="Search relevant tags or project titles..."
                                 value={searchQuery}
                                 onChange={(e) => setSearchQuery(e.target.value)}
                                 className="w-full bg-muted/30 border border-muted hover:border-muted-foreground/30 focus:border-primary focus:ring-4 focus:ring-primary/5 outline-hidden rounded-3xl py-3 pl-12 pr-12 text-base transition-all shadow-sm"
@@ -70,19 +71,19 @@ export default function Page() {
                     </div>
                 </section>
 
-                <div className="space-y-20 mb-12 w-full min-h-[400px] pt-2">
+                <div className="space-y-16 mb-12 w-full min-h-[400px]">
                     {filteredProjects.length > 0 ? (
-                        filteredProjects.map(([key, value], index) => (
-                            <React.Fragment key={key}>
-                                <div className="items-start gap-12 grid grid-cols-1 lg:grid-cols-2 cursor-target animate-in fade-in slide-in-from-bottom-4 duration-500">
+                        filteredProjects.map(([key, value]) => (
+                            <div key={key} className="cursor-target group">
+                                <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start pl-0 transition-all duration-300">
                                     
-                                    <div className="space-y-6 size-full transition-all duration-300 pl-0 lg:order-1">
+                                    <div className="space-y-4">
                                         <div>
-                                            <h2 className="mb-1 font-semibold text-2xl tracking-tight">
+                                            <p className="text-primary/90 text-xl font-medium">
                                                 {key}
-                                            </h2>
+                                            </p>
 
-                                            <p className="flex items-center gap-4 text-sm font-medium">
+                                            <p className="flex items-center gap-3 mt-1 text-sm">
                                                 {value.LIVE_PREVIEW && (
                                                     <a
                                                         className="flex items-center gap-1 hover:text-primary transition-colors"
@@ -90,7 +91,8 @@ export default function Page() {
                                                         target="_blank"
                                                         rel="noopener noreferrer"
                                                     >
-                                                        live preview <ArrowUpRight size={16} />
+                                                        live preview{" "}
+                                                        <ArrowUpRight size={16} />
                                                     </a>
                                                 )}
                                                 {value.GITHUB && (
@@ -100,15 +102,18 @@ export default function Page() {
                                                         target="_blank"
                                                         rel="noopener noreferrer"
                                                     >
-                                                        github <ArrowUpRight size={16} />
+                                                        github{" "}
+                                                        <ArrowUpRight size={16} />
                                                     </a>
                                                 )}
                                             </p>
                                         </div>
-                                        
-                                        <ul className="space-y-2 mt-1 pl-4 text-muted-foreground text-sm text-justify list-disc leading-relaxed">
-                                            {value.DESCRIPTION.map((desc, i) => (
-                                                <li key={i}><span>{desc}</span></li>
+
+                                        <ul className="space-y-1 pl-3 text-muted-foreground text-sm text-justify list-disc">
+                                            {value.DESCRIPTION.map((desc, index) => (
+                                                <li key={index}>
+                                                    <span>{desc}</span>
+                                                </li>
                                             ))}
                                         </ul>
 
@@ -124,25 +129,24 @@ export default function Page() {
                                         </ul>
                                     </div>
 
-                                    <div className="lg:order-2">
-                                        <div className="relative rounded-xl overflow-hidden shadow-sm group bg-muted">
+                                    <div className="relative rounded-lg overflow-hidden border border-muted bg-muted/20 w-full aspect-video">
+                                        {value.IMAGE ? (
                                             <Image
-                                                src={value.IMAGE || "/placeholder.svg"}
+                                                src={value.IMAGE}
                                                 alt={key}
-                                                width={600}
-                                                height={400}
-                                                className="w-full h-80 object-cover transition-transform duration-500 group-hover:scale-105"
+                                                fill
+                                                className="object-cover transition-transform duration-500 group-hover:scale-105"
                                             />
-                                        </div>
+                                        ) : (
+                                            <div className="flex items-center justify-center h-full text-muted-foreground text-xs text-center p-4">
+                                                [Project Preview]
+                                            </div>
+                                        )}
                                     </div>
                                 </div>
-                                {index < filteredProjects.length - 1 && (
-                                    <div className="w-full" />
-                                )}
-                            </React.Fragment>
+                            </div>
                         ))
                     ) : (
-
                         <div className="w-full py-20 text-center space-y-3">
                             <p className="text-muted-foreground text-lg">No projects found matching &quot;{searchQuery}&quot;</p>
                             <button 
@@ -154,9 +158,7 @@ export default function Page() {
                         </div>
                     )}
                 </div>
-            </div>
 
-            <div className="max-w-6xl mx-auto w-full space-y-4 p-6">
                 <Contact data={DATA.HEADER} />
                 <Footer />
             </div>
