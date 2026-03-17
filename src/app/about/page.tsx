@@ -3,7 +3,12 @@ import Image from "next/image";
 import React from "react";
 
 import { DATA } from "@/app/data";
-import { Contact, Footer, Navbar } from "@/components/sections";
+import { 
+    Contact, 
+    Footer, 
+    Navbar, 
+    Skills,
+} from "@/components/sections";
 import { CursorManager } from "@/components/ui/cursor-manager";
 import { About } from "@/components/sections/about";
 
@@ -12,7 +17,7 @@ export default function Page() {
         <>
             <Navbar />
 
-            <div className="flex flex-col items-center gap-12 p-8 w-full">
+            <main className="flex flex-col items-center gap-12 p-8 w-full">
                 <section className="w-full">
                     <div className="space-y-2">
                         <p className="font-normal text-muted-foreground text-base">
@@ -37,11 +42,15 @@ export default function Page() {
                     <About data={DATA.EXPERIENCE} />
                 </div>
 
+                <div className="w-full">
+                    <Skills data={DATA.SKILLS} />
+                </div>
+
                 <div className="max-w-6xl mx-auto w-full space-y-4 p-6">
                     <Contact data={DATA.HEADER} />
                     <Footer />
                 </div>
-            </div>
+            </main>
 
             <CursorManager />
         </>

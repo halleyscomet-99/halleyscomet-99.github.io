@@ -21,23 +21,31 @@ export function About({
 }: {
     data: Record<string, IAboutData>;
 }) {
+    const handleResumeClick = () => {
+        const link = document.createElement('a');
+        link.href = DATA.HEADER.RESUME;
+        link.target = "_blank";
+        link.click();
+    };
+
     const handleChange = (url: string) => {
         window.open(url, "_blank");
     };
+
     return (
         <div id="about" className="flex flex-col gap-12 w-full">
             <section className="space-y-4">
                 <h2 className="font-medium text-primary/90 text-base">about me.</h2>
                 <div className="grid grid-cols-1 md:grid-cols-12 gap-12 items-start">
-                    <div className="lg:col-span-6 font-normal text-muted-foreground text-base text-justify leading-relaxed">
+                    <div className="lg:col-span-6 font-normal text-muted-foreground text-base text-justify">
                     <span>
                         As a robotics student at Northwestern University, I build robots designed to survive the transition from the lab to the real world.{" "}
                         <span className="hidden sm:inline">{DATA.HEADER.EXPERTISE}</span>
                     </span>
                         <div className="flex items-center gap-2 text-sm mt-auto pt-8">
                             <MovingElement
-                                className="inline-flex justify-center items-center bg-primary hover:bg-primary/90 shadow-sm px-4 py-2 rounded-md h-9 font-medium text-primary-foreground text-sm transition-colors"
-                                change={() => handleChange(DATA.HEADER.RESUME)}
+                                className="inline-flex justify-center items-center bg-primary betterhover:hover:bg-primary/90 shadow-sm px-4 py-2 rounded-md h-9 font-medium text-primary-foreground text-sm transition-colors whitespace-nowrap"
+                                change={handleResumeClick}
                                 toChange={false}
                                 ariaLabel="Resume"
                             >
@@ -61,11 +69,11 @@ export function About({
                         </div>
                     </div>
 
-                    <div className="lg:col-span-6 w-full relative min-h-[300px]"> 
+                    <div className="lg:col-span-6 w-full relative"> 
                         {DATA.ABOUT_IMAGES && DATA.ABOUT_IMAGES.length > 0 ? (
                             <PhotoSlider images={DATA.ABOUT_IMAGES} />
                         ) : (
-                            <div className="bg-muted animate-pulse w-full h-full rounded-xl" />
+                            <div className="bg-muted animate-pulse w-full aspect-video rounded-xl" />
                         )}
                     </div>
                 </div>
@@ -125,7 +133,7 @@ export function About({
                                             <a
                                                 target="_blank"
                                                 rel="noopener noreferrer"
-                                                className="flex items-center gap-1 ml-1"
+                                                className="flex items-center gap-1 ml-1 hover:text-primary transition-colors"
                                                 href={value.WEBSITE}
                                             >
                                                 {extractDomain(value.WEBSITE)}{" "}
@@ -195,7 +203,7 @@ export function About({
                                                                 <React.Fragment key={index}>
                                                                     <span 
                                                                         className={isMe 
-                                                                            ? "text-primary"
+                                                                            ? "text-primary font-medium"
                                                                             : "transition-colors group-hover:text-muted-foreground"
                                                                         }
                                                                     >
@@ -215,30 +223,10 @@ export function About({
                                                     )}
                                                 </a>
                                             </div>
-
                                     </div>
-                                    
                                 </div>
-
                                 <ul className="space-y-1 mt-1 pl-3 text-muted-foreground text-sm text-justify list-disc">
-                                    {/* {value.DESCRIPTION.map((desc, index) => (
-                                        <li key={index}>
-                                            <span>{desc}</span>
-                                        </li>
-                                    ))} */}
-
                                 </ul>
-
-                                {/* <ul className="flex flex-wrap items-center gap-2 mt-2 pl-3">
-                                    {value.TECH_STACK.map((tech, index) => (
-                                        <li
-                                            key={index}
-                                            className="bg-muted px-2 py-1 rounded text-xs"
-                                        >
-                                            {tech}
-                                        </li>
-                                    ))}
-                                </ul> */}
                             </div>
                         </li>
                         )
@@ -249,69 +237,77 @@ export function About({
     );
 }
 
-function PhotoSlider({ images }: { images: any[] }) {
-    console.log("Images array:", images);
+function PhotoSlider({ images }: { images: { src: any; caption: string }[] }) {
     if (!images || images.length === 0) return <div>No Images Loaded</div>;
 
     const [currentIndex, setCurrentIndex] = useState(0);
 
     useEffect(() => {
+        if (images.length <= 1) return;
         const timer = setInterval(() => {
             setCurrentIndex((prev) => (prev + 1) % images.length);
-        }, 4000);
+        }, 6000);
         return () => clearInterval(timer);
     }, [images.length]);
 
-    const nextSlide = (e: React.MouseEvent) => {
-        e.stopPropagation();
-        setCurrentIndex((prev) => (prev + 1) % images.length);
-    };
-
-    const prevSlide = (e: React.MouseEvent) => {
+    const handlePrev = (e: React.MouseEvent) => {
         e.stopPropagation();
         setCurrentIndex((prev) => (prev - 1 + images.length) % images.length);
     };
 
+    const handleNext = (e: React.MouseEvent) => {
+        e.stopPropagation();
+        setCurrentIndex((prev) => (prev + 1) % images.length);
+    };
+
     return (
-        <div className="group relative w-full h-80 rounded-xl overflow-hidden border border-muted shadow-sm bg-muted">
-            {images.map((img, index) => (
-                <div
-                    key={index}
-                    className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${
-                        index === currentIndex ? "opacity-100" : "opacity-0"
-                    }`}
-                >
-                    <Image
-                        src={img}
-                        alt={`About photo ${index}`}
-                        fill
-                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                        priority={index === 0}
-                    />
-                </div>
-            ))}
-
-            <button
-                onClick={(e) => { e.stopPropagation(); setCurrentIndex((prev) => (prev - 1 + images.length) % images.length); }}
-                className="absolute left-3 top-1/2 -translate-y-1/2 z-10 bg-black/20 hover:bg-black/40 text-white p-1.5 rounded-full opacity-0 group-hover:opacity-100 transition-opacity backdrop-blur-sm"
-            >
-                <ChevronLeft size={18} />
-            </button>
-            <button
-                onClick={(e) => { e.stopPropagation(); setCurrentIndex((prev) => (prev + 1) % images.length); }}
-                className="absolute right-3 top-1/2 -translate-y-1/2 z-10 bg-black/20 hover:bg-black/40 text-white p-1.5 rounded-full opacity-0 group-hover:opacity-100 transition-opacity backdrop-blur-sm"
-            >
-                <ChevronRight size={18} />
-            </button>
-
-            <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-1.5 z-10">
-                {images.map((_, i) => (
+        <div className="w-full flex flex-col gap-3 group">
+            <div className="relative aspect-video w-full rounded-xl overflow-hidden border border-muted shadow-2xl shadow-black/5 bg-muted">
+                {images.map((imgObj, index) => (
                     <div
-                        key={i}
-                        className={`h-1 rounded-full transition-all duration-300 ${
-                            i === currentIndex ? "bg-white w-4" : "bg-white/40 w-1"
+                        key={index}
+                        className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${
+                            index === currentIndex ? "opacity-100 z-10" : "opacity-0 z-0"
                         }`}
-                    />
+                    >
+                        <Image
+                            src={imgObj.src}
+                            alt={`About photo ${index}`}
+                            fill
+                            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                            priority={index === 0}
+                        />
+                    </div>
+                ))}
+
+                {images.length > 1 && (
+                    <div className="absolute inset-0 z-20 flex items-center justify-between px-3 pointer-events-none">
+                        <button
+                            onClick={handlePrev}
+                            className="pointer-events-auto bg-black/20 hover:bg-black/40 text-white p-1.5 rounded-full opacity-0 group-hover:opacity-100 transition-opacity backdrop-blur-sm"
+                        >
+                            <ChevronLeft size={18} />
+                        </button>
+                        <button
+                            onClick={handleNext}
+                            className="pointer-events-auto bg-black/20 hover:bg-black/40 text-white p-1.5 rounded-full opacity-0 group-hover:opacity-100 transition-opacity backdrop-blur-sm"
+                        >
+                            <ChevronRight size={18} />
+                        </button>
+                    </div>
+                )}
+            </div>
+
+            <div className="px-1 min-h-[1.5rem] relative h-fit text-center">
+                {images.map((imgObj, index) => (
+                    <p 
+                        key={index}
+                        className={`text-xs text-muted-foreground/90 font-medium italic transition-opacity duration-500 tracking-tight ${
+                            index === currentIndex ? "opacity-100 relative" : "opacity-0 absolute inset-0"
+                        }`}
+                    >
+                        {imgObj.caption}
+                    </p>
                 ))}
             </div>
         </div>

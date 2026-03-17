@@ -5,27 +5,27 @@ import {
     TsGenericsImage,
     TsReactImage,
     UtilityTypesImage,
-} from "@/assets/blogs";
+} from "@/assets/logs";
 import {
-    AirwatchImage,
-    LibraryImage,
-    SkygazeImage,
-    TodoImage,
     VIPSImage,
     VueBitsImage,
 } from "@/assets/projects";
 import * as AboutImages from "@/assets/about";
 
 export interface IProjectData {
-    LIVE_PREVIEW?: string;
+    SLUG?: string;
     GITHUB?: string;
+    YOUTUBE?: string;
+    PAPER?: string;
     DESCRIPTION: string[];
     NOTE?: string;
     TECH_STACK: string[];
-    IMAGE: StaticImageData;
+    IMAGE: StaticImageData | string;
+    MORE_INFO?: string; 
+    CONTENT?: string; 
 }
 
-export interface IBlogData {
+export interface ILogData {
     DATE: string;
     TIME: string;
     LINK: string;
@@ -40,9 +40,8 @@ export const DATA = {
         NAME: "Chenwan Halley Zhong",
         AGE: "23",
         PRONOUN: "she/her",
-        HEADLINE:
-            "MS in Robotics student @ Northwestern University | Musician",
-        RESUME: "https://drive.google.com/file/d/1piWpArbdbjt4PKF4gZlR0nkD09au_8fE/view",
+        HEADLINE: "MS in Robotics student @ Northwestern University | Musician",
+        RESUME: "/Resume-Chenwan(Halley)Zhong.pdf",
         EMAIL: "mailto:halleyscomet678@gmail.com",
         GITHUB: "https://github.com/halleyscomet-99",
         LINKEDIN: "https://www.linkedin.com/in/halleyscomet99",
@@ -52,7 +51,14 @@ export const DATA = {
     },
 
     ABOUT_IMAGES: [
-        AboutImages.HeadphoneImage,
+        {
+            src: AboutImages.HeadphoneImage,
+            caption: "Presenting interactive installations at \"Seeing Diversity\" exhibition",
+        },
+        {
+            src: AboutImages.StageImage,
+            caption: "Performing at Grassland music festivals",
+        },
     ],
 
     EDUCATION: {
@@ -72,97 +78,80 @@ export const DATA = {
     },
 
     EXPERIENCE: {
-        Suraasa: {
-            WEBSITE: "https://www.suraasa.com/",
-            POSITION: "SDE - 1 Backend",
-            LOCATION: "Hybrid",
-            DURATION: "Oct, 2025 - Present",
+        HKUSTGZ: {
+            WEBSITE: "https://arkxlab.github.io/",
+            POSITION: "HKUST(GZ) Information Hub - Research Assistant",
+            LOCATION: "Guangzhou, China",
+            DURATION: "Oct, 2024 - May, 2025",
             DESCRIPTION: [
-                "Developed and maintained backend services and APIs to support product features and integrations.",
-                "Worked on reliability, security, and performance improvements across services, including caching and monitoring.",
-                "Collaborated with frontend, platform, and DevOps teams to design APIs, event-driven workflows, and developer-facing documentation.",
+                "Designed a 10.2g biomimetic soft robotic interface using a rack-and-pinion system and curvature-based pneumatic actuators to provide gentle, pet-like tactile feedback for wearable emotional companionship and VR haptics.",
+                "Architected an end-to-end platform that autonomizes multi-robot performances by mapping LLM-generated scripts into synchronized motion primitives and multimodal cues via an MQTT-based wireless communication framework.",
+                "Developed an interactive Unity platform featuring gesture-controlled 3D artifact exploration and a VR simulation of the traditional porcelain production process, enhancing cultural heritage engagement through immersive digital storytelling."
             ],
             TECH_STACK: [
-                "TypeScript",
-                "Node.js",
-                "Python",
-                "Django",
-                "AdonisJS",
-                "PostgreSQL",
-                "MongoDB",
-                "Redis",
-                "Git & GitHub",
+                "Unity 3D",
+                "Swarm Robotics",
+                "Soft Robotics",
+                "HCI",
+                "HRI",
+                "VR/AR",
+                "UX/UI",
             ],
         },
-        "Aardo Solutions": {
-            WEBSITE: "https://www.aardosolutions.com/",
-            POSITION: "Software Developer",
-            LOCATION: "Remote",
-            DURATION: "Nov, 2024 - Sep, 2025",
+        "Lenovo Research": {
+            WEBSITE: "https://research.lenovo.com/webapp/view_English/home.html",
+            POSITION: "Lenovo Research - Software Engineer Intern",
+            LOCATION: "Beijing, China",
+            DURATION: "Nov, 2023 - Apr, 2024",
             DESCRIPTION: [
-                "Developed and maintained scalable web applications to enhance user engagement and operational efficiency.",
-                "Hosted and managed servers on AWS EC2, configured domains, and implemented SSL certificates for secure access.",
-                "Collaborated with cross-functional teams to design and implement scalable solutions.",
-                "Utilized modern frameworks and libraries to ensure responsive and dynamic user interfaces.",
+                "Developed a Unity-based virtual hand–object interaction system for a naked-eye 3D display gaming platform, integrating Leap Motion and monocular vision to enhance spatial accuracy and support controller-free gameplay.",
+                "Designed six custom gesture detection algorithms and implemented IK-based hand animation for precise, natural, and expressive interaction with virtual objects.",
+                "Collaborated with Lenovo’s R&D team to prototype next-generation gaming experiences, performing usability testing and system optimization to improve real-time performance, stability, and overall user experience.",
             ],
             TECH_STACK: [
-                "TypeScript",
-                "React.js",
-                "Next.js",
-                "Tailwind CSS",
-                "ShadCN",
-                "Node.js",
-                "Express.js",
-                "MongoDB",
-                "Firebase",
-                "Contentful",
-                "AWS",
-                "GCP",
-                "Vercel",
-                "Nginx",
-                "Git & Github",
+                "Unity 3D",
+                "Gesture Recognition",
+                "Leap Motion",
+                "Naked-eye 3D",
+                "Computer Vision",
             ],
         },
-        "Vivekananda Institute of Professional Studies - Technical Campus (VIPS-TC)":
+        "NTU": {
+            WEBSITE: "https://blogs.ntu.edu.sg/chau-yuen/",
+            POSITION: "NTU EEE - Research Assistant",
+            LOCATION: "Singapore",
+            DURATION: "Jul, 2023 - Sep, 2023",
+            DESCRIPTION: [
+                "Analyzed large-scale sensor telemetry from commercial HVAC systems to isolate critical power consumption variables for cooling towers and chillers, performing complex data cleaning and feature extraction.",
+                "Developed a thermal mapping architecture utilizing Graph Neural Networks (GNN) to predict multi-node energy consumption, achieving an 8% average error rate even in edge cases with incomplete sensor data.",
+                "Constructed high-fidelity digital twins using Modelica and EnergyPlus to simulate large-scale building dynamics, validating a 15% energy reduction through optimized control strategies.",
+            ],
+            TECH_STACK: [
+                "IoT",
+                "Data Analysis",
+                "HVAC",
+                "GNN",
+                "Modelica",
+                "EnergyPlus",
+            ],
+        },
+        "BBAC":
             {
-                WEBSITE: "https://vips.edu/",
-                POSITION: "Software Developer Intern",
-                LOCATION: "Hybrid - Delhi, India",
-                DURATION: "Nov, 2023 - Jun, 2025",
+                WEBSITE: "https://www.bbac.com.cn/EN/default.html",
+                POSITION: "Beijing Benz Automotive Co., Ltd. - Manufacturing Engineering Intern",
+                LOCATION: "Beijing, China",
+                DURATION: "Apr, 2023 - Jul, 2023",
                 DESCRIPTION: [
-                    "Assisted in the development of full-stack applications to support academic initiatives.",
-                    "Implemented cloud-based solutions using Google Cloud Platform (GCP) services.",
-                    "Participated in code reviews and contributed to the optimization of existing codebases.",
+                    "Engineered a comprehensive Hardware Abstraction Layer (HAL) for multi-sensor and actuator fusion, defining precise timing constraints, signal conditioning, and power requirements for real-time robotic control.",
+                    "Architected standardized inter-system communication protocols (UART/I2C/SPI), defining robust frame structures and interface schemas to ensure deterministic data exchange across the distributed embedded stack.",
                 ],
                 TECH_STACK: [
-                    "React.js",
-                    "Tailwind CSS",
-                    "Material UI",
-                    "Firebase",
-                    "GCP",
-                    "Vercel",
-                    "Git & Github",
+                    "Embedded Systems",
+                    "HIL",
+                    "HAL",
+                    "Communication Protocols",
                 ],
             },
-        Requestly: {
-            WEBSITE: "https://requestly.com/",
-            POSITION: "Product Engineer Intern",
-            LOCATION: "Hybrid - Delhi, India",
-            DURATION: "Aug, 2024 - Oct, 2024",
-            DESCRIPTION: [
-                "Researched and analyzed various API testing platforms (Kubesense, LevoAI, Wallarm, Traceable, Safe Security, Keploy) to evaluate features, security, and integration capabilities.",
-                "Worked extensively with AWS services (Lambda, Kinesis, S3, API Gateway, EC2, Route 53) to manage infrastructure, automate processes, and optimize security configurations.",
-                "Built a To-Do Chrome Extension using Chrome Storage API, enabling users to save and manage tasks directly within their browser.",
-            ],
-            TECH_STACK: [
-                "TypeScript",
-                "React.js",
-                "Tailwind CSS",
-                "AWS",
-                "Chrome Extensions",
-                "Git & Github",
-            ],
-        },
     },
 
     PUBLICATIONS: {
@@ -177,7 +166,7 @@ export const DATA = {
         "RoboTheater": {
             TITLE: "RoboTheater: A Multi-Robot Storytelling Platform from LLM Scripts to Stage Performance",
             CONFERENCE: "TEI 2026 Work-in-Progress",
-            LINK: "",
+            LINK: "https://dl.acm.org/doi/10.1145/3731459.3779333",
             AUTHORS: [
                 "Yinghao Gao", "Yongbo Yang", "Chenwan Halley Zhong", "Xinyi Zhang", "Junrong Song", "Lawrence H. Kim", "Tengfei Chang", "Xin Tong",
             ],
@@ -185,110 +174,238 @@ export const DATA = {
     },
 
     PROJECTS: {
-        "VIPS-TC": {
-            LIVE_PREVIEW: "https://vips.edu",
+        "Vocal2Piano: End-to-End Autonomous Robotic Piano Accompaniment System": {
+            SLUG: "vocal2piano",
+            MORE_INFO: "projects/vocal2piano",
+            GITHUB: "https://github.com/halleyscomet-99/Vocal2Piano",
             DESCRIPTION: [
-                "Contributed to the development and maintenance of the main VIPS-TC website.",
-                "Implemented various front-end features using modern React and Material UI libraries.",
-                "Ensured responsive design and cross-browser compatibility for a seamless user experience.",
-                "Collaborated with the team to enhance website performance and accessibility.",
+                "This system integrates Machine Learning with precision mechatronics to perform real-time piano accompaniment from vocal input. I developed a MIR pipeline that transcribes audio into MIDI, which is then mapped by high-performance C++ firmware to a coordinated 60-actuator array. The hardware features a modular CAD assembly validated through motion simulation and 3D printing, powered by custom PCBs designed to manage high-current inductive loads through dedicated power isolation and transient suppression.",
             ],
             TECH_STACK: [
-                "React.js",
-                "Material UI",
-                "Axios",
-                "Firebase",
-                "Styled Components",
-                "Razorpay",
-                "XLSX",
+                "Embedded Systems",
+                "PCB",
+                "Max/MSP",
+                "CAD",
+                "DSP",
+                "Machine Learning",
+                "Audio Processing",
             ],
             IMAGE: VIPSImage,
-        },
-        "Vue Bits": {
-            SLUG: "vue-bits",
-            LIVE_PREVIEW: "https://vue-bits.dev/",
-            GITHUB: "https://github.com/DavidHDev/vue-bits",
+            CONTENT: `
+            <div class="max-w-6xl mx-auto py-12 px-6">
+                
+                <section class="mb-16">
+                    <h1 class="text-4xl font-bold mb-4">Vocal2Piano: Adaptive Multi-DOF Robotic Accompaniment System</h1>
+                    <p class="text-xl text-muted-foreground italic">Bridging the gap between deep learning inference and high-torque mechanical feedback.</p>
+                </section>
+
+                <section class="mb-20">
+                    <h2 id="software" class="text-2xl font-semibold mb-6 flex items-center gap-2">
+                        <span class="w-8 h-8 bg-blue-500/20 text-blue-500 rounded-lg flex items-center justify-center text-sm">01</span>
+                        Software & ML Pipeline
+                    </h2>
+                    <p class="mb-8">The intelligent core of the system transcribes vocal input into actionable musical data in real-time. This involves a deep-learning-based MIR (Music Information Retrieval) pipeline that extracts pitch and rhythm from raw audio streams.</p>
+                    
+                    <div class="my-10 p-6 bg-muted/10 rounded-3xl border border-dashed border-muted-foreground/30 flex flex-col items-center justify-center min-h-[300px]">
+                        <p class="text-muted-foreground font-mono text-sm">[PLACEHOLDER: ML Architecture Diagram / MIR Pipeline Flowchart]</p>
+                        <p class="text-xs text-muted-foreground mt-2 italic">(Visualizing: Audio Input → F0 Estimation → MIDI Quantization → Max/MSP Handling)</p>
+                    </div>
+
+                    <ul class="space-y-4">
+                        <li><strong>Deep Learning Transcription:</strong> Utilizing pre-trained pitch tracking models to achieve high-fidelity F0 estimation.</li>
+                        <li><strong>Coordinate Mapping:</strong> Dynamically transcribing raw pitch data into MIDI note numbers and time-domain events.</li>
+                        <li><strong>Real-time Streaming:</strong> Low-latency communication protocol to pipe processed MIDI data into the robotic control layer.</li>
+                    </ul>
+                </section>
+
+                <section class="mb-20">
+                    <h2 id="max-msp" class="text-2xl font-semibold mb-6 flex items-center gap-2">
+                        <span class="w-8 h-8 bg-purple-500/20 text-purple-500 rounded-lg flex items-center justify-center text-sm">02</span>
+                        Max/MSP Signal Routing
+                    </h2>
+                    <p class="mb-8">Max/MSP acts as the central nervous system, handling signal conditioning, MIDI routing, and providing a GUI for real-time monitoring of the robot's state-space.</p>
+                    
+                    <div class="my-10 overflow-hidden rounded-3xl border border-muted shadow-lg bg-black">
+                        <video src="/projects/max_msp_demo.mp4" autoplay loop muted playsinline class="w-full"></video>
+                        <p class="text-center text-sm p-4 text-muted-foreground italic">Screen recording: Max/MSP patch routing vocal transients to serial commands</p>
+                    </div>
+                </section>
+
+                <section class="mb-20">
+                    <h2 id="cad" class="text-2xl font-semibold mb-6 flex items-center gap-2">
+                        <span class="w-8 h-8 bg-orange-500/20 text-orange-500 rounded-lg flex items-center justify-center text-sm">03</span>
+                        Hardware: CAD & Mechanical Design
+                    </h2>
+                    <p class="mb-8">The mechanical assembly features a dual-stage actuation system: a synchronous belt-driven linear rail and dual 30-key solenoid modules designed in SolidWorks for modularity and rigidity.</p>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 my-10">
+                        <div class="rounded-2xl border border-muted overflow-hidden bg-black aspect-video flex items-center justify-center">
+                            <video src="/projects/solidworks_simulation.mp4" autoplay loop muted playsinline class="w-full h-full object-cover"></video>
+                            </div>
+                        <div class="rounded-2xl border border-muted overflow-hidden bg-muted/10 flex items-center justify-center aspect-video">
+                            <img src="/projects/3d_print_parts.webp" alt="3D Printed Components" class="w-full h-full object-cover" />
+                        </div>
+                    </div>
+
+                    <ul class="space-y-4">
+                        <li><strong>Linear Motion:</strong> NEMA 17 rail system optimized for full 88-key accessibility with high-speed positioning.</li>
+                        <li><strong>Modular Finger Actuators:</strong> 60 custom-designed solenoid housings with percussive end-effectors optimized for piano key interaction.</li>
+                        <li><strong>Structural Integrity:</strong> Integrated vibration dampening through PETG-CF components and precise tolerance management.</li>
+                    </ul>
+                </section>
+
+                <section class="mb-20">
+                    <h2 id="pcb" class="text-2xl font-semibold mb-6 flex items-center gap-2">
+                        <span class="w-8 h-8 bg-green-500/20 text-green-500 rounded-lg flex items-center justify-center text-sm">04</span>
+                        Hardware: PCB & Power Distribution
+                    </h2>
+                    <p class="mb-8">To manage the high inductive loads of 60 solenoids, I designed a custom multi-layer PCB focused on power integrity and signal isolation.</p>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 my-10">
+                        <img src="/projects/pcb_top_view.webp" alt="PCB Top View" class="rounded-2xl border border-muted" />
+                        <img src="/projects/pcb_schematic.webp" alt="PCB Schematic" class="rounded-2xl border border-muted" />
+                    </div>
+
+                    <ul class="space-y-4">
+                        <li><strong>Power Isolation:</strong> Integrated TPS5430 buck converter to step down 12V/24V to 5V, isolating logic from motor noise.</li>
+                        <li><strong>Flyback Protection:</strong> Dedicated diode arrays and massive decoupling capacitors (1000uF) to suppress voltage spikes.</li>
+                        <li><strong>IO Expansion:</strong> Cascaded 74HC595 shift registers controlling the MOSFET gate array with sub-ms refresh rates.</li>
+                    </ul>
+                </section>
+
+                <section class="mb-20">
+                    <h2 id="firmware" class="text-2xl font-semibold mb-6 flex items-center gap-2">
+                        <span class="w-8 h-8 bg-red-500/20 text-red-500 rounded-lg flex items-center justify-center text-sm">05</span>
+                        Firmware & Motion Control
+                    </h2>
+                    <p class="mb-8">The bridge between digital transcription and physical action, written in C++ for Teensy 4.1 using PlatformIO. The firmware manages real-time spatial mapping and acceleration profiles.</p>
+                    
+                    <div class="bg-[#1e1e1e] p-8 rounded-3xl border border-white/10 my-8 font-mono text-sm overflow-hidden shadow-xl">
+                        <div class="flex gap-2 mb-4 opacity-30">
+                            <div class="w-3 h-3 rounded-full bg-red-500"></div>
+                            <div class="w-3 h-3 rounded-full bg-yellow-500"></div>
+                            <div class="w-3 h-3 rounded-full bg-green-500"></div>
+                        </div>
+                        <code class="text-blue-300">
+                            // Spatial mapping and velocity control<br/>
+                            void onMidiReceive(int note, int velocity) {<br/>
+                            &nbsp;&nbsp;int railPos = mapNoteToRail(note);<br/>
+                            &nbsp;&nbsp;int solenoidIdx = mapNoteToModule(note);<br/>
+                            &nbsp;&nbsp;stepper.moveTo(railPos, []() {<br/>
+                            &nbsp;&nbsp;&nbsp;&nbsp;triggerSolenoid(solenoidIdx, velocity);<br/>
+                            &nbsp;&nbsp;});<br/>
+                            }
+                        </code>
+                    </div>
+                </section>
+
+                <section class="mb-20">
+                    <h2 id="performance" class="text-3xl font-bold mb-8 text-center">Final System Demonstration</h2>
+                    <div class="relative group">
+                        <video src="/projects/vocal2piano_final_performance.mp4" controls class="rounded-3xl border-4 border-muted shadow-2xl w-full aspect-video bg-black"></video>
+                        <div class="absolute inset-0 rounded-3xl pointer-events-none ring-1 ring-inset ring-white/10"></div>
+                    </div>
+                </section>
+
+
+            </div>
+    `
+        },        
+        "Bug Catcher: Vision-Based Dynamic Sorting System": {
+            SLUG: "bugcatcher",
+            MORE_INFO: "projects/bugcatcher",
+            GITHUB: "https://github.com/halleyscomet-99/Bug-Catcher-Vision-Based-Dynamic-Sorting-System.git",
             DESCRIPTION: [
-                "Contributed 20+ components to the largest and most creative library of animated Vue components.",
-                "Helped develop highly customizable animated UI elements for modern web projects, including text animations, backgrounds, and interactive visuals.",
-                "Components are designed for seamless integration with Vue.js and Nuxt projects, providing minimal dependencies and flexible prop-based customization.",
-                "Open-source collection growing weekly, inspired by the React Bits project.",
-            ],
-            TECH_STACK: ["Vue.js", "TypeScript", "Tailwind CSS"],
-            IMAGE: VueBitsImage,
-        },
-        "Digital Library, VIPS-TC": {
-            LIVE_PREVIEW: "https://btech.library.vips.edu/",
-            DESCRIPTION: [
-                "Developed and launched a functional library website for a technical institution.",
-                "Implemented user-friendly interface to improve accessibility of library resources.",
-                "Designed responsive layout ensuring compatibility across desktop and mobile devices",
-            ],
-            TECH_STACK: ["React.js", "Tailwind CSS", "Firebase"],
-            IMAGE: LibraryImage,
-        },
-        "Skygaze India": {
-            LIVE_PREVIEW: "https://www.skygazeindia.com/",
-            DESCRIPTION: [
-                "Integrated the Razorpay payment gateway to enable secure and seamless transactions",
-                "Built a high-performance UI using Next.js and TypeScript, optimizing user experience and system efficiency.",
+                "Engineered a modular ROS 2 and MoveIt 2 framework for the Franka Emika Panda (FER) to enable autonomous sorting through collision-aware motion planning. By integrating monocular color classification and AprilTag calibration with dynamic TF tree management, the system achieves high-precision spatial transformations for robust object detection. To handle the stochastic motion of Hex-Bug targets, we implemented a low-latency control pathway that facilitates real-time trajectory updates, ensuring adaptive and responsive robotic manipulation in dynamic environments.",
             ],
             TECH_STACK: [
-                "React.js",
-                "Next.js",
-                "TypeScript",
-                "Tailwind CSS",
-                "Razorpay",
-                "Firebase",
-                "GCP",
+                "ROS 2",
+                "MoveIt 2",
+                "Rviz",
+                "Computer Vision",
+                "OpenCV",
+                "IK/FK",
+                "Motion Planning",
             ],
-            IMAGE: SkygazeImage,
+            IMAGE: "/video/projects/catfisher/Intro.mp4",
         },
-        "AirWatch PWA": {
-            LIVE_PREVIEW: "https://airwatch-pwa-app.vercel.app/",
-            GITHUB: "https://github.com/Utkarsh-Singhal-26/airwatch-pwa-app",
+        "Interactive Oropharyngeal-Swab Robot System: High-Precision Pandemic Response Platform": {
+            SLUG: "medical-swab-robot",
+            MORE_INFO: "projects/medical-swab-robot",
             DESCRIPTION: [
-                "Built a fully responsive, offline-capable Progressive Web App (PWA) using Next.js 15 to monitor air quality in real-time.",
-                "Integrated Firebase Cloud Messaging for push notifications and AI-powered smart insights using Groq SDK.",
-                "Implemented interactive charts with Recharts and Google Maps for detailed visualizations.",
-                "Designed a beautiful UI using TailwindCSS, ShadCN UI, and Lucide Icons with strong TypeScript typing and scalable architecture.",
+                "Developed an autonomous oropharyngeal-swab robotic system for high-efficiency, contactless pandemic response, integrating a multi-modal pipeline for precision and safety. We engineered a gesture-based HRI using Leap Motion to enable intuitive, touchless control over the sampling process. The system utilizes a vision-based detection pipeline for target localization and optimized motion planning algorithms to execute collision-free trajectories within the oral cavity. The integrated platform successfully streamlined the sampling cycle to 42 seconds while maintaining robust data synchronization through a custom mobile application.",           
             ],
             TECH_STACK: [
-                "Next.js",
-                "ShadCN UI",
-                "Tailwind CSS",
-                "TypeScript",
-                "Firebase",
-                "Recharts",
-                "Google Maps API",
-                "Groq SDK",
-                "PWA",
+                "Gesture Recognition", 
+                "Embedded Systems", 
+                "HRI",
+                "Medical Robotics",
+                "Computer Vision",
+                "IK/FK",
+                "Motion Planning",
+                "Leap Motion",
             ],
-            IMAGE: AirwatchImage,
+            IMAGE: "/video/projects/covid/Intro.mp4",
         },
-        "ToDo Extension with Chrome Storage API": {
-            LIVE_PREVIEW: "https://todo-extension-webapp.vercel.app/",
-            GITHUB: "https://github.com/Utkarsh-Singhal-26/todo-extension",
+        "RoboTheater: A Multi-Robot Storytelling Platform from LLM Scripts to Stage Performance": {
+            SLUG: "robotheater",
+            MORE_INFO: "projects/robotheater",
+            PAPER: "https://dl.acm.org/doi/10.1145/3731459.3779333",
             DESCRIPTION: [
-                "Developed and launched a Chrome extension for task management using Chrome Storage API.",
-                "Implemented user-friendly interface to enhance productivity and task tracking.",
-                "Designed responsive layout ensuring seamless experience across different screen sizes and browsers.",
-                "Integrated message broadcasting for real-time updates and synchronization",
+                "Designed and implemented RoboTheater, an automated end-to-end platform that translates Generative AI (LLM) scripts into synchronized multi-robot stage performances. We developed a multimodal mapping pipeline that autonomously converts structured JSON scripts into coordinated robotic motion primitives, ElevenLabs-driven expressive speech, and Midjourney-generated environmental projections. The system utilizes an MQTT-based wireless architecture to ensure sub-millisecond synchronization across a swarm of modular robots, effectively bridging computational narrative with physical embodiment. Through pilot user studies, the platform demonstrated high efficacy in conveying complex emotions and character relationships through spatial choreography and rhythmic timing.",           
             ],
-            NOTE: "Note: The extension is not published on the Chrome Web Store.",
             TECH_STACK: [
-                "TypeScript",
-                "React.js",
-                "Tailwind CSS",
-                "Borwser Extension",
-                "Chrome Storage API",
-                "Message Broadcasting",
+                "Multi-Robot Systems", 
+                "Swarm Robotics", 
+                "HRI",
+                "MQTT",
+                "LLM",
+                "TTS",
+                "Tangible",
+                "Storytelling",
             ],
-            IMAGE: TodoImage,
+            IMAGE: "video/projects/robotheater/Intro.mp4",
+        },
+        "SofiBuddy: A Soft Mobile Interface for On-Body Interaction": {
+            SLUG: "sofibuddy",
+            MORE_INFO: "projects/sofibuddy",
+            PAPER: "https://doi.org/10.1145/3757374.3771432",
+            YOUTUBE: "https://www.youtube.com/watch?v=S_uRjo7Gqys",
+            DESCRIPTION: [
+                "Designed and developed SofiBuddy, a biomimetic soft robotic interface for intimate on-body interaction. We engineered a 10.2g lightweight transition module using a rack-and-pinion system to convert high-torque motor rotation into linear displacement for wearable applications. By implementing a curvature-based pneumatic control system with ESP32 and miniature diaphragm pumps, the project explores the integration of silicone-based compliant mechanisms with real-time haptic feedback in VR environments.",           
+            ],
+            TECH_STACK: [
+                "Soft Robotics", 
+                "HRI", 
+                "PCB",
+                "CAD",
+                "Wearables",
+                "Haptic",
+                "Ecoflex",
+                "Pneumatic Actuation",
+            ],
+            IMAGE: "video/projects/sofibuddy/Intro.mp4",
+        },
+        "Autonomous Biomimetic Quadruped Robot": {
+            SLUG: "quadruped",
+            MORE_INFO: "projects/quadruped",
+            DESCRIPTION: [
+                "Designed and developed a biomimetic quadruped robot with a 3-DOF leg design for simulated search-and-rescue missions. Controlled by an STM32, the robot implements a stable Trot gait using Inverse Kinematics and composite cycloid trajectory planning. To address navigation in unstructured environments, we developed a real-time attitude adjustment strategy leveraging IMU data to dynamically shift the Center of Mass, enabling the robot to traverse 10° slopes, stairs, and gravel paths. The system also integrates ultrasonic obstacle avoidance, infrared line tracking, and color recognition modules for autonomous path planning.",           
+            ],
+            TECH_STACK: [
+                "Gait Planning", 
+                "IK/FK", 
+                "Microcontroller",
+                "Embedded Systems",
+                "STM32",
+                "PID",
+                "IMU",
+            ],
+            IMAGE: "video/projects/quadruped/Intro.mp4",
         },
     },
 
-    BLOGS: {
+    LOGS: {
         "ORMs & ODMs: Choosing the Right Tool for Your Database Needs": {
             DATE: "March 24, 2025",
             TIME: "4",
