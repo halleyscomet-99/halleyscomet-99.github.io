@@ -401,7 +401,7 @@ export const DATA = {
                 "PID",
                 "IMU",
             ],
-            IMAGE: "/projects/quadruped/Intro.mp4",
+            IMAGE: "video/projects/quadruped/Intro.mp4",
         },
     },
 
