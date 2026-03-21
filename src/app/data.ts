@@ -84,18 +84,19 @@ export const DATA = {
             LOCATION: "Guangzhou, China",
             DURATION: "Oct, 2024 - May, 2025",
             DESCRIPTION: [
-                "Designed a 10.2g biomimetic soft robotic interface using a rack-and-pinion system and curvature-based pneumatic actuators to provide gentle, pet-like tactile feedback for wearable emotional companionship and VR haptics.",
-                "Architected an end-to-end platform that autonomizes multi-robot performances by mapping LLM-generated scripts into synchronized motion primitives and multimodal cues via an MQTT-based wireless communication framework.",
-                "Developed an interactive Unity platform featuring gesture-controlled 3D artifact exploration and a VR simulation of the traditional porcelain production process, enhancing cultural heritage engagement through immersive digital storytelling."
+                "Developed an ESP32-based embedded system to drive a 10.2g rack-and-pinion module for a soft robotic interface.",
+                "Engineered a hardware-minimized PCB (3×3 cm) optimized for mobile, on-body robotic actuation.",
+                "Architected a GPT-4o & ElevenLabs pipeline to map generative theater scripts into synchronized robot performances.",
+                "Developed a synchronized communication layer in Python via MQTT protocol for sub-millisecond coordination across a modular robot swarm.",
             ],
             TECH_STACK: [
-                "Unity 3D",
                 "Swarm Robotics",
                 "Soft Robotics",
-                "HCI",
+                "MQTT",
+                "TTS",
+                "Embedded Systems",
                 "HRI",
-                "VR/AR",
-                "UX/UI",
+                "LLM",
             ],
         },
         "Lenovo Research": {
@@ -104,9 +105,10 @@ export const DATA = {
             LOCATION: "Beijing, China",
             DURATION: "Nov, 2023 - Apr, 2024",
             DESCRIPTION: [
-                "Developed a Unity-based virtual hand–object interaction system for a naked-eye 3D display gaming platform, integrating Leap Motion and monocular vision to enhance spatial accuracy and support controller-free gameplay.",
-                "Designed six custom gesture detection algorithms and implemented IK-based hand animation for precise, natural, and expressive interaction with virtual objects.",
-                "Collaborated with Lenovo’s R&D team to prototype next-generation gaming experiences, performing usability testing and system optimization to improve real-time performance, stability, and overall user experience.",
+                "Developed a virtual hand-object interaction demo in C# and Unity for naked-eye 3D interactive gaming.",
+                "Integrated Leap Motion with a monocular camera to enable precise 3D gesture control across XYZ axes.",
+                "Engineered 6 custom gestures and operational logic to expand interaction complexity post-metadata acquisition.",
+                "Optimized system interactivity based on user test groups, contributing to a 15% rise in overall user satisfaction.",
             ],
             TECH_STACK: [
                 "Unity 3D",
@@ -122,9 +124,9 @@ export const DATA = {
             LOCATION: "Singapore",
             DURATION: "Jul, 2023 - Sep, 2023",
             DESCRIPTION: [
-                "Analyzed large-scale sensor telemetry from commercial HVAC systems to isolate critical power consumption variables for cooling towers and chillers, performing complex data cleaning and feature extraction.",
-                "Developed a thermal mapping architecture utilizing Graph Neural Networks (GNN) to predict multi-node energy consumption, achieving an 8% average error rate even in edge cases with incomplete sensor data.",
-                "Constructed high-fidelity digital twins using Modelica and EnergyPlus to simulate large-scale building dynamics, validating a 15% energy reduction through optimized control strategies.",
+                "Analyzed commercial HVAC telemetry to extract critical power consumption features for cooling towers and industrial chillers.",
+                "Developed a Graph Neural Network (GNN) architecture for thermal mapping, achieving an 8% error rate in sparse sensor environments.",
+                "Built high-fidelity twins via Modelica & EnergyPlus to simulate building dynamics, validating 15% energy savings via optimized control.",
             ],
             TECH_STACK: [
                 "IoT",
@@ -142,8 +144,9 @@ export const DATA = {
                 LOCATION: "Beijing, China",
                 DURATION: "Apr, 2023 - Jul, 2023",
                 DESCRIPTION: [
-                    "Engineered a comprehensive Hardware Abstraction Layer (HAL) for multi-sensor and actuator fusion, defining precise timing constraints, signal conditioning, and power requirements for real-time robotic control.",
-                    "Architected standardized inter-system communication protocols (UART/I2C/SPI), defining robust frame structures and interface schemas to ensure deterministic data exchange across the distributed embedded stack.",
+                    "Developed a C/C++ Hardware Abstraction Layer (HAL) for STM32-based torque-tightening verification systems.",
+                    "Implemented DMA-based UART/SPI drivers to synchronize force sensor telemetry in real-time.",
+                    "Optimized interrupt-driven signal conditioning to ensure deterministic response for safety interlocks.",
                 ],
                 TECH_STACK: [
                     "Embedded Systems",
@@ -364,7 +367,7 @@ export const DATA = {
                 "Tangible",
                 "Storytelling",
             ],
-            IMAGE: "video/projects/robotheater/Intro.mp4",
+            IMAGE: "/video/projects/robotheater/Intro.mp4",
         },
         "SofiBuddy: A Soft Mobile Interface for On-Body Interaction": {
             SLUG: "sofibuddy",
@@ -384,7 +387,7 @@ export const DATA = {
                 "Ecoflex",
                 "Pneumatic Actuation",
             ],
-            IMAGE: "video/projects/sofibuddy/Intro.mp4",
+            IMAGE: "/video/projects/sofibuddy/Intro.mp4",
         },
         "Autonomous Biomimetic Quadruped Robot": {
             SLUG: "quadruped",
@@ -401,7 +404,7 @@ export const DATA = {
                 "PID",
                 "IMU",
             ],
-            IMAGE: "video/projects/quadruped/Intro.mp4",
+            IMAGE: "/video/projects/quadruped/Intro.mp4",
         },
     },
 
