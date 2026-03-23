@@ -228,7 +228,7 @@ export const DATA = {
         },
         "ROS 2 EKF SLAM: Autonomous Landmark Mapping on TurtleBot3": {
             SLUG: "nuturtle",
-            GITHUB: "https://github.com/ME495-Navigation/slam-halleyscomet-99",
+            GITHUB: "https://github.com/halleyscomet-99/EKF_SLAM_TurtleBot3.git",
             DESCRIPTION: [
                 "Built a complete mobile robotics stack from scratch in ROS 2 C++, spanning a standalone SE(2) geometry and differential-drive kinematics library, a physics-accurate simulator with Gaussian noise and collision detection, a full robot control and odometry pipeline, and a real-time Extended Kalman Filter SLAM estimator — every component implemented without third-party robotics libraries. The landmark detection pipeline processes raw 2D LiDAR scans through distance-threshold clustering, inscribed-angle-theorem arc classification, and Pratt algebraic circle fitting, feeding range-bearing measurements into a joint EKF state vector that simultaneously tracks robot pose and up to N cylindrical obstacle positions. For unknown data association, Euclidean distance gating was adopted over Mahalanobis distance after identifying that large initial landmark covariance (1×10⁶) collapses Mahalanobis distances to near zero and causes systematic false associations. Deployed on a physical TurtleBot3 Burger, resolving real-world challenges including BEST_EFFORT QoS mismatch with the physical LiDAR driver, encoder dead-band filtering for hardware noise, and aarch64 cross-compilation via Docker — achieving less than 3.5 cm mean landmark estimation error and less than 3 mm robot pose error after one closed loop in simulation.",
             ],
