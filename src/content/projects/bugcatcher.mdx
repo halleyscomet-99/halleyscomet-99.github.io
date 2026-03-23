@@ -1,0 +1,144 @@
+## System
+
+Mrs. Catfisher runs as three tightly coupled ROS 2 subsystems. The **perception layer** streams frames from a fixed overhead sky cam through an HSV classifier and blob detector, maintaining a continuously updated Persistent List of all live bugs. The **calibration subsystem** runs once at startup: it detects four AprilTag corner markers, averages their pose estimates over 300 frames, and broadcasts a static `camera_link → base_link` transform into the TF2 tree — after which all camera detections transform to robot coordinates in a single lookup. The **motion stack** exposes two pathways: a synchronous MoveIt 2 pipeline for collision-aware planned trajectories on stationary targets, and a direct `JointTrajectory` injection loop at 20 Hz for moving ones.
+
+{/* ===== MEDIA: architecture.svg =====
+    File: /media/projects/catfisher/architecture.svg  (already exists)
+    Caption: "System architecture — perception, calibration, and execution layers" */}
+<Diagram
+  src="/media/projects/catfisher/architecture.svg"
+  caption="System architecture — perception, calibration, and execution layers"
+  size="lg"
+/>
+
+<TextDiagram
+  src="/media/projects/catfisher/state_machine.svg"
+  caption="Sort state machine"
+  diagramWidth="48%"
+>
+
+{/* ===== MEDIA: state_machine.svg =====
+    File: /media/projects/catfisher/state_machine.svg  (already exists)
+    Caption: "Sort state machine" */}
+
+A single `/sort color` service call kicks off the pick cycle. The **Decision Making** node queries the Persistent List for all bugs matching the requested color and ranks them by Euclidean distance to the current end-effector pose. The nearest bug is promoted to the active target and passed to the state machine.
+
+The machine runs **Detect → Approach → Grip → Lift → Sort → Return** in sequence. During **Approach**, the system computes a pre-grasp pose offset above the target and moves there using the MPI pipeline. **Grip** descends to grasp height and closes the Franka gripper. **Lift** raises to a clearance height that clears all arena walls before lateral motion begins — a deliberate constraint to eliminate collision checks during transit. **Sort** moves to the target bin pose (registered during calibration) and opens the gripper. **Return** brings the arm back to the named `home` configuration. If the Persistent List still contains bugs of the requested color, the machine loops back to **Detect**; otherwise it transitions to **Done** and the service returns success.
+
+</TextDiagram>
+
+---
+
+## MPI library
+
+The core engineering challenge in the ROS 2 + MoveIt 2 Python stack is that every motion primitive is asynchronous by design. `MoveGroupInterface` exposes Action clients — callers get back a `Future` and must either spin an executor to drive it to completion or register callbacks. In a multi-node system with shared callback groups, naive blocking on futures causes deadlocks; explicit executor management bleeds async bookkeeping into every call site.
+
+I implemented a **MotionPlanningInterface (MPI)** library using the **Facade Pattern** to encapsulate all of this. The facade owns three internal service/action wrappers:
+
+- **RobotState** — wraps the `GetPlanningScene` service to query current joint angles, Cartesian end-effector pose, and collision state. Uses a `ReentrantCallbackGroup` so it can be called safely from within an already-spinning executor context.
+- **MotionPlanner** — wraps the `MoveGroup` Action client. Exposes `plan_to_pose(target: PoseStamped)`, `plan_to_named(config: str)`, and `plan_cartesian_path(waypoints: list[Pose])`. Each method spins a `SingleThreadedExecutor` internally, blocks until the action completes, and raises `MotionPlanningError` on failure — surfacing the MoveIt error code and planning time in the exception message.
+- **PlanningScene** — wraps the `ApplyPlanningScene` service. At system startup, `add_box()` registers the arena floor, four side walls, and the six hexagonal sort bins as named collision objects with known dimensions and poses. Collision geometry is updated lazily when the gripper state changes (open vs. closed changes the attached-object model).
+
+The Sort node's entire execute cycle becomes a flat, readable sequence of `mpi.*` calls with no futures, no callbacks, and no executor references. Errors propagate as exceptions with full context, making failure modes straightforward to log and recover from.
+
+---
+
+## Perception
+
+### AprilTag calibration
+
+The sky cam sits on a fixed overhead mount with no odometry — its pose relative to the robot is unknown at startup and can drift if the mount is bumped. Rather than hardcoding a transform, the system performs a **live extrinsic calibration** every time it boots.
+
+Four AprilTags (36h11 family, 80 mm side length) are fixed at the corners of the arena floor at known positions in the `base_link` frame. At startup, the calibration node subscribes to the `apriltag_ros` detection topic and accumulates tag detections for **300 frames (~10 s at 30 Hz)**. For each tag, it independently averages the detected `camera_link → tag_N` transform across all frames where that tag is visible, then solves for `camera_link → base_link` using the known `base_link → tag_N` ground truth. The four per-tag estimates are averaged by detection count to produce a single refined transform, which is published as a **static TF2 broadcast** for the lifetime of the node.
+
+This averaging approach reduces single-frame pose noise from ~3 mm to under 0.5 mm RMS in practice, which is critical: a 3 mm error at the camera propagates to a ~5 mm error at grasp depth after the full transform chain, exceeding the Franka gripper's reliable grasp envelope for small targets.
+
+The white hexagonal sort destination zones are detected in the same calibration pass using HSV thresholding on the white channel. Their centroid positions in `base_link` are stored as named goal poses for each color bin.
+
+{/* ===== MEDIA: tf_tree.webp  (OPTIONAL — add when available) =====
+    File: /media/projects/catfisher/tf_tree.webp
+    How to get: run `ros2 run rqt_tf_tree rqt_tf_tree` or use RViz TF display, screenshot
+    Caption: "TF2 tree after calibration — camera_link anchored to base_link via static broadcast"
+    When you have it, uncomment:
+
+![TF2 tree after calibration — camera_link anchored to base_link via static broadcast](/media/projects/catfisher/tf_tree.webp)
+
+*/}
+
+### Runtime detection and Persistent List
+
+{/* ===== MEDIA: color_seg.webp =====
+    File: /media/projects/catfisher/color_seg.webp
+    How to get: save the sky-cam debug view screenshot (green contours + color labels + IDs) */}
+<TextDiagram
+  src="/media/projects/catfisher/color_seg.webp"
+  caption="Sky cam debug view — HSV masks, blob contours, and Persistent List IDs"
+  diagramWidth="25%"
+>
+
+Each camera frame is processed through a **per-color HSV mask pipeline**. Color ranges were tuned experimentally under the arena's fixed LED lighting and loaded from a YAML config. Binary masks are morphologically cleaned (erode → dilate), then passed to OpenCV's `findContours`. Contours below a minimum area threshold are discarded; the rest yield blob centroids in image space.
+
+Blob centroids are unprojected to `base_link` by ray-casting against the known arena floor plane — depth is solved analytically, eliminating the need for a depth camera.
+
+Each detection is matched to an entry in the **Persistent List**, a `dict[int, BugState]` keyed by stable integer ID. `BugState` stores:
+
+- `position: np.ndarray` — current `(x, y)` in `base_link`
+- `color: str` — classification label
+- `last_seen: float` — ROS time of most recent detection
+- `velocity: np.ndarray` — finite-difference estimate over the last *N* frames, with a configurable decay weight
+
+</TextDiagram>
+
+IDs are assigned by nearest-neighbor matching against the previous frame with a maximum association distance; unmatched detections spawn new entries; stale entries are evicted after a configurable timeout. The **wrist cam** runs a tighter loop during final approach, confirming gripper alignment before the descent begins.
+
+{/* ===== MEDIA: rviz.mp4 =====
+    File: /media/projects/catfisher/rviz.mp4
+    How to get: RViz screencast — colored cube markers over bug positions, black cube on active target */}
+<Video src="/media/projects/catfisher/rviz.mp4" size="lg" caption="RViz simulation" />
+---
+
+## Dynamic tracking
+
+### Why MoveIt fails for moving targets
+
+The standard MoveIt 2 `plan → execute` loop has two fundamental problems for dynamic targets. First, **planning latency**: OMPL-based planning for a 7-DOF arm in a cluttered scene takes 200–500 ms per call. Second, **goal fixation**: once a plan is committed, the arm follows it to the original goal pose regardless of where the target has moved. At typical Hex-Bug speeds (~5 cm/s), the target can be 1–2.5 cm away from the planned grasp point by the time execution completes.
+
+### Direct JTC injection
+
+The solution bypasses MoveIt entirely and injects `JointTrajectory` messages directly into `fer_arm_controller`, the underlying `ros2_control` joint trajectory controller. This controller accepts trajectory goals from any publisher on its command topic — MoveIt normally has exclusive access, but nothing prevents a second publisher from taking over.
+
+The tracking loop runs at **20 Hz**:
+
+1. Read the latest bug pose from the Persistent List.
+2. Apply a **velocity-extrapolated intercept offset** — project the bug's current position forward by the estimated execution latency (~100 ms) using its stored velocity vector.
+3. Construct a target Cartesian pose (intercept position + fixed approach orientation).
+4. Solve IK using **KDL** (`kdl_parser_py` + `PyKDL`). KDL solves the 7-DOF chain analytically in ~0.8 ms, orders of magnitude faster than MoveIt's motion planner.
+5. Build a `JointTrajectory` with a single `JointTrajectoryPoint` — the solved joint angles with a `time_from_start` of **100 ms**.
+6. Publish to the controller command topic.
+
+Publishing a new trajectory replaces the active goal in the controller's queue. The 100 ms horizon means the controller is always executing toward the most recently computed intercept point, not a stale one. The effective latency from detection to motor command is under 60 ms end-to-end.
+
+**Safety constraints** compensate for the absent collision checker: a workspace bounding box (defined in `base_link` coordinates to match the arena footprint) rejects any IK solution that would place the end-effector outside safe bounds, and per-joint limits are enforced in the IK solver's null-space projection before any trajectory is published.
+
+
+{/* ===== MEDIA ROW 1: turtlesim.mp4 + tracking_clips.mp4 =====
+    turtlesim.mp4 — FER arm tracking a turtlesim-driven target (simulation validation)
+    tracking_clips.mp4 — compilation of dynamic target tracking on live hardware */}
+<VideoPair
+  leftSrc="/media/projects/catfisher/turtlesim.mp4"
+  leftCaption="Tracking a ROS 2 turtlesim target via JTC bypass"
+  rightSrc="/media/projects/catfisher/tracking_clips.mp4"
+  rightCaption="Dynamic target tracking compilation"
+/>
+
+{/* ===== MEDIA ROW 2: static_in_dynamic.mp4 + sort.mp4 =====
+    static_in_dynamic.mp4 — picking a bug while others move around it
+    sort.mp4 — full color-sorted pick-and-place of stationary bugs */}
+<VideoPair
+  leftSrc="/media/projects/catfisher/static_in_dynamic.mp4"
+  leftCaption="ID-stable tracking holds the correct target(speed: x5.0)"
+  rightSrc="/media/projects/catfisher/sort.mp4"
+  rightCaption="Color-based pick-and-place into designated bins (speed: x5.0)"
+/>
+
+---

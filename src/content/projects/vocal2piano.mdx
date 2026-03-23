@@ -1,0 +1,78 @@
+## 01 · Software & ML Pipeline
+
+The intelligent core of the system transcribes vocal input into actionable musical data in real-time.
+This involves a deep-learning-based MIR (Music Information Retrieval) pipeline that extracts pitch
+and rhythm from raw audio streams.
+
+- **Deep Learning Transcription:** Pre-trained pitch tracking models for high-fidelity F0 estimation
+- **Coordinate Mapping:** Raw pitch data → MIDI note numbers and time-domain events
+- **Real-time Streaming:** Low-latency protocol piping processed MIDI into the robotic control layer
+
+<Note>
+  Pipeline flow: Audio Input → F0 Estimation → MIDI Quantization → Max/MSP Handling
+</Note>
+
+---
+
+## 02 · Max/MSP Signal Routing
+
+Max/MSP acts as the central nervous system, handling signal conditioning, MIDI routing,
+and providing a GUI for real-time monitoring of the robot's state-space.
+
+<video src="/projects/max_msp_demo.mp4" />
+
+---
+
+## 03 · CAD & Mechanical Design
+
+The mechanical assembly features a dual-stage actuation system: a synchronous belt-driven linear
+rail and dual 30-key solenoid modules designed in SolidWorks for modularity and rigidity.
+
+<Grid>
+  <video src="/projects/solidworks_simulation.mp4" />
+  ![3D Printed Components](/projects/3d_print_parts.webp)
+</Grid>
+
+- **Linear Motion:** NEMA 17 rail system optimized for full 88-key accessibility with high-speed positioning
+- **Modular Finger Actuators:** 60 custom-designed solenoid housings with percussive end-effectors
+- **Structural Integrity:** Vibration dampening through PETG-CF components and precise tolerance management
+
+---
+
+## 04 · PCB & Power Distribution
+
+To manage the high inductive loads of 60 solenoids, I designed a custom multi-layer PCB
+focused on power integrity and signal isolation.
+
+<Grid>
+  ![PCB Top View](/projects/pcb_top_view.webp)
+  ![PCB Schematic](/projects/pcb_schematic.webp)
+</Grid>
+
+- **Power Isolation:** TPS5430 buck converter stepping down 12V/24V to 5V, isolating logic from motor noise
+- **Flyback Protection:** Diode arrays and 1000uF decoupling capacitors suppressing voltage spikes
+- **IO Expansion:** Cascaded 74HC595 shift registers controlling the MOSFET gate array at sub-ms refresh rates
+
+---
+
+## 05 · Firmware & Motion Control
+
+Written in C++ for Teensy 4.1 using PlatformIO. The firmware manages real-time spatial mapping
+and acceleration profiles.
+
+```cpp
+// Spatial mapping and velocity control
+void onMidiReceive(int note, int velocity) {
+  int railPos      = mapNoteToRail(note);
+  int solenoidIdx  = mapNoteToModule(note);
+  stepper.moveTo(railPos, [=]() {
+    triggerSolenoid(solenoidIdx, velocity);
+  });
+}
+```
+
+---
+
+## Final System Demonstration
+
+<video src="/projects/vocal2piano_final_performance.mp4" className="rounded-3xl border-4 border-muted shadow-2xl aspect-video" />
