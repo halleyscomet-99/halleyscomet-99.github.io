@@ -264,11 +264,11 @@ export default async function ProjectDetail({
     const mdxSource = existsSync(mdxPath) ? readFileSync(mdxPath, "utf-8") : null;
 
     return (
-        <div className="flex flex-col min-h-screen">
+        <>
             <Navbar />
 
-            <div className="flex flex-col items-center gap-8 p-8 w-full">
-                <main className="w-full max-w-6xl mx-auto">
+            <main className="flex flex-col items-center gap-12 p-8 w-full">
+                <div className="w-full">
 
                     <ProjectHeader projectName={projectName} project={project} />
 
@@ -304,13 +304,13 @@ export default async function ProjectDetail({
                             <MDXRemote source={mdxSource} components={mdxComponents as any} />
                         </article>
                     )}
-                </main>
+                </div>
 
                 <Contact data={DATA.HEADER} />
                 <Footer />
-            </div>
+            </main>
 
             <CursorManager />
-        </div>
+        </>
     );
 }

@@ -1,78 +1,102 @@
-## 01 · Software & ML Pipeline
+## System
 
-The intelligent core of the system transcribes vocal input into actionable musical data in real-time.
-This involves a deep-learning-based MIR (Music Information Retrieval) pipeline that extracts pitch
-and rhythm from raw audio streams.
+Vocal2Piano is a robotic exoskeleton that clamps onto any acoustic piano without modification and plays a real-time harmonic accompaniment in response to live audio input or an uploaded song. Three software layers handle the signal path from microphone to key strike: **Vocal2MIDI** converts audio to MIDI events, **MIDI2Chords** reasons about harmony and generates chord targets, and **MIDI2Piano** translates those targets into stepper and solenoid commands for the Teensy 4.1.
 
-- **Deep Learning Transcription:** Pre-trained pitch tracking models for high-fidelity F0 estimation
-- **Coordinate Mapping:** Raw pitch data → MIDI note numbers and time-domain events
-- **Real-time Streaming:** Low-latency protocol piping processed MIDI into the robotic control layer
+Two independently sliding boards each carry 15 solenoids spaced at piano key intervals. NEMA17 steppers on GT2 belt drives reposition each board along the key span so that any 15-note window is reachable — effectively covering the full range of a 30-note accompaniment from a fixed 30-solenoid count.
 
-<Note>
-  Pipeline flow: Audio Input → F0 Estimation → MIDI Quantization → Max/MSP Handling
-</Note>
-
----
-
-## 02 · Max/MSP Signal Routing
-
-Max/MSP acts as the central nervous system, handling signal conditioning, MIDI routing,
-and providing a GUI for real-time monitoring of the robot's state-space.
-
-<video src="/projects/max_msp_demo.mp4" />
+{/* ===== MEDIA: system.svg =====
+    File: /media/projects/vocal2piano/system.svg
+    Caption: "End-to-end system architecture" */}
+<Diagram
+  src="/media/projects/vocal2piano/system.svg"
+  caption="End-to-end system architecture"
+  diagramWidth="48%"
+/>
 
 ---
 
-## 03 · CAD & Mechanical Design
+## Pitch detection — Vocal2MIDI
 
-The mechanical assembly features a dual-stage actuation system: a synchronous belt-driven linear
-rail and dual 30-key solenoid modules designed in SolidWorks for modularity and rigidity.
+**Vocal2MIDI** converts audio into a stream of MIDI note events. It runs two separate pipelines depending on the input source.
 
-<Grid>
-  <video src="/projects/solidworks_simulation.mp4" />
-  ![3D Printed Components](/projects/3d_print_parts.webp)
-</Grid>
+**Instrument mode** runs aubio's yinfft detector on every 5.8 ms frame — fast enough to track staccato piano or guitar with under 10 ms latency. **Voice mode** accumulates a 200 ms window and runs probabilistic YIN (pYIN), which uses a hidden Markov model to resolve octave ambiguity. **Chord mode** computes a Constant-Q Transform over 88 piano-key-aligned frequency bins, finds up to six simultaneous energy peaks with prominence filtering, and suppresses octave duplicates — an alternative Max/MSP-native implementation using `sigmund~` provides lower latency by bypassing Python entirely.
 
-- **Linear Motion:** NEMA 17 rail system optimized for full 88-key accessibility with high-speed positioning
-- **Modular Finger Actuators:** 60 custom-designed solenoid housings with percussive end-effectors
-- **Structural Integrity:** Vibration dampening through PETG-CF components and precise tolerance management
+All three live modes run CREPE — a CNN trained on large-scale pitched audio — as a first-pass detector, falling back to the classical algorithms when confidence is low. An adaptive noise gate calibrates to the ambient RMS over the first 500 ms. The web UI connects over WebSocket and uses the Python results directly; if the process is not running it falls back to a browser-side YIN implementation with a stability gate and dynamic noise floor tracking.
 
----
+For uploaded files, the pipeline classifies the source and routes accordingly: **voice** recordings go through pYIN for melody extraction, **instrumental** tracks go directly to Basic Pitch (ONNX) for polyphonic transcription, and **mixed** recordings are first separated by Demucs into vocal and accompaniment stems before transcription. Pipeline step events stream to the UI in real time via SSE, and mixed files produce four output tracks.
 
-## 04 · PCB & Power Distribution
-
-To manage the high inductive loads of 60 solenoids, I designed a custom multi-layer PCB
-focused on power integrity and signal isolation.
-
-<Grid>
-  ![PCB Top View](/projects/pcb_top_view.webp)
-  ![PCB Schematic](/projects/pcb_schematic.webp)
-</Grid>
-
-- **Power Isolation:** TPS5430 buck converter stepping down 12V/24V to 5V, isolating logic from motor noise
-- **Flyback Protection:** Diode arrays and 1000uF decoupling capacitors suppressing voltage spikes
-- **IO Expansion:** Cascaded 74HC595 shift registers controlling the MOSFET gate array at sub-ms refresh rates
+{/* ===== MEDIA: Site_Live.mp4 + Site_File.mp4 =====
+    File: /media/projects/vocal2piano/Site_Live.mp4
+    File: /media/projects/vocal2piano/Site_File.mp4
+    Crop both to the same aspect ratio (16:9 recommended) before uploading */}
+<VideoPair
+  leftSrc="/media/projects/vocal2piano/Site_Live.mp4"
+  leftCaption="Live mode — real-time pitch detection and piano key display"
+  rightSrc="/media/projects/vocal2piano/Site_File.mp4"
+  rightCaption="File mode — source classification, transcription pipeline, and track output"
+/>
 
 ---
 
-## 05 · Firmware & Motion Control
+## Musical reasoning — MIDI2Chords
 
-Written in C++ for Teensy 4.1 using PlatformIO. The firmware manages real-time spatial mapping
-and acceleration profiles.
+**MIDI2Chords** sits between the MIDI stream from Vocal2MIDI and the hardware driver. Given a melody note, it decides what chord the piano should play — tracking the musical key, selecting the next chord from a learned progression model, and splitting the voicing across the two physical boards.
 
-```cpp
-// Spatial mapping and velocity control
-void onMidiReceive(int note, int velocity) {
-  int railPos      = mapNoteToRail(note);
-  int solenoidIdx  = mapNoteToModule(note);
-  stepper.moveTo(railPos, [=]() {
-    triggerSolenoid(solenoidIdx, velocity);
-  });
-}
-```
+### Key tracking
+
+Every incoming note increments its pitch class in a 12-element histogram that decays 2% per note, weighting recent notes more heavily. On every eighth note the system runs the **Krumhansl–Kessler** algorithm, computing the Pearson correlation between the current histogram and empirical major and minor key profiles for all 24 keys. The key estimate stabilises after about four bars and tracks modulations within a few notes of the change.
+
+### Chord sequencer
+
+<TextDiagram
+  src="/media/projects/vocal2piano/markov_graph.svg"
+  caption="Markov transition graph — major key. Arrow weight = transition probability."
+  diagramWidth="30%"
+>
+
+Given the current key, the chord is selected from a **Markov chain** over Roman numerals (I ii iii IV V vi vii). Candidate transitions are biased toward chords that contain the current melody note — a 2.5× weight boost — which reduces dissonance without hard rules about harmonic function. The chain advances once per bar so the accompaniment changes in sync with the musical phrase rather than on every note event.
+
+Transition weights ship as hand-tuned estimates reflecting common I–IV–V–vi patterns. A training script can replace them with corpus-learned values from any folder of MIDI files — when `learned_transitions.json` is present it loads automatically on startup.
+
+</TextDiagram>
+
+### Voicing and rail planning
+
+The chord root and type are converted to specific MIDI notes by the voicing engine: the left board plays the root in octave 3 (bass), the right board covers the chord tones in octave 4. The system then solves for the optimal rail position for each board — trying all offsets from −12 to +24 semitones and maximising note coverage across both boards jointly, with a small penalty for large movements. The resulting positions and a 15-bit solenoid mask are sent to the Teensy as `MOVE` and `FIRE` commands over USB serial.
+
+The Max/MSP patch receives the chord state from MIDI2Chords via a dedicated MIDI port (`Voice2Piano_Harmony`), displaying the active chord root, type, key, and Roman numeral degree in real time. A `serial_driver.js` object in the patch can also bypass MIDI2Piano.py entirely and send `MOVE`/`FIRE` commands directly to the Teensy via the `serial` object.
+
+{/* ===== MEDIA: left_board_demo.mp4 + right_board_demo.mp4 =====
+    File: /media/projects/vocal2piano/left_board_demo.mp4
+      Content: close-up of left board — solenoids striking bass keys,
+               rail sliding between positions. show 2-3 chord changes.
+    File: /media/projects/vocal2piano/right_board_demo.mp4
+      Content: close-up of right board — chord tone solenoids firing,
+               rail sliding to a new octave window. */}
+<VideoPair
+  leftSrc="/media/projects/vocal2piano/left_board_demo.mp4"
+  leftCaption="Left board — bass register, rail sliding between positions"
+  rightSrc="/media/projects/vocal2piano/right_board_demo.mp4"
+  rightCaption="Right board — chord tones, rail repositioning"
+/>
 
 ---
 
-## Final System Demonstration
+## Hardware
 
-<video src="/projects/vocal2piano_final_performance.mp4" className="rounded-3xl border-4 border-muted shadow-2xl aspect-video" />
+### PCB
+
+Each of the two driver boards carries 15 IRLZ34N logic-level MOSFETs, one per solenoid, driven through 100 Ω gate resistors by two daisy-chained SN74HC595 shift registers — reducing the control interface to three lines (data, clock, latch) regardless of channel count. An SS14 Schottky diode on each channel handles flyback suppression. A 1000 µF bulk capacitor on the 12 V rail absorbs inrush when multiple solenoids fire simultaneously. The Teensy clocks both boards together so both 15-channel chains latch in a single atomic pulse.
+
+{/* ===== MEDIA: pcb_render.png + pcb_assembled.jpg =====
+    File: /media/projects/vocal2piano/pcb_render.png
+    File: /media/projects/vocal2piano/pcb_assembled.jpg
+    Crop BOTH images to the same aspect ratio (16:9 recommended) before uploading
+    so they display at equal height in the side-by-side layout. */}
+<DiagramPair
+  leftSrc="/media/projects/vocal2piano/pcb_render.png"
+  leftCaption="Driver board 3D render"
+  rightSrc="/media/projects/vocal2piano/pcb_assembled.jpg"
+  rightCaption="Assembled driver board"
+  leftWeight="50%"
+/>

@@ -22,7 +22,6 @@ export interface IProjectData {
     TECH_STACK: string[];
     IMAGE: StaticImageData | string;
     MORE_INFO?: string;
-    // CONTENT 已移除，改用 src/content/projects/[slug].mdx
 }
 
 export interface ILogData {
@@ -190,7 +189,7 @@ export const DATA = {
                 "Machine Learning",
                 "Audio Processing",
             ],
-            IMAGE: VIPSImage,
+            IMAGE: "/media/projects/vocal2piano/Intro.mp4",
         },
         "Bug Catcher: ROS 2 Vision-Based Dynamic Sorting (FER Panda)": {
             SLUG: "bugcatcher",
