@@ -12,25 +12,54 @@ const outfit = Outfit({
 });
 
 export const metadata: Metadata = {
+    metadataBase: new URL("https://halleyscomet-99.github.io"),
     title: "Chenwan Halley Zhong | Roboticist & Musician",
     description:
-        "Software developer specializing in Next.js, TypeScript and Node.js.",
-    twitter: {
-        card: "summary_large_image",
-        creator: "@halleyscomet_99",
-    },
+        "MS Robotics student at Northwestern University building autonomous systems with ROS 2, MoveIt 2, and computer vision. Also a musician and full-stack developer.",
     authors: [
         { name: "Chenwan Halley Zhong", url: "https://halleyscomet-99.github.io/" },
     ],
     keywords: [
         "Chenwan Halley Zhong",
-        "Software Developer",
+        "Robotics",
+        "ROS 2",
+        "MoveIt",
+        "Northwestern University",
+        "Computer Vision",
+        "Autonomous Systems",
         "Roboticist",
         "Musician",
-        "Full-Stack Developer",
+        "Software Developer",
     ],
     creator: "Chenwan Halley Zhong",
     publisher: "Chenwan Halley Zhong",
+    openGraph: {
+        title: "Chenwan Halley Zhong | Roboticist & Musician",
+        description:
+            "MS Robotics student at Northwestern University building autonomous systems with ROS 2, MoveIt 2, and computer vision.",
+        url: "https://halleyscomet-99.github.io",
+        siteName: "Chenwan Halley Zhong",
+        type: "website",
+        locale: "en_US",
+    },
+    twitter: {
+        card: "summary_large_image",
+        creator: "@halleyscomet_99",
+        title: "Chenwan Halley Zhong | Roboticist & Musician",
+        description:
+            "MS Robotics student at Northwestern University building autonomous systems with ROS 2, MoveIt 2, and computer vision.",
+    },
+    verification: {
+        google: "4MPdA_EdqmjO-vffhf_zhqhP-DUYEDrDff7j57H4mF4",
+    },
+    robots: {
+        index: true,
+        follow: true,
+        googleBot: {
+            index: true,
+            follow: true,
+        },
+    },
 };
 
 export default function RootLayout({
