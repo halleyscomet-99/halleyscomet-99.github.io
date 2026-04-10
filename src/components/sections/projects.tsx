@@ -119,6 +119,17 @@ export function Projects({ data }: { data: Record<string, IProjectData> }) {
                                                                 youtube <ArrowUpRight size={14} />
                                                             </a>
                                                         )}
+                                                        {value.LIVE_PREVIEW && (
+                                                            <a
+                                                                className="flex items-center gap-1 hover:text-primary transition-colors text-muted-foreground"
+                                                                href={value.LIVE_PREVIEW}
+                                                                target="_blank"
+                                                                rel="noopener noreferrer"
+                                                                onClick={(e) => e.stopPropagation()}
+                                                            >
+                                                                live preview <ArrowUpRight size={14} />
+                                                            </a>
+                                                        )}
                                                     </div>
                                                 </div>
 

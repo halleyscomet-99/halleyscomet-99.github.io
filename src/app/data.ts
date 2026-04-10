@@ -22,6 +22,7 @@ export interface IProjectData {
     TECH_STACK: string[];
     IMAGE: StaticImageData | string;
     MORE_INFO?: string;
+    LIVE_PREVIEW?: string;
 }
 
 export interface ILogData {
@@ -177,6 +178,7 @@ export const DATA = {
         "Vocal2Piano: End-to-End Autonomous Robotic Piano Accompaniment System": {
             SLUG: "vocal2piano",
             GITHUB: "https://github.com/halleyscomet-99/Vocal2Piano",
+            LIVE_PREVIEW: "https://vocal2piano.vercel.app/",
             DESCRIPTION: [
                 "This system integrates Machine Learning with precision mechatronics to perform real-time piano accompaniment from vocal input. I developed a MIR pipeline that transcribes audio into MIDI, which is then mapped by high-performance C++ firmware to a coordinated 60-actuator array. The hardware features a modular CAD assembly validated through motion simulation and 3D printing, powered by custom PCBs designed to manage high-current inductive loads through dedicated power isolation and transient suppression.",
             ],

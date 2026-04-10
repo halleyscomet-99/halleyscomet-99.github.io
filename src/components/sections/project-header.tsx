@@ -37,7 +37,6 @@ export function ProjectHeader({ projectName, project }: ProjectHeaderProps) {
                     </div>
                 </div>
 
-                {/* no pt-4 — space-y-2 handles the gap, matching main Header */}
                 <div className="flex items-center gap-2 text-sm">
                     {project.GITHUB && (
                         <MovingElement
@@ -59,18 +58,29 @@ export function ProjectHeader({ projectName, project }: ProjectHeaderProps) {
                             Publication
                         </MovingElement>
                     )}
-                    {project.YOUTUBE && (
+                    {project.LIVE_PREVIEW && (
                         <MovingElement
-                            change={() => handleExternalLink(project.YOUTUBE!)}
-                            ariaLabel="Youtube"
+                            className="inline-flex justify-center items-center bg-primary betterhover:hover:bg-primary/90 disabled:opacity-50 shadow-sm px-4 py-2 rounded-md h-9 font-medium text-primary-foreground text-sm whitespace-nowrap transition-colors"
+                            change={() => handleExternalLink(project.LIVE_PREVIEW!)}
+                            toChange={false}
+                            ariaLabel="Website"
                         >
-                            <Youtube size={20} />
+                            Live Preview
                         </MovingElement>
                     )}
+                    <div className="flex gap-2">
+                        {project.YOUTUBE && (
+                            <MovingElement
+                                change={() => handleExternalLink(project.YOUTUBE!)}
+                                ariaLabel="Youtube"
+                            >
+                                <Youtube size={20} />
+                            </MovingElement>
+                        )}
+                    </div>
                 </div>
             </div>
 
-            {/* mirrors "about me." in Header — mt-6 outside space-y-2 */}
             <h2 className="mt-6 font-medium text-primary/90 text-base">
                 overview.
             </h2>
