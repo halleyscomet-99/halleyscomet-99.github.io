@@ -62,7 +62,6 @@ export default async function Image() {
                         fontSize: "14px",
                         letterSpacing: "0.02em",
                         marginBottom: "36px",
-                        width: "fit-content",
                         fontFamily: "monospace",
                     }}>
                         halleyscomet-99.github.io
