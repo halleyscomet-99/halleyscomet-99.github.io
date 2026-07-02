@@ -1,14 +1,13 @@
 "use client";
 
-import { ArrowUpRight, Search, X } from "lucide-react";
-import Image from "next/image";
-import Link from "next/link";
+import { Search, X } from "lucide-react";
 import { useRouter } from "next/navigation";
-import React, { useState, useMemo } from "react";
+import { useState, useMemo } from "react";
 
 import type { IProjectData } from "@/app/data";
 import { DATA } from "@/app/data";
 import { Contact, Footer, Navbar } from "@/components/sections";
+import { ProjectCard } from "@/components/sections/project-card";
 import { CursorManager } from "@/components/ui/cursor-manager";
 
 export default function Page() {
@@ -33,18 +32,18 @@ export default function Page() {
         });
     }, [searchQuery, projectsData]);
 
-    const handleProjectClick = (slug?: string, moreInfo?: string) => {
-        if (slug) {
-            router.push(`/projects/${slug}`);
-        } else if (moreInfo) {
-            window.open(moreInfo, "_blank");
+    const handleProjectClick = (value: IProjectData) => {
+        if (value.SLUG) {
+            router.push(`/projects/${value.SLUG}`);
+        } else if (value.MORE_INFO) {
+            window.open(value.MORE_INFO, "_blank");
         }
     };
 
     return (
         <>
             <Navbar />
-            <div className="flex flex-col items-center gap-12 p-8 w-full">
+            <div className="flex flex-col items-center gap-12 px-5 py-8 sm:px-8 w-full">
 
                 {/* Search and Header Section */}
                 <section className="w-full space-y-4 pb-4">
@@ -86,114 +85,19 @@ export default function Page() {
                     </div>
                 </section>
 
-                {/* Projects List Section */}
-                <div className="space-y-24 mb-12 w-full">
+                {/* Projects Grid Section */}
+                <div className="w-full mb-12">
                     {filteredProjects.length > 0 ? (
-                        filteredProjects.map(([key, value]) => (
-                            <div
-                                key={key}
-                                className="cursor-target group"
-                                onClick={() => handleProjectClick(value.SLUG, value.MORE_INFO)}
-                            >
-                                <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-start transition-all duration-300">
-
-                                    {/* Left Content Column */}
-                                    <div className="flex flex-col py-1 overflow-hidden h-full">
-                                        <div className="mb-4">
-                                            <p className="text-primary/90 text-xl font-medium leading-none">
-                                                {key}
-                                            </p>
-                                            <div className="flex items-center gap-3 mt-3 text-sm">
-                                                {value.SLUG ? (
-                                                    <Link
-                                                        className="flex items-center gap-1 hover:text-primary transition-colors font-medium text-primary"
-                                                        href={`/projects/${value.SLUG}`}
-                                                        onClick={(e) => e.stopPropagation()}
-                                                    >
-                                                        more info <ArrowUpRight size={14} />
-                                                    </Link>
-                                                ) : value.MORE_INFO && (
-                                                    <a
-                                                        className="flex items-center gap-1 hover:text-primary transition-colors font-medium text-primary"
-                                                        href={value.MORE_INFO}
-                                                        target="_blank"
-                                                        rel="noopener noreferrer"
-                                                        onClick={(e) => e.stopPropagation()}
-                                                    >
-                                                        more info <ArrowUpRight size={14} />
-                                                    </a>
-                                                )}
-                                                {value.GITHUB && (
-                                                    <a
-                                                        className="flex items-center gap-1 hover:text-primary transition-colors text-muted-foreground"
-                                                        href={value.GITHUB}
-                                                        target="_blank"
-                                                        rel="noopener noreferrer"
-                                                        onClick={(e) => e.stopPropagation()}
-                                                    >
-                                                        github <ArrowUpRight size={14} />
-                                                    </a>
-                                                )}
-                                                {value.PAPER && (
-                                                    <a
-                                                        className="flex items-center gap-1 hover:text-primary transition-colors text-muted-foreground"
-                                                        href={value.PAPER}
-                                                        target="_blank"
-                                                        rel="noopener noreferrer"
-                                                        onClick={(e) => e.stopPropagation()}
-                                                    >
-                                                        publication <ArrowUpRight size={14} />
-                                                    </a>
-                                                )}
-                                                {value.YOUTUBE && (
-                                                    <a
-                                                        className="flex items-center gap-1 hover:text-primary transition-colors text-muted-foreground"
-                                                        href={value.YOUTUBE}
-                                                        target="_blank"
-                                                        rel="noopener noreferrer"
-                                                        onClick={(e) => e.stopPropagation()}
-                                                    >
-                                                        youtube <ArrowUpRight size={14} />
-                                                    </a>
-                                                )}
-                                                {value.LIVE_PREVIEW && (
-                                                    <a
-                                                        className="flex items-center gap-1 hover:text-primary transition-colors text-muted-foreground"
-                                                        href={value.LIVE_PREVIEW}
-                                                        target="_blank"
-                                                        rel="noopener noreferrer"
-                                                        onClick={(e) => e.stopPropagation()}
-                                                    >
-                                                        live preview <ArrowUpRight size={14} />
-                                                    </a>
-                                                )}
-                                            </div>
-                                        </div>
-
-                                        <p className="text-muted-foreground text-sm text-justify leading-relaxed line-clamp-3 xl:line-clamp-5">
-                                            {value.DESCRIPTION.join(" ")}
-                                        </p>
-
-                                        <div className="flex-grow min-h-[1.5rem]" />
-                                        <ul className="flex flex-wrap items-center gap-2 mt-auto">
-                                            {value.TECH_STACK.map((tech, idx) => (
-                                                <li
-                                                    key={idx}
-                                                    className="bg-muted px-2 py-1 rounded text-xs whitespace-nowrap"
-                                                >
-                                                    {tech}
-                                                </li>
-                                            ))}
-                                        </ul>
-                                    </div>
-
-                                    {/* Right Media Column */}
-                                    <div className="relative rounded-xl overflow-hidden border border-muted bg-muted/20 w-full aspect-video shadow-2xl shadow-black/5 h-fit self-start">
-                                        <ImageContent value={value} projectName={key} />
-                                    </div>
-                                </div>
-                            </div>
-                        ))
+                        <div className="gap-x-8 gap-y-12 grid grid-cols-1 sm:grid-cols-2">
+                            {filteredProjects.map(([key, value]) => (
+                                <ProjectCard
+                                    key={key}
+                                    title={key}
+                                    project={value}
+                                    onClick={() => handleProjectClick(value)}
+                                />
+                            ))}
+                        </div>
                     ) : (
                         <div className="w-full py-20 text-center space-y-3">
                             <p className="text-muted-foreground text-lg">
@@ -215,46 +119,5 @@ export default function Page() {
 
             <CursorManager />
         </>
-    );
-}
-
-function ImageContent({
-    value,
-    projectName,
-}: {
-    value: IProjectData;
-    projectName: string;
-}) {
-    if (!value.IMAGE) {
-        return (
-            <div className="flex items-center justify-center h-full text-muted-foreground text-xs text-center p-4">
-                [Project Preview]
-            </div>
-        );
-    }
-
-    if (
-        typeof value.IMAGE === "string" &&
-        (value.IMAGE.endsWith(".mp4") || value.IMAGE.endsWith(".webm"))
-    ) {
-        return (
-            <video
-                src={value.IMAGE}
-                autoPlay
-                loop
-                muted
-                playsInline
-                className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-            />
-        );
-    }
-
-    return (
-        <Image
-            src={value.IMAGE as any}
-            alt={projectName}
-            fill
-            className="object-cover transition-transform duration-500 group-hover:scale-105"
-        />
     );
 }

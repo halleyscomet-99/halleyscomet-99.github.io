@@ -28,7 +28,7 @@ export default function Page() {
     return (
         <>
             <Navbar />
-            <div className="flex flex-col items-center gap-12 p-8 w-full">
+            <div className="flex flex-col items-center gap-12 px-5 py-8 sm:px-8 w-full">
                 
                 <section className="w-full space-y-4 pb-4">
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">

@@ -17,6 +17,7 @@ export interface IProjectData {
     GITHUB?: string;
     YOUTUBE?: string;
     PAPER?: string;
+    SUMMARY: string;
     DESCRIPTION: string[];
     NOTE?: string;
     TECH_STACK: string[];
@@ -179,6 +180,7 @@ export const DATA = {
             SLUG: "vocal2piano",
             GITHUB: "https://github.com/halleyscomet-99/Vocal2Piano",
             LIVE_PREVIEW: "https://vocal2piano.vercel.app/",
+            SUMMARY: "Real-time robotic piano accompaniment that transcribes vocals into MIDI and drives a 60-actuator array.",
             DESCRIPTION: [
                 "This system integrates Machine Learning with precision mechatronics to perform real-time piano accompaniment from vocal input. I developed a MIR pipeline that transcribes audio into MIDI, which is then mapped by high-performance C++ firmware to a coordinated 60-actuator array. The hardware features a modular CAD assembly validated through motion simulation and 3D printing, powered by custom PCBs designed to manage high-current inductive loads through dedicated power isolation and transient suppression.",
             ],
@@ -196,6 +198,7 @@ export const DATA = {
         "Bug Catcher: ROS 2 Vision-Based Dynamic Sorting (FER Panda)": {
             SLUG: "bugcatcher",
             GITHUB: "https://github.com/halleyscomet-99/Bug-Catcher-Vision-Based-Dynamic-Sorting-System.git",
+            SUMMARY: "ROS 2 vision-guided Franka Panda arm that tracks and sorts moving Hex Bugs in real time.",
             DESCRIPTION: [
                 "Engineered a modular ROS 2 and MoveIt 2 framework for the Franka Emika Panda to enable autonomous Hex-Bug sorting. A monocular sky camera feeds an HSV color classifier and AprilTag-based calibration pipeline that establishes a static TF tree, grounding all camera detections in robot base coordinates for reliable pick-and-place planning. For moving targets, a direct joint trajectory injection pathway bypasses MoveIt entirely, publishing IK-solved commands at 20 Hz to track and intercept live bugs in real time.",
                         ],
@@ -212,6 +215,7 @@ export const DATA = {
         },
         "Interactive Oropharyngeal-Swab Robot System: High-Precision Pandemic Response Platform": {
             SLUG: "medical-swab-robot",
+            SUMMARY: "Touchless robotic swab system using gesture control and vision-guided planning for contactless testing.",
             DESCRIPTION: [
                 "Developed an autonomous oropharyngeal-swab robotic system for high-efficiency, contactless pandemic response, integrating a multi-modal pipeline for precision and safety. We engineered a gesture-based HRI using Leap Motion to enable intuitive, touchless control over the sampling process. The system utilizes a vision-based detection pipeline for target localization and optimized motion planning algorithms to execute collision-free trajectories within the oral cavity. The integrated platform successfully streamlined the sampling cycle to 42 seconds while maintaining robust data synchronization through a custom mobile application.",
             ],
@@ -230,6 +234,7 @@ export const DATA = {
         "ROS 2 EKF SLAM: Autonomous Landmark Mapping on TurtleBot3": {
             SLUG: "nuturtle",
             GITHUB: "https://github.com/halleyscomet-99/EKF_SLAM_TurtleBot3.git",
+            SUMMARY: "Full ROS 2 mobile robotics stack with real-time EKF SLAM for joint pose and landmark tracking.",
             DESCRIPTION: [
                 "Developed a complete ROS 2 C++ mobile robotics stack from scratch, including an SE(2) geometry library, differential-drive kinematics, and a physics-accurate simulator, while implementing a real-time EKF SLAM estimator for joint state tracking of robot pose and cylindrical landmarks. The perception pipeline utilizes Pratt algebraic circle fitting for LiDAR-based obstacle detection, incorporating a robust data association logic that employs Euclidean distance gating to overcome systematic Mahalanobis distance failures caused by high initial covariance.",
             ],
@@ -249,6 +254,7 @@ export const DATA = {
         "RoboTheater: A Multi-Robot Storytelling Platform from LLM Scripts to Stage Performance": {
             SLUG: "robotheater",
             PAPER: "https://dl.acm.org/doi/10.1145/3731459.3779333",
+            SUMMARY: "End-to-end platform that turns LLM-generated scripts into synchronized multi-robot stage performances.",
             DESCRIPTION: [
                 "Designed and implemented RoboTheater, an automated end-to-end platform that translates Generative AI (LLM) scripts into synchronized multi-robot stage performances. We developed a multimodal mapping pipeline that autonomously converts structured JSON scripts into coordinated robotic motion primitives, ElevenLabs-driven expressive speech, and Midjourney-generated environmental projections. The system utilizes an MQTT-based wireless architecture to ensure sub-millisecond synchronization across a swarm of modular robots, effectively bridging computational narrative with physical embodiment. Through pilot user studies, the platform demonstrated high efficacy in conveying complex emotions and character relationships through spatial choreography and rhythmic timing.",
             ],
@@ -268,6 +274,7 @@ export const DATA = {
             SLUG: "sofibuddy",
             PAPER: "https://doi.org/10.1145/3757374.3771432",
             YOUTUBE: "https://www.youtube.com/watch?v=S_uRjo7Gqys",
+            SUMMARY: "Biomimetic soft robotic interface delivering lightweight, curvature-based haptic feedback for on-body interaction.",
             DESCRIPTION: [
                 "Designed and developed SofiBuddy, a biomimetic soft robotic interface for intimate on-body interaction. We engineered a 10.2g lightweight transition module using a rack-and-pinion system to convert high-torque motor rotation into linear displacement for wearable applications. By implementing a curvature-based pneumatic control system with ESP32 and miniature diaphragm pumps, the project explores the integration of silicone-based compliant mechanisms with real-time haptic feedback in VR environments.",
             ],
@@ -285,6 +292,7 @@ export const DATA = {
         },
         "Autonomous Biomimetic Quadruped Robot": {
             SLUG: "quadruped",
+            SUMMARY: "STM32-powered biomimetic quadruped with adaptive gait planning for search-and-rescue over uneven terrain.",
             DESCRIPTION: [
                 "Designed and developed a biomimetic quadruped robot with a 3-DOF leg design for simulated search-and-rescue missions. Controlled by an STM32, the robot implements a stable Trot gait using Inverse Kinematics and composite cycloid trajectory planning. To address navigation in unstructured environments, we developed a real-time attitude adjustment strategy leveraging IMU data to dynamically shift the Center of Mass, enabling the robot to traverse 10° slopes, stairs, and gravel paths. The system also integrates ultrasonic obstacle avoidance, infrared line tracking, and color recognition modules for autonomous path planning.",
             ],

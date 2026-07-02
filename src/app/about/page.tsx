@@ -19,7 +19,7 @@ export default function Page() {
         <>
             <Navbar />
 
-            <main className="flex flex-col items-center gap-12 p-8 w-full">
+            <main className="flex flex-col items-center gap-12 px-5 py-8 sm:px-8 w-full">
                 
                 <section className="w-full">
                     <div className="space-y-2">

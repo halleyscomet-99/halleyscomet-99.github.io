@@ -5,5 +5,6 @@ export * from "./footer";
 export * from "./github-contribution";
 export * from "./header";
 export * from "./navbar";
+export * from "./project-card";
 export * from "./projects";
 export * from "./skills";

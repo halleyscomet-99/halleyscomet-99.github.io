@@ -267,7 +267,7 @@ export default async function ProjectDetail({
         <>
             <Navbar />
 
-            <main className="flex flex-col items-center gap-12 p-8 w-full">
+            <main className="flex flex-col items-center gap-12 px-5 py-8 sm:px-8 w-full">
                 <div className="w-full">
 
                     <ProjectHeader projectName={projectName} project={project} />
