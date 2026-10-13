@@ -88,7 +88,7 @@ export default function Page() {
                 {/* Projects Grid Section */}
                 <div className="w-full mb-12">
                     {filteredProjects.length > 0 ? (
-                        <div className="gap-x-8 gap-y-12 grid grid-cols-1 sm:grid-cols-2">
+                        <div className="gap-x-8 gap-y-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
                             {filteredProjects.map(([key, value]) => (
                                 <ProjectCard
                                     key={key}

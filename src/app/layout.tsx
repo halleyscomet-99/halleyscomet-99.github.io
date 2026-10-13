@@ -82,7 +82,7 @@ export default function RootLayout({
                     enableSystem
                     disableTransitionOnChange
                 >
-                    <div className="bg-white dark:bg-black mx-auto pt-6 sm:pt-12 w-full max-w-5xl text-foreground">
+                    <div className="bg-white dark:bg-black mx-auto pt-6 sm:pt-12 w-full max-w-[1520px] text-foreground">
                         {children}
                     </div>
                 </ThemeProvider>

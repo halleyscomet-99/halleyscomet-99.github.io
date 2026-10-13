@@ -13,8 +13,8 @@ export function Projects({ data }: { data: Record<string, IProjectData> }) {
     const router = useRouter();
 
     const projectGroups = [];
-    for (let i = 0; i < projects.length; i += 4) {
-        projectGroups.push(projects.slice(i, i + 4));
+    for (let i = 0; i < projects.length; i += 6) {
+        projectGroups.push(projects.slice(i, i + 6));
     }
 
     useEffect(() => {
@@ -52,7 +52,7 @@ export function Projects({ data }: { data: Record<string, IProjectData> }) {
                                     : "opacity-0 scale-[0.96] blur-sm absolute inset-0 z-0 invisible"
                             }`}
                         >
-                            <div className="gap-x-8 gap-y-12 grid grid-cols-1 sm:grid-cols-2">
+                            <div className="gap-x-8 gap-y-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
                                 {group.map(([key, value]) => (
                                     <ProjectCard
                                         key={key}
