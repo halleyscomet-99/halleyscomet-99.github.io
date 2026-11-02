@@ -43,7 +43,7 @@ export default function Page() {
     return (
         <>
             <Navbar />
-            <div className="flex flex-col items-center gap-12 px-5 py-8 sm:px-8 w-full">
+            <div className="flex flex-col items-center gap-12 px-5 py-8 sm:px-8 lg:px-28 w-full">
 
                 {/* Search and Header Section */}
                 <section className="w-full space-y-4 pb-4">
