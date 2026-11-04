@@ -1,92 +1,186 @@
-## System
+## System Structure
 
-Vocal2Piano is a two-handed robot that sits on top of a real piano and accompanies a singer live. Each hand is a carriage of 13 solenoid fingers (7 white-key, 6 black-key) that slides along the keyboard on a GT2 belt driven by a NEMA17 stepper, so 26 fingers in total cover the full playing range. A web app prepares the song, works out every hand move and key press, and streams them to the robot over USB while the song plays — once a performance starts, the robot runs on its own.
+**Vocal2Piano is a robotic piano accompanist built to play alongside a live singer—not just to replay a fixed sequence of notes.** It turns a melody or an existing song into a piano arrangement, works out how two mechanical hands can perform it on a real keyboard, and adjusts the accompaniment as the singer pauses, resumes, changes volume, or sings in another key.
 
-{/* ===== MEDIA: PLAYeRob0T.jpg (already exists) ===== */}
+The project is a complete hardware+software system, designed and built end to end. Its physical players are two independently moving carriages, one for bass and one for treble. Each carries **13 solenoid-actuated fingers**—seven for white keys and six for black keys—and travels along the keyboard on a belt driven by a stepper motor. Together, the 26 fingers can cover a much larger playing range than either carriage could reach while stationary. And the **web app** is where music is prepared, edited, rehearsed, and translated into a physically playable plan. It sends timestamped commands over USB Web Serial to a Teensy 4.1, which drives the motors and solenoids at the right instants and independently enforces hardware safety rules. When **Listen Mode** is enabled, microphone input feeds back into the performance, allowing the accompaniment to respond to the singer rather than forcing the singer to follow a rigid backing track.
+
 <Diagram
-  src="/media/projects/vocal2piano/PLAYeRob0T.jpg"
-  caption="The assembled robot in its enclosure — bass hand on the left, treble hand on the right"
-  size="full"
+  src="/media/projects/vocal2piano/system-diagram.svg"
+  caption="System architecture"
+  size="lg"
 />
 
 ---
 
-## Planning a performance
+## Mechanical Design (CAD)
 
-A song enters the web app as a MIDI file, sheet music (MusicXML), a tune hummed into the microphone, or a built-in chord loop. From there it can be adjusted — key, speed, piano style, chords, and individual bars or notes — with every change audible on the computer's speakers immediately.
+<TextDiagram
+  src="/media/projects/vocal2piano/PLAYeRob0T.gif"
+  caption="CAD animation — both robotic hands moving along the keyboard and pressing individual keys"
+  diagramWidth="43%"
+>
+The main mechanical challenge was to build a robot that could play across a full keyboard without installing a separate actuator on every key. I designed the entire assembly in **Fusion 360**, using two independently moving carriages to act as the robot's bass and treble hands.
 
-The app then plans the robot's half of the job: where each hand needs to be at every moment, which finger takes each note, when every move and strike has to happen, and how hard each key should be struck. It reports what share of the song the robot can physically play and lists anything it can't. Once the robot is connected and homed over USB, **Play** streams that plan a fraction of a second ahead of time, and the firmware executes it on schedule. With **Listen** on, the piano also tracks the singer as it plays: it waits for each entrance, stops when the singing stops, matches the singer's loudness, and follows the key being sung.
+Each carriage carries **13 JF-1039(B) solenoids** — seven for white keys and six for black keys — giving the robot 26 independently controlled fingers.
 
-{/* ===== MEDIA: UI.png (already exists) ===== */}
-<Diagram
-  src="/media/projects/vocal2piano/UI.png"
-  caption="The web app — Songs and Rehearsal windows"
-  size="full"
-/>
+A **NEMA17 stepper motor** drives each carriage through a **GT2 timing belt**, allowing the two hands to travel independently along the keyboard. Each hand can only cover approximately one octave at a time, so moving between positions is essential for reaching notes outside its immediate range.
+
+The entire mechanism is mounted inside a custom keyboard-mounted enclosure that supports the moving assemblies and keeps the solenoid fingers aligned with the keys. The complete robot measures **1676 × 215 × 123 mm (L × W × H)**.
+</TextDiagram>
+
+
+### Solenoid Finger & Carriage
+
+The main mechanical challenge was converting the solenoids' short linear strokes into reliable piano key presses while keeping the entire mechanism compact. I designed **lever-based finger mechanisms** to transfer the solenoids' motion to the piano keys, with separate geometries for white and black keys to accommodate their different heights, lengths, and spacing. Each moving carriage integrates **13 independently actuated fingers** (7 white-key and 6 black-key), driven along the keyboard by a **NEMA17 stepper motor and GT2 belt**. This design allows two robotic hands to cover a wide playing range with only two motors, while the software handles carriage positioning, note reachability, and collision avoidance.
+
+
+<ExplodedGallery />
+
 
 ---
 
-## Hardware
 
-One **C0nTrollER** board carries the Teensy 4.1, two TMC2209 stepper drivers, and the power input stage; two identical **PLAyeRs** boards, one per hand, each carry a PCA9685 driving 13 logic-level MOSFET channels over I²C. The two PLAyeRs boards share a single I²C bus and are told apart by a solder jumper — bridged for treble (`0x41`), open for bass (`0x40`).
 
-Power comes in as 12 V over a barrel jack rated for 5 A, through a slow-blow fuse, an SMBJ16A TVS diode for spike clamping, and a P-MOSFET reverse-polarity guard, into a 4700 µF bulk capacitor that keeps the rail steady when motors and solenoids switch. An MP1584 buck converter steps that down to 5 V for the logic. Both boards are 4-layer, with the inner layers dedicated to ground and +12 V planes — wide, low-resistance paths for the solenoid and motor current that also keep motor noise away from the logic.
+## Custom Electronics (PCB)
 
-{/* ===== MEDIA: C0nTrollER.png + PLAyeRs.png (already exist) ===== */}
-<DiagramPair
-  leftSrc="/media/projects/vocal2piano/C0nTrollER.png"
-  leftCaption="C0nTrollER — Teensy 4.1, stepper drivers, power input"
-  rightSrc="/media/projects/vocal2piano/PLAyeRs.png"
-  rightCaption="PLAyeRs — PCA9685 and 13 MOSFET channels, one board per hand"
-  leftWeight="50%"
-/>
+Driving 26 solenoids and two stepper motors requires significantly more power than a microcontroller can provide directly. I designed **two custom 4-layer PCB types in KiCad**: a central **C0nTrollER** board for power distribution and motion control, and two identical **PLAyeRs** boards for driving the solenoids.
 
-{/* ===== MEDIA: Soldered_PCBs.jpg (already exists) ===== */}
 <Diagram
   src="/media/projects/vocal2piano/Soldered_PCBs.jpg"
-  caption="Both PLAyeRs boards and the C0nTrollER board, assembled"
+  caption="Fabricated and assembled PCBs — one C0nTrollER and two PLAyeRs boards"
+  size="md"
+/>
+
+### C0nTrollER — Power & Motion Control
+
+The **C0nTrollER** is the central control board, integrating the microcontroller, stepper drivers, and power-management circuitry. Key components were selected for their roles in precise motion control and reliable power delivery:
+
+
+<TextDiagram
+  src="/media/projects/vocal2piano/C0nTrollER_schematics.png"
+  caption="C0nTrollER — circuit schematic"
+  diagramWidth="33%"
+>
+
+- **Teensy 4.1:** A high-performance microcontroller responsible for real-time command execution, motor control, and solenoid timing.
+- **TMC2209:** Stepper motor drivers for independently controlling the bass and treble carriages.
+- **MP1584 buck converter:** Steps the 12 V supply down to 5 V for the control electronics.
+
+<div
+  style={{
+    width: "200px",
+    maxWidth: "100%",
+    margin: "24px auto 0"
+  }}
+>
+  <Diagram
+    src="/media/projects/vocal2piano/C0nTrollER_pcb.png"
+    caption="C0nTrollER — PCB layout"
+    size="sm"
+  />
+</div>
+</TextDiagram>
+
+### PLAyeRs — Solenoid Driver Boards
+
+<TextDiagram
+  src="/media/projects/vocal2piano/PLAyeRs_schematics.png"
+  caption="PLAyeRs — circuit schematic"
+  diagramWidth="47%"
+>
+Each **PLAyeRs** board drives the 13 solenoids on one robotic hand. Rather than controlling every actuator directly from the Teensy, I used a dedicated PWM controller and MOSFET switching circuits.
+
+- **PCA9685:** A 16-channel PWM controller, allowing multiple solenoids to be controlled over a shared I²C connection.
+- **IRLZ34N MOSFETs:** Low-side switches that control the 12 V solenoids without routing their current through the microcontroller.
+- **SS14 flyback diodes:** Protect the switching circuits from voltage spikes produced when the inductive coils turn off.
+
+<div
+    style={{
+      width: "80%",
+      maxWidth: "500px",
+      margin: "32px auto 0"
+    }}
+  >
+    <Diagram
+      src="/media/projects/vocal2piano/PLAyeRs_pcb.png"
+      caption="PLAyeRs — PCB layout"
+      size="lg"
+    />
+  </div>
+</TextDiagram>
+
+---
+
+
+## Music Processing & Motion Planning
+
+Before the robot can play, the system needs to solve two problems: **turning a melody into a musical accompaniment** and **making that accompaniment physically playable**.
+
+### From Humming to Harmony
+
+<TextDiagram
+  src="/media/projects/vocal2piano/hum-to-harmony.png"
+  caption="Music processing pipeline"
+  diagramWidth="60%"
+>
+A hummed melody contains vibrato, pitch variations, and timing errors, so the app first converts the recording into clean musical notes before finding a suitable accompaniment.
+
+- **Pitch Detection:** YIN tracks the voice every 10 ms, while note segmentation and adaptive tuning convert the recording into quantized notes.
+- **Key Detection:** Krumhansl–Schmuckler key finding compares the melody against 24 major and minor key profiles.
+- **Harmonization:** A hidden Markov model uses statistics from **POP909** and **McGill Billboard** to score melody–chord compatibility and chord transitions. **Viterbi decoding** selects the best progression across the song.
+- **Arrangement:** The chords are converted into five piano styles: block, broken, Alberti, stride, and bossa nova.
+
+The result is an editable piano accompaniment created from just a hummed melody.
+</TextDiagram>
+
+### Physically Constrained Motion Planning
+
+A musically valid arrangement isn't necessarily playable by the robot. Each carriage reaches only **one octave at a time**, and repositioning takes time.
+
+The planner uses **Viterbi-based dynamic programming** to find the best sequence of carriage positions and finger assignments, minimizing missed notes and unnecessary movement. A **trapezoidal velocity model** rejects moves that exceed the motor limits of **100 mm/s** and **1000 mm/s²**. It also maintains at least five free white keys between the two hands and respects a 4 A solenoid-current budget. Unreachable notes can be shifted by an octave or omitted, with every adjustment shown in a playability report.
+
+---
+
+## Real-Time Firmware
+
+The web app decides **what to play**, while the **Teensy 4.1 firmware**, written in C++ with PlatformIO, handles **when and how to play it**.
+
+Browser scheduling and USB communication introduce unpredictable delays, making them unsuitable for precisely timing individual key presses. Instead, the app streams commands **0.1–0.3 seconds ahead**, each with a device timestamp. The Teensy stores them in a **time-sorted command queue** and executes each command at its scheduled time. A **50 kHz timer interrupt** generates step pulses for the two TMC2209 drivers, while the firmware coordinates solenoid actuation. This keeps the robot synchronized with audio playback without relying on the exact arrival time of USB messages.
+
+<Diagram
+  src="/media/projects/vocal2piano/timestamped-stream.png"
+  caption="Real-time control architecture"
   size="lg"
 />
 
 ---
 
-## Striking a key
+## Interactive Web App — Compose, Rehearse, Perform
 
-Each solenoid channel is a PCA9685 PWM output through a 100 Ω gate resistor into an IRLZ34N MOSFET acting as a low-side switch, with a 10 kΩ pull-down holding it off by default, an SS14 diode absorbing the inductive kick when the coil switches off, and a status LED that lights on every strike. The solenoids themselves (JF-1039(B), 12 V, about 0.4 A, 10 mm stroke) deliver up to 25 N at full closure, with much less force earlier in the stroke.
+<TextDiagram
+  src="/media/projects/vocal2piano/UI.png"
+  caption="Web app — composing, rehearsing, and controlling the robot"
+  diagramWidth="50%"
+>
+I wanted the robot to feel like a usable musical instrument, not just a hardware demo. So I built a browser-based app in **React, TypeScript, and Vite**, styled like a retro desktop with movable windows and a Start menu.
 
-With all 13 channels on one board firing at once, that board alone draws about 5.2 A — both boards together would need roughly 10 A, more than the 5 A supply can give. The firmware caps total solenoid current at 4 A and skips any strike that would cross it, and the web app's planner works within the same budget. A strike itself has three phases: full duty for 50 ms to attack the note, fully on (silent) until 300 ms in, then a 35 % hold duty until the note ends, at most 2 s after it started. Black-key fingers need much less force, so their channels are scaled to 40 % of whatever duty was requested.
+The workflow starts in **Songs**, where a user can import **MIDI or MusicXML**, hum a melody, or start from a built-in chord loop. From there, the accompaniment can be edited by changing the **key, tempo, piano style, chords, or individual bars and notes**, with every change previewed directly in the browser using **Web Audio**.
 
-{/* ===== MEDIA: WhiteKEY_Explosion.mp4 + BlackKEY_Explosion.mp4 (already exist) ===== */}
-<VideoPair
-  leftSrc="/media/projects/vocal2piano/WhiteKEY_Explosion.mp4"
-  leftCaption="White-key finger, exploded"
-  rightSrc="/media/projects/vocal2piano/BlackKEY_Explosion.mp4"
-  rightCaption="Black-key finger, exploded"
-/>
+In **Rehearsal**, the app shows how the two virtual hands move across the keyboard alongside the musical timeline. It also reports **playability**, making it easy to see which notes the robot can reach and which ones have been shifted or omitted.
 
----
+When connected over **Web Serial**, the app can home the robot and stream timed commands for performance. It also includes a built-in manual, vocal-range tools, and performance feedback.
+</TextDiagram>
 
-## Carriages and firmware
+### Listen Mode
 
-Each hand's 13 fingers ride together on one carriage, moved along the keyboard by a NEMA17 stepper on a GT2 belt — the whole assembly, enclosure included, is 1676 × 215 × 123 mm, modeled in Fusion 360.
+The most important feature is **Listen Mode**. While the song is playing, the app analyzes the microphone in real time so the accompaniment can respond to a live singer. Instead of acting like a fixed backing track, the robot can **wait for a vocal entrance, pause when the singer stops, resume when they come back in, match their loudness, and even adapt to the key they are singing in**. That interaction — a robot accompanist that follows the performer — is the core idea behind Vocal2Piano.
 
-{/* ===== MEDIA: cArriage_Explosion.mp4 (already exists) ===== */}
+## Demo — From Humming to Piano Accompaniment
+
+One of my favorite features is being able to create a piano accompaniment from just a hummed melody. The demo below shows the entire process, from humming a simple tune to hearing the finished accompaniment.
+
 <Video
-  src="/media/projects/vocal2piano/cArriage_Explosion.mp4"
-  size="lg"
-  caption="Carriage, exploded"
+  src="/media/projects/vocal2piano/Demo.mp4"
+  caption="Humming-to-accompaniment demo — from a recorded melody to an automatically harmonized piano arrangement"
+  size="full"
 />
-
-The Teensy firmware keeps the hardware code (`main.cpp`: a 50 kHz stepper interrupt, the PCA9685s, the end stops, USB) separate from the protocol, the time-sorted command queue, and the safety rules (`core.cpp`), which run unmodified against a simulated robot in tests. Moves and strikes arrive 0.1–0.3 s before they're due and sit in the queue until their timestamp comes up, so a whole performance never has to fit on the device at once.
-
-Whatever the app sends, the firmware enforces its own limits: no solenoid stays on past 2 s, no more than 4 A of solenoid current at once, and the two hands always keep at least 5 free white keys between them. A move past either end of the keyboard, or one that would close that gap, is refused outright, speed is capped at 100 mm/s and acceleration at 1000 mm/s², and a closed connection or a pulled USB cable is treated exactly like an emergency stop.
-
----
-
-## Musical intelligence
-
-A hummed tune is tracked with probabilistic YIN, which resolves octave ambiguity with a hidden Markov model. Every incoming note updates a 12-bin pitch-class histogram that decays 2 % per note, and on every eighth note the system correlates that histogram against the Krumhansl–Kessler major and minor key profiles for all 24 keys — the key estimate settles after about four bars and follows modulations within a few notes of the change.
-
-From there, a Markov chain over Roman-numeral chords (I ii iii IV V vi vii) picks the next chord once per bar, biased 2.5× toward chords that contain the current melody note. The default transition weights are hand-tuned, but a training script can replace them with values learned from any folder of MIDI files. They, along with the harmonizer's melody weighting, were tuned against two public datasets: the **McGill Billboard** corpus (739 songs, also the source of the built-in demo loops) and **POP909** (909 songs with melody and chord annotations). Measured on POP909, picking chords from melody and chord habits together gets the annotated chord right 39.1 % of the time per half bar — against 35.7 % from the melody alone and 28.6 % from chord habits alone.
-
-The arrangement is rendered in one of five styles — block chords, broken chords, Alberti bass, stride, or bossa nova — and with **Listen** on, the same pitch tracking follows the live singer: waiting for each entrance, stopping when the singing stops, matching loudness, and moving to the key being sung.

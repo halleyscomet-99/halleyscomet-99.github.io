@@ -10,9 +10,9 @@ import React from "react";
 import { CursorManager } from "@/components/ui/cursor-manager";
 
 const sizeMap: Record<string, string> = {
-    sm:   "max-w-sm",
-    md:   "max-w-md",
-    lg:   "max-w-2xl",
+    sm:   "max-w-[420px]",
+    md:   "max-w-[680px]",
+    lg:   "max-w-[900px]",
     full: "max-w-none",
 };
 
@@ -70,6 +70,43 @@ const mdxComponents = {
     Note: ({ children }: { children: React.ReactNode }) => (
         <div className="my-6 p-5 bg-muted/10 border border-dashed border-muted-foreground/30 rounded-2xl text-muted-foreground text-sm leading-relaxed">
             {children}
+        </div>
+    ),
+    ExplodedGallery: () => (
+        <div
+            style={{
+                display: "grid",
+                gridTemplateColumns: "repeat(3, minmax(0, 1fr))",
+                gap: "8px",
+                width: "100%",
+                maxWidth: "100%",
+                margin: "24px 0",
+                justifyItems: "center",
+                padding: 0,
+                boxSizing: "border-box",
+            }}
+        >
+            {[
+                { src: "/media/projects/vocal2piano/WhiteKEY_Explosion.gif", label: "White-Key Finger" },
+                { src: "/media/projects/vocal2piano/BlackKEY_Explosion.gif", label: "Black-Key Finger" },
+                { src: "/media/projects/vocal2piano/cArriage_Explosion.gif", label: "Carriage" },
+            ].map(({ src, label }) => (
+                <figure key={label} style={{ margin: 0, minWidth: 0, textAlign: "center", display: "flex", flexDirection: "column", alignItems: "center", width: "100%", maxWidth: "440px" }}>
+                    <img
+                        src={src}
+                        alt={label}
+                        style={{
+                            display: "block",
+                            width: "100%",
+                            maxWidth: "440px",
+                            height: "auto",
+                            aspectRatio: "800 / 450",
+                            objectFit: "contain",
+                        }}
+                    />
+                    <figcaption style={{ fontSize: "12px", marginTop: "8px" }}>{label}</figcaption>
+                </figure>
+            ))}
         </div>
     ),
     /** Sized video — defaults to full width.
@@ -273,10 +310,20 @@ export default async function ProjectDetail({
                     <ProjectHeader projectName={projectName} project={project} />
 
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-start mt-4 mb-16">
-                        <div className="flex flex-col gap-4 font-normal text-muted-foreground text-base text-justify leading-relaxed">
-                            {project.DESCRIPTION.map((desc, i) => (
-                                <span key={i}>{desc}</span>
-                            ))}
+                        <div className="flex flex-col gap-3 font-normal text-muted-foreground text-base text-justify leading-relaxed">
+                            {project.DESCRIPTION.map((desc, i) => {
+                                if (/<a\s/i.test(desc)) {
+                                    return (
+                                        <span
+                                            key={i}
+                                            dangerouslySetInnerHTML={{ __html: desc }}
+                                            className="block [&_a]:inline-flex [&_a]:items-center [&_a]:justify-center [&_a]:align-middle [&_a]:text-primary [&_a]:hover:text-primary/80 [&_a]:transition-colors [&_a]:rounded-full"
+                                        />
+                                    );
+                                }
+
+                                return <span key={i}>{desc}</span>;
+                            })}
                         </div>
 
                         <div className="relative aspect-video w-full rounded-xl overflow-hidden border border-muted bg-muted/20 shadow-xl h-fit self-start">
