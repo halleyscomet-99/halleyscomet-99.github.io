@@ -1,102 +1,92 @@
 ## System
 
-Vocal2Piano is a robotic exoskeleton that clamps onto any acoustic piano without modification and plays a real-time harmonic accompaniment in response to live audio input or an uploaded song. Three software layers handle the signal path from microphone to key strike: **Vocal2MIDI** converts audio to MIDI events, **MIDI2Chords** reasons about harmony and generates chord targets, and **MIDI2Piano** translates those targets into stepper and solenoid commands for the Teensy 4.1.
+Vocal2Piano is a two-handed robot that sits on top of a real piano and accompanies a singer live. Each hand is a carriage of 13 solenoid fingers (7 white-key, 6 black-key) that slides along the keyboard on a GT2 belt driven by a NEMA17 stepper, so 26 fingers in total cover the full playing range. A web app prepares the song, works out every hand move and key press, and streams them to the robot over USB while the song plays — once a performance starts, the robot runs on its own.
 
-Two independently sliding boards each carry 15 solenoids spaced at piano key intervals. NEMA17 steppers on GT2 belt drives reposition each board along the key span so that any 15-note window is reachable — effectively covering the full range of a 30-note accompaniment from a fixed 30-solenoid count.
-
-{/* ===== MEDIA: system.svg =====
-    File: /media/projects/vocal2piano/system.svg
-    Caption: "End-to-end system architecture" */}
+{/* ===== MEDIA: PLAYeRob0T.jpg (already exists) ===== */}
 <Diagram
-  src="/media/projects/vocal2piano/system.svg"
-  caption="End-to-end system architecture"
-  diagramWidth="48%"
+  src="/media/projects/vocal2piano/PLAYeRob0T.jpg"
+  caption="The assembled robot in its enclosure — bass hand on the left, treble hand on the right"
+  size="full"
 />
 
 ---
 
-## Pitch detection — Vocal2MIDI
+## Planning a performance
 
-**Vocal2MIDI** converts audio into a stream of MIDI note events. It runs two separate pipelines depending on the input source.
+A song enters the web app as a MIDI file, sheet music (MusicXML), a tune hummed into the microphone, or a built-in chord loop. From there it can be adjusted — key, speed, piano style, chords, and individual bars or notes — with every change audible on the computer's speakers immediately.
 
-**Instrument mode** runs aubio's yinfft detector on every 5.8 ms frame — fast enough to track staccato piano or guitar with under 10 ms latency. **Voice mode** accumulates a 200 ms window and runs probabilistic YIN (pYIN), which uses a hidden Markov model to resolve octave ambiguity. **Chord mode** computes a Constant-Q Transform over 88 piano-key-aligned frequency bins, finds up to six simultaneous energy peaks with prominence filtering, and suppresses octave duplicates — an alternative Max/MSP-native implementation using `sigmund~` provides lower latency by bypassing Python entirely.
+The app then plans the robot's half of the job: where each hand needs to be at every moment, which finger takes each note, when every move and strike has to happen, and how hard each key should be struck. It reports what share of the song the robot can physically play and lists anything it can't. Once the robot is connected and homed over USB, **Play** streams that plan a fraction of a second ahead of time, and the firmware executes it on schedule. With **Listen** on, the piano also tracks the singer as it plays: it waits for each entrance, stops when the singing stops, matches the singer's loudness, and follows the key being sung.
 
-All three live modes run CREPE — a CNN trained on large-scale pitched audio — as a first-pass detector, falling back to the classical algorithms when confidence is low. An adaptive noise gate calibrates to the ambient RMS over the first 500 ms. The web UI connects over WebSocket and uses the Python results directly; if the process is not running it falls back to a browser-side YIN implementation with a stability gate and dynamic noise floor tracking.
-
-For uploaded files, the pipeline classifies the source and routes accordingly: **voice** recordings go through pYIN for melody extraction, **instrumental** tracks go directly to Basic Pitch (ONNX) for polyphonic transcription, and **mixed** recordings are first separated by Demucs into vocal and accompaniment stems before transcription. Pipeline step events stream to the UI in real time via SSE, and mixed files produce four output tracks.
-
-{/* ===== MEDIA: Site_Live.mp4 + Site_File.mp4 =====
-    File: /media/projects/vocal2piano/Site_Live.mp4
-    File: /media/projects/vocal2piano/Site_File.mp4
-    Crop both to the same aspect ratio (16:9 recommended) before uploading */}
-<VideoPair
-  leftSrc="/media/projects/vocal2piano/Site_Live.mp4"
-  leftCaption="Live mode — real-time pitch detection and piano key display"
-  rightSrc="/media/projects/vocal2piano/Site_File.mp4"
-  rightCaption="File mode — source classification, transcription pipeline, and track output"
-/>
-
----
-
-## Musical reasoning — MIDI2Chords
-
-**MIDI2Chords** sits between the MIDI stream from Vocal2MIDI and the hardware driver. Given a melody note, it decides what chord the piano should play — tracking the musical key, selecting the next chord from a learned progression model, and splitting the voicing across the two physical boards.
-
-### Key tracking
-
-Every incoming note increments its pitch class in a 12-element histogram that decays 2% per note, weighting recent notes more heavily. On every eighth note the system runs the **Krumhansl–Kessler** algorithm, computing the Pearson correlation between the current histogram and empirical major and minor key profiles for all 24 keys. The key estimate stabilises after about four bars and tracks modulations within a few notes of the change.
-
-### Chord sequencer
-
-<TextDiagram
-  src="/media/projects/vocal2piano/markov_graph.svg"
-  caption="Markov transition graph — major key. Arrow weight = transition probability."
-  diagramWidth="30%"
->
-
-Given the current key, the chord is selected from a **Markov chain** over Roman numerals (I ii iii IV V vi vii). Candidate transitions are biased toward chords that contain the current melody note — a 2.5× weight boost — which reduces dissonance without hard rules about harmonic function. The chain advances once per bar so the accompaniment changes in sync with the musical phrase rather than on every note event.
-
-Transition weights ship as hand-tuned estimates reflecting common I–IV–V–vi patterns. A training script can replace them with corpus-learned values from any folder of MIDI files — when `learned_transitions.json` is present it loads automatically on startup.
-
-</TextDiagram>
-
-### Voicing and rail planning
-
-The chord root and type are converted to specific MIDI notes by the voicing engine: the left board plays the root in octave 3 (bass), the right board covers the chord tones in octave 4. The system then solves for the optimal rail position for each board — trying all offsets from −12 to +24 semitones and maximising note coverage across both boards jointly, with a small penalty for large movements. The resulting positions and a 15-bit solenoid mask are sent to the Teensy as `MOVE` and `FIRE` commands over USB serial.
-
-The Max/MSP patch receives the chord state from MIDI2Chords via a dedicated MIDI port (`Voice2Piano_Harmony`), displaying the active chord root, type, key, and Roman numeral degree in real time. A `serial_driver.js` object in the patch can also bypass MIDI2Piano.py entirely and send `MOVE`/`FIRE` commands directly to the Teensy via the `serial` object.
-
-{/* ===== MEDIA: left_board_demo.mp4 + right_board_demo.mp4 =====
-    File: /media/projects/vocal2piano/left_board_demo.mp4
-      Content: close-up of left board — solenoids striking bass keys,
-               rail sliding between positions. show 2-3 chord changes.
-    File: /media/projects/vocal2piano/right_board_demo.mp4
-      Content: close-up of right board — chord tone solenoids firing,
-               rail sliding to a new octave window. */}
-<VideoPair
-  leftSrc="/media/projects/vocal2piano/left_board_demo.mp4"
-  leftCaption="Left board — bass register, rail sliding between positions"
-  rightSrc="/media/projects/vocal2piano/right_board_demo.mp4"
-  rightCaption="Right board — chord tones, rail repositioning"
+{/* ===== MEDIA: UI.png (already exists) ===== */}
+<Diagram
+  src="/media/projects/vocal2piano/UI.png"
+  caption="The web app — Songs and Rehearsal windows"
+  size="full"
 />
 
 ---
 
 ## Hardware
 
-### PCB
+One **C0nTrollER** board carries the Teensy 4.1, two TMC2209 stepper drivers, and the power input stage; two identical **PLAyeRs** boards, one per hand, each carry a PCA9685 driving 13 logic-level MOSFET channels over I²C. The two PLAyeRs boards share a single I²C bus and are told apart by a solder jumper — bridged for treble (`0x41`), open for bass (`0x40`).
 
-Each of the two driver boards carries 15 IRLZ34N logic-level MOSFETs, one per solenoid, driven through 100 Ω gate resistors by two daisy-chained SN74HC595 shift registers — reducing the control interface to three lines (data, clock, latch) regardless of channel count. An SS14 Schottky diode on each channel handles flyback suppression. A 1000 µF bulk capacitor on the 12 V rail absorbs inrush when multiple solenoids fire simultaneously. The Teensy clocks both boards together so both 15-channel chains latch in a single atomic pulse.
+Power comes in as 12 V over a barrel jack rated for 5 A, through a slow-blow fuse, an SMBJ16A TVS diode for spike clamping, and a P-MOSFET reverse-polarity guard, into a 4700 µF bulk capacitor that keeps the rail steady when motors and solenoids switch. An MP1584 buck converter steps that down to 5 V for the logic. Both boards are 4-layer, with the inner layers dedicated to ground and +12 V planes — wide, low-resistance paths for the solenoid and motor current that also keep motor noise away from the logic.
 
-{/* ===== MEDIA: pcb_render.png + pcb_assembled.jpg =====
-    File: /media/projects/vocal2piano/pcb_render.png
-    File: /media/projects/vocal2piano/pcb_assembled.jpg
-    Crop BOTH images to the same aspect ratio (16:9 recommended) before uploading
-    so they display at equal height in the side-by-side layout. */}
+{/* ===== MEDIA: C0nTrollER.png + PLAyeRs.png (already exist) ===== */}
 <DiagramPair
-  leftSrc="/media/projects/vocal2piano/pcb_render.png"
-  leftCaption="Driver board 3D render"
-  rightSrc="/media/projects/vocal2piano/pcb_assembled.jpg"
-  rightCaption="Assembled driver board"
+  leftSrc="/media/projects/vocal2piano/C0nTrollER.png"
+  leftCaption="C0nTrollER — Teensy 4.1, stepper drivers, power input"
+  rightSrc="/media/projects/vocal2piano/PLAyeRs.png"
+  rightCaption="PLAyeRs — PCA9685 and 13 MOSFET channels, one board per hand"
   leftWeight="50%"
 />
+
+{/* ===== MEDIA: Soldered_PCBs.jpg (already exists) ===== */}
+<Diagram
+  src="/media/projects/vocal2piano/Soldered_PCBs.jpg"
+  caption="Both PLAyeRs boards and the C0nTrollER board, assembled"
+  size="lg"
+/>
+
+---
+
+## Striking a key
+
+Each solenoid channel is a PCA9685 PWM output through a 100 Ω gate resistor into an IRLZ34N MOSFET acting as a low-side switch, with a 10 kΩ pull-down holding it off by default, an SS14 diode absorbing the inductive kick when the coil switches off, and a status LED that lights on every strike. The solenoids themselves (JF-1039(B), 12 V, about 0.4 A, 10 mm stroke) deliver up to 25 N at full closure, with much less force earlier in the stroke.
+
+With all 13 channels on one board firing at once, that board alone draws about 5.2 A — both boards together would need roughly 10 A, more than the 5 A supply can give. The firmware caps total solenoid current at 4 A and skips any strike that would cross it, and the web app's planner works within the same budget. A strike itself has three phases: full duty for 50 ms to attack the note, fully on (silent) until 300 ms in, then a 35 % hold duty until the note ends, at most 2 s after it started. Black-key fingers need much less force, so their channels are scaled to 40 % of whatever duty was requested.
+
+{/* ===== MEDIA: WhiteKEY_Explosion.mp4 + BlackKEY_Explosion.mp4 (already exist) ===== */}
+<VideoPair
+  leftSrc="/media/projects/vocal2piano/WhiteKEY_Explosion.mp4"
+  leftCaption="White-key finger, exploded"
+  rightSrc="/media/projects/vocal2piano/BlackKEY_Explosion.mp4"
+  rightCaption="Black-key finger, exploded"
+/>
+
+---
+
+## Carriages and firmware
+
+Each hand's 13 fingers ride together on one carriage, moved along the keyboard by a NEMA17 stepper on a GT2 belt — the whole assembly, enclosure included, is 1676 × 215 × 123 mm, modeled in Fusion 360.
+
+{/* ===== MEDIA: cArriage_Explosion.mp4 (already exists) ===== */}
+<Video
+  src="/media/projects/vocal2piano/cArriage_Explosion.mp4"
+  size="lg"
+  caption="Carriage, exploded"
+/>
+
+The Teensy firmware keeps the hardware code (`main.cpp`: a 50 kHz stepper interrupt, the PCA9685s, the end stops, USB) separate from the protocol, the time-sorted command queue, and the safety rules (`core.cpp`), which run unmodified against a simulated robot in tests. Moves and strikes arrive 0.1–0.3 s before they're due and sit in the queue until their timestamp comes up, so a whole performance never has to fit on the device at once.
+
+Whatever the app sends, the firmware enforces its own limits: no solenoid stays on past 2 s, no more than 4 A of solenoid current at once, and the two hands always keep at least 5 free white keys between them. A move past either end of the keyboard, or one that would close that gap, is refused outright, speed is capped at 100 mm/s and acceleration at 1000 mm/s², and a closed connection or a pulled USB cable is treated exactly like an emergency stop.
+
+---
+
+## Musical intelligence
+
+A hummed tune is tracked with probabilistic YIN, which resolves octave ambiguity with a hidden Markov model. Every incoming note updates a 12-bin pitch-class histogram that decays 2 % per note, and on every eighth note the system correlates that histogram against the Krumhansl–Kessler major and minor key profiles for all 24 keys — the key estimate settles after about four bars and follows modulations within a few notes of the change.
+
+From there, a Markov chain over Roman-numeral chords (I ii iii IV V vi vii) picks the next chord once per bar, biased 2.5× toward chords that contain the current melody note. The default transition weights are hand-tuned, but a training script can replace them with values learned from any folder of MIDI files. They, along with the harmonizer's melody weighting, were tuned against two public datasets: the **McGill Billboard** corpus (739 songs, also the source of the built-in demo loops) and **POP909** (909 songs with melody and chord annotations). Measured on POP909, picking chords from melody and chord habits together gets the annotated chord right 39.1 % of the time per half bar — against 35.7 % from the melody alone and 28.6 % from chord habits alone.
+
+The arrangement is rendered in one of five styles — block chords, broken chords, Alberti bass, stride, or bossa nova — and with **Listen** on, the same pitch tracking follows the live singer: waiting for each entrance, stopping when the singing stops, matching loudness, and moving to the key being sung.
