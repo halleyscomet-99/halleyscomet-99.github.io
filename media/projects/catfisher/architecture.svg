@@ -1,0 +1,60 @@
+<svg width="100%" viewBox="0 0 680 490" xmlns="http://www.w3.org/2000/svg">
+<defs>
+  <marker id="ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+    <path d="M2 1L8 5L2 9" fill="none" stroke="#888" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  </marker>
+  <style>text{font-family:system-ui,-apple-system,sans-serif}.th{font-size:13px;font-weight:500}.ts{font-size:11px}.arr{stroke:#999;stroke-width:1.5;fill:none;marker-end:url(#ar)}</style>
+</defs>
+<text class="ts" x="92" y="15" text-anchor="middle" fill="#aaa">perception</text>
+<text class="ts" x="340" y="15" text-anchor="middle" fill="#aaa">calibration</text>
+<text class="ts" x="565" y="15" text-anchor="middle" fill="#aaa">execution</text>
+<rect x="20" y="28" width="145" height="56" rx="8" fill="#E1F5EE" stroke="#0F6E56" stroke-width="0.5"/>
+<text class="th" x="92" y="46" text-anchor="middle" dominant-baseline="central" fill="#085041">Sky cam</text>
+<text class="ts" x="92" y="67" text-anchor="middle" dominant-baseline="central" fill="#0F6E56">overhead, global view</text>
+<rect x="490" y="28" width="150" height="56" rx="8" fill="#E1F5EE" stroke="#0F6E56" stroke-width="0.5"/>
+<text class="th" x="565" y="46" text-anchor="middle" dominant-baseline="central" fill="#085041">Wrist cam</text>
+<text class="ts" x="565" y="67" text-anchor="middle" dominant-baseline="central" fill="#0F6E56">close-range, on-arm</text>
+<rect x="20" y="128" width="145" height="56" rx="8" fill="#E1F5EE" stroke="#0F6E56" stroke-width="0.5"/>
+<text class="th" x="92" y="146" text-anchor="middle" dominant-baseline="central" fill="#085041">Vision system</text>
+<text class="ts" x="92" y="167" text-anchor="middle" dominant-baseline="central" fill="#0F6E56">HSV + blob detect</text>
+<rect x="20" y="226" width="145" height="56" rx="8" fill="#E1F5EE" stroke="#0F6E56" stroke-width="0.5"/>
+<text class="th" x="92" y="244" text-anchor="middle" dominant-baseline="central" fill="#085041">Persistent list</text>
+<text class="ts" x="92" y="265" text-anchor="middle" dominant-baseline="central" fill="#0F6E56">Bug pose + velocity</text>
+<rect x="20" y="346" width="145" height="44" rx="8" fill="#F1EFE8" stroke="#5F5E5A" stroke-width="0.5"/>
+<text class="th" x="92" y="368" text-anchor="middle" dominant-baseline="central" fill="#2C2C2A">User terminal</text>
+<rect x="265" y="128" width="150" height="56" rx="8" fill="#EEEDFE" stroke="#534AB7" stroke-width="0.5" stroke-dasharray="6 3"/>
+<text class="th" x="340" y="146" text-anchor="middle" dominant-baseline="central" fill="#26215C">AprilTag cal.</text>
+<text class="ts" x="340" y="167" text-anchor="middle" dominant-baseline="central" fill="#534AB7">startup, one-time</text>
+<rect x="265" y="226" width="150" height="44" rx="8" fill="#EEEDFE" stroke="#534AB7" stroke-width="0.5" stroke-dasharray="6 3"/>
+<text class="th" x="340" y="248" text-anchor="middle" dominant-baseline="central" fill="#26215C">TF tree</text>
+<rect x="265" y="322" width="150" height="56" rx="8" fill="#EEEDFE" stroke="#534AB7" stroke-width="0.5"/>
+<text class="th" x="340" y="340" text-anchor="middle" dominant-baseline="central" fill="#26215C">Decision making</text>
+<text class="ts" x="340" y="361" text-anchor="middle" dominant-baseline="central" fill="#534AB7">Target selection</text>
+<rect x="490" y="158" width="150" height="56" rx="8" fill="#E6F1FB" stroke="#185FA5" stroke-width="0.5"/>
+<text class="th" x="565" y="176" text-anchor="middle" dominant-baseline="central" fill="#042C53">MPI + MoveIt</text>
+<text class="ts" x="565" y="197" text-anchor="middle" dominant-baseline="central" fill="#185FA5">planned, still targets</text>
+<rect x="490" y="264" width="150" height="56" rx="8" fill="#FAECE7" stroke="#993C1D" stroke-width="0.5"/>
+<text class="th" x="565" y="282" text-anchor="middle" dominant-baseline="central" fill="#4A1B0C">JTC bypass</text>
+<text class="ts" x="565" y="303" text-anchor="middle" dominant-baseline="central" fill="#993C1D">realtime, moving targets</text>
+<rect x="490" y="388" width="150" height="56" rx="8" fill="#F1EFE8" stroke="#5F5E5A" stroke-width="0.5"/>
+<text class="th" x="565" y="406" text-anchor="middle" dominant-baseline="central" fill="#2C2C2A">Franka Panda</text>
+<text class="ts" x="565" y="427" text-anchor="middle" dominant-baseline="central" fill="#5F5E5A">7-DOF arm</text>
+<line x1="92" y1="84" x2="92" y2="128" class="arr"/>
+<path d="M165,156 H265" class="arr"/>
+<line x1="340" y1="184" x2="340" y2="226" class="arr"/>
+<line x1="265" y1="248" x2="165" y2="248" class="arr"/>
+<line x1="92" y1="282" x2="92" y2="328" class="arr"/>
+<path d="M92,328 V358 H265" class="arr"/>
+<path d="M165,368 H265" class="arr"/>
+<path d="M415,338 H456 V186 H490" class="arr"/>
+<path d="M415,356 H460 V292 H490" class="arr" stroke-dasharray="5 3"/>
+<path d="M640,186 H646 V416 H640" class="arr"/>
+<path d="M640,56 H662 V292 H640" class="arr" stroke-dasharray="5 3"/>
+<line x1="565" y1="320" x2="565" y2="388" class="arr"/>
+<line x1="46" y1="472" x2="76" y2="472" class="arr" stroke-width="1.5"/>
+<text class="ts" x="82" y="472" dominant-baseline="central" fill="#888">planned path</text>
+<line x1="240" y1="472" x2="270" y2="472" class="arr" stroke-dasharray="5 3" stroke-width="1.5"/>
+<text class="ts" x="276" y="472" dominant-baseline="central" fill="#888">realtime / startup only</text>
+<rect x="454" y="466" width="14" height="12" rx="2" fill="none" stroke="#ccc" stroke-width="1" stroke-dasharray="5 2"/>
+<text class="ts" x="474" y="472" dominant-baseline="central" fill="#888">startup-only node</text>
+</svg>
