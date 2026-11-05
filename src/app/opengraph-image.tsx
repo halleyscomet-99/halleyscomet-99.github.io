@@ -108,6 +108,8 @@ export default async function Image() {
                                 </div>
                                 <div
                                     style={{
+                                        display: "flex",
+                                        flexDirection: "column",
                                         fontSize: "62px",
                                         lineHeight: 1,
                                         letterSpacing: "-0.06em",
@@ -115,11 +117,9 @@ export default async function Image() {
                                         color: "#f5f5f4",
                                     }}
                                 >
-                                    Chenwan
-                                    <br />
-                                    Halley
-                                    <br />
-                                    Zhong
+                                    <div>Chenwan</div>
+                                    <div>Halley</div>
+                                    <div>Zhong</div>
                                 </div>
                             </div>
 
