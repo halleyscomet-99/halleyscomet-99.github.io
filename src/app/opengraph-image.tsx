@@ -7,203 +7,263 @@ export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
 export default async function Image() {
+    const skillTags = ["ROS 2", "MoveIt 2", "Computer Vision", "Embodied AI", "HRI", "Music Tech"];
+    const supportTags = ["Robotics", "ROS 2", "Computer Vision", "Embedded Systems", "HRI", "Music Tech"];
+
     return new ImageResponse(
         (
             <div
                 style={{
                     width: "1200px",
                     height: "630px",
-                    background: "#0a0a0a",
                     display: "flex",
-                    flexDirection: "row",
-                    fontFamily: "serif",
+                    flexDirection: "column",
+                    background: "linear-gradient(135deg, #0b0a09 0%, #171512 38%, #0e1015 100%)",
+                    fontFamily: "sans-serif",
                     position: "relative",
                     overflow: "hidden",
+                    color: "#f5f5f4",
                 }}
             >
-                {/* subtle grid lines */}
-                <div style={{
-                    position: "absolute",
-                    inset: 0,
-                    backgroundImage: "linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px)",
-                    backgroundSize: "60px 60px",
-                    display: "flex",
-                }} />
+                <div
+                    style={{
+                        position: "absolute",
+                        inset: 0,
+                        backgroundImage:
+                            "linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px)",
+                        backgroundSize: "42px 42px",
+                    }}
+                />
 
-                {/* left accent bar */}
-                <div style={{
-                    position: "absolute",
-                    left: "72px",
-                    top: "0",
-                    width: "1px",
-                    height: "100%",
-                    background: "linear-gradient(to bottom, transparent, rgba(255,255,255,0.15) 30%, rgba(255,255,255,0.15) 70%, transparent)",
-                    display: "flex",
-                }} />
+                <div
+                    style={{
+                        position: "absolute",
+                        inset: 0,
+                        background:
+                            "radial-gradient(circle at 75% 20%, rgba(255,255,255,0.10), transparent 30%), radial-gradient(circle at 32% 80%, rgba(255,255,255,0.07), transparent 26%)",
+                    }}
+                />
 
-                {/* left column */}
-                <div style={{
-                    display: "flex",
-                    flexDirection: "column",
-                    justifyContent: "center",
-                    padding: "60px 60px 60px 108px",
-                    width: "560px",
-                    flexShrink: 0,
-                    gap: "0px",
-                }}>
-                    {/* url pill */}
-                    <div style={{
+                <div
+                    style={{
+                        position: "relative",
                         display: "flex",
-                        alignItems: "center",
-                        border: "1px solid rgba(255,255,255,0.2)",
-                        borderRadius: "8px",
-                        padding: "8px 16px",
-                        color: "rgba(255,255,255,0.5)",
-                        fontSize: "14px",
-                        letterSpacing: "0.02em",
-                        marginBottom: "36px",
-                        fontFamily: "monospace",
-                    }}>
-                        halleyscomet-99.github.io
-                    </div>
-
-                    {/* name */}
-                    <div style={{
-                        fontSize: "64px",
-                        fontWeight: "700",
-                        color: "#ffffff",
-                        lineHeight: "1.0",
-                        letterSpacing: "-0.02em",
-                        marginBottom: "16px",
-                        display: "flex",
-                        flexDirection: "column",
-                    }}>
-                        <span>CHENWAN</span>
-                        <span>HALLEY</span>
-                        <span>ZHONG</span>
-                    </div>
-
-                    {/* role */}
-                    <div style={{
-                        fontSize: "18px",
-                        color: "rgba(255,255,255,0.45)",
-                        letterSpacing: "0.08em",
-                        textTransform: "uppercase",
-                        marginBottom: "40px",
-                        display: "flex",
-                    }}>
-                        Roboticist · Musician
-                    </div>
-
-                    {/* tags */}
-                    <div style={{ display: "flex", gap: "8px", flexWrap: "wrap" }}>
-                        {["ROS 2", "MoveIt 2", "Computer Vision", "Northwestern"].map((tag) => (
-                            <div key={tag} style={{
-                                background: "rgba(255,255,255,0.06)",
-                                border: "1px solid rgba(255,255,255,0.1)",
-                                borderRadius: "6px",
-                                padding: "5px 12px",
-                                color: "rgba(255,255,255,0.5)",
-                                fontSize: "12px",
-                                letterSpacing: "0.04em",
-                                display: "flex",
-                            }}>
-                                {tag}
-                            </div>
-                        ))}
-                    </div>
-                </div>
-
-                {/* divider */}
-                <div style={{
-                    width: "1px",
-                    height: "100%",
-                    background: "rgba(255,255,255,0.08)",
-                    flexShrink: 0,
-                    display: "flex",
-                }} />
-
-                {/* right column — site mockup */}
-                <div style={{
-                    flex: 1,
-                    display: "flex",
-                    flexDirection: "column",
-                    padding: "48px 48px 48px 52px",
-                    gap: "20px",
-                    justifyContent: "center",
-                }}>
-                    {/* mock navbar */}
-                    <div style={{
-                        display: "flex",
-                        justifyContent: "space-between",
-                        alignItems: "center",
-                        marginBottom: "8px",
-                    }}>
-                        <div style={{ color: "rgba(255,255,255,0.7)", fontSize: "15px", fontWeight: "600", display: "flex" }}>halley.</div>
-                        <div style={{ display: "flex", gap: "24px" }}>
-                            {["experience", "projects", "logs"].map(item => (
-                                <div key={item} style={{ color: "rgba(255,255,255,0.3)", fontSize: "12px", letterSpacing: "0.04em", display: "flex" }}>{item}</div>
-                            ))}
-                        </div>
-                    </div>
-
-                    {/* mock header block */}
-                    <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
-                        <div style={{ color: "rgba(255,255,255,0.3)", fontSize: "12px", display: "flex" }}>hi there 👋, I&apos;m</div>
-                        <div style={{ color: "#ffffff", fontSize: "28px", fontWeight: "700", letterSpacing: "-0.01em", display: "flex" }}>Chenwan Halley Zhong</div>
-                        <div style={{ color: "rgba(255,255,255,0.4)", fontSize: "13px", display: "flex", flexDirection: "column", gap: "2px" }}>
-                            <span>23, she/her</span>
-                            <span>MS in Robotics @ Northwestern University | Musician</span>
-                        </div>
-                        <div style={{ display: "flex", gap: "8px", marginTop: "6px" }}>
-                            <div style={{ background: "#ffffff", color: "#000000", fontSize: "11px", fontWeight: "600", padding: "5px 12px", borderRadius: "6px", display: "flex" }}>Resume</div>
-                            {["✉", "⌥", "in"].map(icon => (
-                                <div key={icon} style={{ border: "1px solid rgba(255,255,255,0.15)", color: "rgba(255,255,255,0.5)", fontSize: "11px", padding: "5px 10px", borderRadius: "6px", display: "flex" }}>{icon}</div>
-                            ))}
-                        </div>
-                    </div>
-
-                    {/* mock about me section */}
-                    <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
-                        <div style={{ color: "rgba(255,255,255,0.7)", fontSize: "13px", fontWeight: "500", display: "flex" }}>overview.</div>
-                        <div style={{
-                            color: "rgba(255,255,255,0.3)",
-                            fontSize: "11px",
-                            lineHeight: "1.6",
+                        flexDirection: "row",
+                        width: "100%",
+                        height: "100%",
+                        padding: "54px 60px 46px 60px",
+                        gap: "44px",
+                    }}
+                >
+                    <div
+                        style={{
                             display: "flex",
-                            maxWidth: "460px",
-                        }}>
-                            Building autonomous systems with ROS 2, MoveIt 2, and computer vision. Passionate about robots that survive the lab-to-real-world transition.
+                            flexDirection: "column",
+                            justifyContent: "space-between",
+                            width: "58%",
+                            zIndex: 1,
+                        }}
+                    >
+                        <div style={{ display: "flex", flexDirection: "column", gap: "22px" }}>
+                            <div
+                                style={{
+                                    display: "flex",
+                                    alignItems: "center",
+                                    gap: "10px",
+                                    color: "rgba(255,255,255,0.82)",
+                                    fontSize: "18px",
+                                    fontWeight: 700,
+                                    letterSpacing: "-0.04em",
+                                }}
+                            >
+                                <div
+                                    style={{
+                                        width: "26px",
+                                        height: "26px",
+                                        borderRadius: "50%",
+                                        background: "#f5f5f4",
+                                        color: "#0b0a09",
+                                        display: "flex",
+                                        alignItems: "center",
+                                        justifyContent: "center",
+                                        fontSize: "10px",
+                                        fontWeight: 900,
+                                    }}
+                                >
+                                    h99
+                                </div>
+                                <span>halleyscomet99.</span>
+                            </div>
+
+                            <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+                                <div
+                                    style={{
+                                        color: "rgba(255,255,255,0.7)",
+                                        fontSize: "15px",
+                                        letterSpacing: "0.13em",
+                                        textTransform: "uppercase",
+                                    }}
+                                >
+                                    hi there 👋, I&apos;m
+                                </div>
+                                <div
+                                    style={{
+                                        fontSize: "62px",
+                                        lineHeight: 1,
+                                        letterSpacing: "-0.06em",
+                                        fontWeight: 800,
+                                        color: "#f5f5f4",
+                                    }}
+                                >
+                                    Chenwan
+                                    <br />
+                                    Halley
+                                    <br />
+                                    Zhong
+                                </div>
+                            </div>
+
+                            <div
+                                style={{
+                                    display: "flex",
+                                    flexDirection: "column",
+                                    gap: "6px",
+                                    color: "rgba(255,255,255,0.72)",
+                                    fontSize: "20px",
+                                }}
+                            >
+                                <div>23, she/her</div>
+                                <div>MS in Robotics @ Northwestern University</div>
+                                <div>Roboticist · Musician · Builder</div>
+                            </div>
+                        </div>
+
+                        <div style={{ display: "flex", flexDirection: "column", gap: "18px" }}>
+                            <div
+                                style={{
+                                    display: "flex",
+                                    flexWrap: "wrap",
+                                    gap: "10px",
+                                }}
+                            >
+                                {skillTags.map((tag) => (
+                                    <div
+                                        key={tag}
+                                        style={{
+                                            background: "rgba(255,255,255,0.06)",
+                                            border: "1px solid rgba(255,255,255,0.12)",
+                                            borderRadius: "999px",
+                                            padding: "7px 12px",
+                                            color: "rgba(255,255,255,0.78)",
+                                            fontSize: "12px",
+                                            letterSpacing: "0.04em",
+                                        }}
+                                    >
+                                        {tag}
+                                    </div>
+                                ))}
+                            </div>
+
+                            <div
+                                style={{
+                                    display: "flex",
+                                    alignItems: "center",
+                                    gap: "10px",
+                                    background: "rgba(255,255,255,0.05)",
+                                    border: "1px solid rgba(255,255,255,0.12)",
+                                    borderRadius: "999px",
+                                    padding: "10px 16px",
+                                    width: "auto",
+                                    color: "#f5f5f4",
+                                    fontSize: "13px",
+                                    letterSpacing: "0.06em",
+                                    textTransform: "uppercase",
+                                }}
+                            >
+                                Open to collaboration
+                            </div>
                         </div>
                     </div>
 
-                    {/* mock project cards row */}
-                    <div style={{ display: "flex", gap: "10px", marginTop: "4px" }}>
-                        {[
-                            { name: "Bug Catcher", tag: "ROS 2 · Vision" },
-                            { name: "Vocal2Piano", tag: "ML · Embedded" },
-                            { name: "NuTurtle", tag: "SLAM · C++" },
-                        ].map(p => (
-                            <div key={p.name} style={{
-                                flex: 1,
-                                background: "rgba(255,255,255,0.04)",
-                                border: "1px solid rgba(255,255,255,0.08)",
-                                borderRadius: "8px",
-                                padding: "10px 12px",
+                    <div
+                        style={{
+                            display: "flex",
+                            flexDirection: "column",
+                            justifyContent: "center",
+                            width: "42%",
+                            zIndex: 1,
+                        }}
+                    >
+                        <div
+                            style={{
                                 display: "flex",
                                 flexDirection: "column",
-                                gap: "4px",
-                            }}>
-                                <div style={{ color: "rgba(255,255,255,0.7)", fontSize: "11px", fontWeight: "600", display: "flex" }}>{p.name}</div>
-                                <div style={{ color: "rgba(255,255,255,0.3)", fontSize: "10px", display: "flex" }}>{p.tag}</div>
+                                gap: "18px",
+                                background: "rgba(255,255,255,0.04)",
+                                border: "1px solid rgba(255,255,255,0.09)",
+                                borderRadius: "20px",
+                                padding: "26px 24px",
+                                boxShadow: "0 20px 50px rgba(0,0,0,0.18)",
+                            }}
+                        >
+                            <div style={{ color: "rgba(255,255,255,0.78)", fontSize: "14px", letterSpacing: "0.12em", textTransform: "uppercase" }}>
+                                About me
                             </div>
-                        ))}
+                            <div
+                                style={{
+                                    color: "rgba(255,255,255,0.72)",
+                                    fontSize: "16px",
+                                    lineHeight: 1.6,
+                                }}
+                            >
+                                I build robots designed to survive the transition from lab to the real world — blending robotics, human-centered interaction, and creative engineering.
+                            </div>
+
+                            <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
+                                <div style={{ color: "rgba(255,255,255,0.78)", fontSize: "14px", letterSpacing: "0.12em", textTransform: "uppercase" }}>
+                                    Skills
+                                </div>
+                                <div style={{ display: "flex", flexWrap: "wrap", gap: "8px" }}>
+                                    {supportTags.map((item) => (
+                                        <div
+                                            key={item}
+                                            style={{
+                                                background: "rgba(255,255,255,0.06)",
+                                                border: "1px solid rgba(255,255,255,0.1)",
+                                                borderRadius: "10px",
+                                                padding: "6px 10px",
+                                                fontSize: "12px",
+                                                color: "rgba(255,255,255,0.74)",
+                                            }}
+                                        >
+                                            {item}
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+
+                            <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
+                                <div style={{ color: "rgba(255,255,255,0.78)", fontSize: "14px", letterSpacing: "0.12em", textTransform: "uppercase" }}>
+                                    Contributions
+                                </div>
+                                <div
+                                    style={{
+                                        color: "rgba(255,255,255,0.72)",
+                                        fontSize: "15px",
+                                        lineHeight: 1.6,
+                                    }}
+                                >
+                                    Robotics systems, musical interfaces, interactive prototypes, and research-driven engineering.
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         ),
         {
-            ...size,
+            width: 1200,
+            height: 630,
         }
     );
 }
