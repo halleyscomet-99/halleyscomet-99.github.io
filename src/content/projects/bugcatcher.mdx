@@ -5,7 +5,7 @@ This project runs as three tightly coupled ROS 2 subsystems. The **perception la
 <Diagram
   src="/media/projects/catfisher/architecture.svg"
   caption="System architecture — perception, calibration, and execution layers"
-  size="lg"
+  size="md"
 />
 
 <TextDiagram
@@ -15,7 +15,7 @@ This project runs as three tightly coupled ROS 2 subsystems. The **perception la
 >
 
 {/* ===== MEDIA: state_machine.svg =====
-    File: /media/projects/catfisher/state_machine.svg  (already exists)
+    File: /media/projects/catfisher/state_machine.svg
     Caption: "Sort state machine" */}
 
 A single `/sort color` service call kicks off the pick cycle. The **Decision Making** node queries the Persistent List for all bugs matching the requested color and ranks them by Euclidean distance to the current end-effector pose. The nearest bug is promoted to the active target and passed to the state machine.
