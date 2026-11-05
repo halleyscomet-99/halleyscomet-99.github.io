@@ -57,7 +57,7 @@ export default function Page() {
                                     My Projects.
                                 </h1>
                                 <div className="mt-1 text-primary/90 text-sm font-normal">
-                                    Robotics | Game Development | HCI | Music
+                                    Robotics | Human-Robot Interaction | Game Development | Music
                                 </div>
                             </div>
                         </div>

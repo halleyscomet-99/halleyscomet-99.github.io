@@ -8,7 +8,7 @@ import { DATA } from "@/app/data";
 import { MovingElement } from "@/components/navbar";
 
 interface IAboutData {
-    WEBSITE: string;
+    WEBSITE?: string;
     POSITION: string;
     LOCATION: string;
     DURATION: string;
@@ -36,8 +36,8 @@ export function About({
         <div id="about" className="flex flex-col gap-12 w-full">
             <section className="space-y-4">
                 <h2 className="font-medium text-primary/90 text-base">about me.</h2>
-                <div className="grid grid-cols-1 md:grid-cols-12 gap-12 items-start">
-                    <div className="lg:col-span-6 font-normal text-muted-foreground text-base text-justify">
+                <div className="grid grid-cols-1 gap-12 items-start">
+                    <div className="w-full font-normal text-muted-foreground text-base text-justify">
                     <span>
                         As a robotics student at Northwestern University, I build robots designed to survive the transition from the lab to the real world.{" "}
                         <span className="hidden sm:inline">{DATA.HEADER.EXPERTISE}</span>
@@ -69,13 +69,6 @@ export function About({
                         </div>
                     </div>
 
-                    <div className="lg:col-span-6 w-full relative"> 
-                        {DATA.ABOUT_IMAGES && DATA.ABOUT_IMAGES.length > 0 ? (
-                            <PhotoSlider images={DATA.ABOUT_IMAGES} />
-                        ) : (
-                            <div className="bg-muted animate-pulse w-full aspect-video rounded-xl" />
-                        )}
-                    </div>
                 </div>
             </section>
 
@@ -128,18 +121,20 @@ export function About({
                                                 {value.LOCATION}
                                             </span>
                                         </p>
-                                        <p className="flex items-center text-sm">
-                                            at,{" "}
-                                            <a
-                                                target="_blank"
-                                                rel="noopener noreferrer"
-                                                className="flex items-center gap-1 ml-1 hover:text-primary transition-colors"
-                                                href={value.WEBSITE}
-                                            >
-                                                {extractDomain(value.WEBSITE)}{" "}
-                                                <ArrowUpRight size={18} />
-                                            </a>
-                                        </p>
+                                        {value.WEBSITE && (
+                                            <p className="flex items-center text-sm">
+                                                at,{" "}
+                                                <a
+                                                    target="_blank"
+                                                    rel="noopener noreferrer"
+                                                    className="flex items-center gap-1 ml-1 hover:text-primary transition-colors"
+                                                    href={value.WEBSITE}
+                                                >
+                                                    {extractDomain(value.WEBSITE)}{" "}
+                                                    <ArrowUpRight size={18} />
+                                                </a>
+                                            </p>
+                                        )}
                                     </div>
                                     <p className="text-muted-foreground text-sm">
                                         {value.DURATION}

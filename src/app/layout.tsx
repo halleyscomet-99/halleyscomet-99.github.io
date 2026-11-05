@@ -33,6 +33,11 @@ export const metadata: Metadata = {
     ],
     creator: "Chenwan Halley Zhong",
     publisher: "Chenwan Halley Zhong",
+    icons: {
+        icon: "/favicon.svg",
+        shortcut: "/favicon.svg",
+        apple: "/favicon.svg",
+    },
     openGraph: {
         title: "Chenwan Halley Zhong | Roboticist & Musician",
         description:

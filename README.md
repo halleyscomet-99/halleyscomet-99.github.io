@@ -1,12 +1,27 @@
-# [halleyscomet-99.github.io](https://halleyscomet-99.github.io)
+# Portfolio Website
 
-A professional portfolio showcasing my work in **Robotics**, **Game Development**, and **Music**.
+Personal portfolio website for [Chenwan Halley Zhong](https://halleyscomet-99.github.io), showcasing robotics projects, research and creative work.
 
-→ Check out the live site: [halleyscomet-99.github.io](https://halleyscomet-99.github.io)
+![HomePage Demonstration](<out 2/media/projects/HomePage.png>)
 
 ## Overview
 
-This website serves as a centralized hub for my engineering projects, academic research, and creative endeavors. It is built with a focus on clean typography, smooth motion design, and a highly organized data-driven architecture.
+This repository contains a modern personal portfolio built with Next.js, TypeScript, Tailwind CSS, and MDX content. It is designed to present:
+
+- robotics and research projects
+- project detail pages with media-rich documentation
+- academic and professional experience
+- creative work spanning music and interactive systems
+- a polished, mobile-responsive portfolio layout
+
+## Features
+
+- Responsive portfolio homepage and project showcase
+- Individual project pages with MDX-driven content
+- Rich media support for images, videos, diagrams, and project assets
+- Dark/light theme support
+- GitHub Pages deployment configuration
+- Data-driven portfolio structure for easy content updates
 
 ## Credits & Reference
 
@@ -16,4 +31,4 @@ I have customized the UI, added new functional modules (Publications, Education,
 
 ## License
 
-This project is licensed under the [MIT license](./LICENSE).
+This project is licensed under the [MIT License](./LICENSE).

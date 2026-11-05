@@ -78,16 +78,36 @@ export const DATA = {
     },
 
     EXPERIENCE: {
-        HKUSTGZ: {
+        "Stealth AI": {
+            // WEBSITE: "...",
+            POSITION: "Stealth AI Startup - Robot Learning Engineer Intern",
+            LOCATION: "Mountain View, CA, USA",
+            DURATION: "Jun, 2026 - Sep, 2026",
+            DESCRIPTION: [
+                "Deployed action-chunked diffusion policies on dual Flexiv arms with Wuji hands, integrating multi-view RGB and proprioception for bimanual control.",
+                "Fine-tuned Robometer's categorical progress head on in-domain video with failed and rewound trajectories to model task regressions.",
+                "Built a progress-gated state machine chaining subtask policies, using k-frame completion checks for autonomous task transitions.",
+                "Engineered a leader-follower teleop pipeline with timestamp-aligned RGB/proprio, trajectory visualization, and progress-based demo filtering."
+            ],
+            TECH_STACK: [
+                "Diffusion Policy",
+                "Imitation Learning",
+                "Bimanual System",
+                "Dexterous Manipulation",
+                "Teleoperation",
+                "Finite-State Machine",
+            ],
+        },
+        "HKUSTGZ": {
             WEBSITE: "https://arkxlab.github.io/",
             POSITION: "HKUST(GZ) Information Hub - Research Assistant",
             LOCATION: "Guangzhou, China",
             DURATION: "Oct, 2024 - May, 2025",
             DESCRIPTION: [
-                "Developed an ESP32-based embedded system to drive a 10.2g rack-and-pinion module for a soft robotic interface.",
-                "Engineered a hardware-minimized PCB (3×3 cm) optimized for mobile, on-body robotic actuation.",
-                "Architected a GPT-4o & ElevenLabs pipeline to map generative theater scripts into synchronized robot performances.",
-                "Developed a synchronized communication layer in Python via MQTT protocol for sub-millisecond coordination across a modular robot swarm.",
+                "Developed ESP32 firmware in C to control a 10.2g rack-and-pinion actuation module, integrating embedded motion control with lightweight wearable soft robotics.",
+                "Designed a compact 3 × 3 cm custom PCB, optimizing component placement, signal routing, and hardware footprint for on-body robotic actuation.",
+                "Architected a GPT-4o and ElevenLabs pipeline to translate AI-generated theater scripts into synchronized speech and executable robot motion sequences.",
+                "Engineered a distributed Python&MQTT publish-subscribe architecture for synchronized command dispatch, message routing, and actuation control across 6 modular robot nodes."
             ],
             TECH_STACK: [
                 "Swarm Robotics",
@@ -97,25 +117,27 @@ export const DATA = {
                 "Embedded Systems",
                 "HRI",
                 "LLM",
+                "Multi-Robot Coordination"
             ],
         },
         "Lenovo Research": {
-            WEBSITE: "https://research.lenovo.com/webapp/view_English/home.html",
+            // WEBSITE: "...",
             POSITION: "Lenovo Research - Software Engineer Intern",
             LOCATION: "Beijing, China",
             DURATION: "Nov, 2023 - Apr, 2024",
             DESCRIPTION: [
-                "Developed a virtual hand-object interaction demo in C# and Unity for naked-eye 3D interactive gaming.",
-                "Integrated Leap Motion with a monocular camera to enable precise 3D gesture control across XYZ axes.",
-                "Engineered 6 custom gestures and operational logic to expand interaction complexity post-metadata acquisition.",
-                "Optimized system interactivity based on user test groups, contributing to a 15% rise in overall user satisfaction.",
+                "Developed a real-time 3D hand-object interaction system in Unity (C#), integrating Leap Motion tracking and monocular camera input for glasses-free 3D gaming.",
+                "Implemented skeletal motion retargeting using quaternion-based joint mapping, coordinate transformations, forward kinematics, and anatomical constraints.",
+                "Engineered 6 custom gesture recognizers using joint-angle thresholds, fingertip distances, and temporal hysteresis for stable real-time 3D object manipulation.",
             ],
             TECH_STACK: [
                 "Unity 3D",
                 "Gesture Recognition",
                 "Leap Motion",
-                "Naked-eye 3D",
+                "Motion Retargeting",
                 "Computer Vision",
+                "Forward Kinematics (FK)",
+                "Skeletal Animation"
             ],
         },
         "NTU": {
@@ -124,9 +146,9 @@ export const DATA = {
             LOCATION: "Singapore",
             DURATION: "Jul, 2023 - Sep, 2023",
             DESCRIPTION: [
-                "Analyzed commercial HVAC telemetry to extract critical power consumption features for cooling towers and industrial chillers.",
-                "Developed a Graph Neural Network (GNN) architecture for thermal mapping, achieving an 8% error rate in sparse sensor environments.",
-                "Built high-fidelity twins via Modelica & EnergyPlus to simulate building dynamics, validating 15% energy savings via optimized control.",
+                "Analyzed commercial HVAC telemetry to identify key power-consumption features and operating patterns in cooling towers and industrial chillers.",
+                "Developed a Graph Neural Network (GNN) for thermal mapping under sparse sensor coverage, achieving an 8% prediction error rate.",
+                "Built building-energy digital twins using Modelica and EnergyPlus to simulate thermal dynamics and evaluate optimized control strategies, demonstrating 15% energy savings in simulation.",
             ],
             TECH_STACK: [
                 "IoT",
@@ -138,14 +160,14 @@ export const DATA = {
             ],
         },
         "BBAC": {
-            WEBSITE: "https://www.bbac.com.cn/EN/default.html",
+            // WEBSITE: "...",
             POSITION: "Beijing Benz Automotive Co., Ltd. - Manufacturing Engineering Intern",
             LOCATION: "Beijing, China",
             DURATION: "Apr, 2023 - Jul, 2023",
             DESCRIPTION: [
-                "Developed a C/C++ Hardware Abstraction Layer (HAL) for STM32-based torque-tightening verification systems.",
-                "Implemented DMA-based UART/SPI drivers to synchronize force sensor telemetry in real-time.",
-                "Optimized interrupt-driven signal conditioning to ensure deterministic response for safety interlocks.",
+                "Developed a C Hardware Abstraction Layer (HAL) for STM32-based torque-tightening verification systems used in automotive manufacturing.",
+                "Implemented DMA-based UART/SPI drivers for real-time force-sensor data acquisition and synchronization.",
+                "Optimized interrupt-driven signal processing to ensure deterministic response times for safety interlocks.",
             ],
             TECH_STACK: [
                 "Embedded Systems",
@@ -355,24 +377,38 @@ export const DATA = {
             "MATLAB",
             "Git",
             "Linux",
-            "Bash"
+            "Bash",
+            "HTML",
+            "CSS",
+            "JavaScript"
         ],
         "Robotics & Simulation": [
             "ROS 2",
             "SLAM",
             "CoppeliaSim",
             "Gazebo",
-            "RViz"
+            "RViz",
+            "Isaac Gym/Isaac Lab",
+            "MuJoCo",
+            "Inverse Kinematics",
+            "Forward Kinematics",
+            "Contact Dynamics"
+        ],
+        "Machine Learning & AI": [
+            "Diffusion Policy",
+            "Imitation Learning",
+            "Deep Reinforcement Learning",
+            "Deep Learning",
+            "Foundation Models (LLM/VLM/VLA)"
         ],
         "Hardware & Fab": [
-            "CAD Modeling (SolidWorks, Fusion 360)",
+            "CAD Modeling (SolidWorks,Fusion360)",
             "3D Printing (SLA, FDM, SLS, MJF)",
             "CNC Machining & Milling",
             "Laser Cutting",
-            "Rapid Prototyping"
         ],
         "Embedded Systems": [
-            "PCB Design (Altium/KiCad)",
+            "PCB Design (Altium,KiCad)",
             "Microcontrollers (STM32, ESP32, Arduino, Teensy, Raspberry Pi)",
             "Soldering",
             "Communication Protocols (I2C, SPI, UART)"
@@ -384,7 +420,7 @@ export const DATA = {
             "FL Studio",
             "TouchDesigner",
         ],
-        Languages: [
+        "Languages": [
             "English (native)",
             "Mandarin Chinese (native)",
             "Cantonese",

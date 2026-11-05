@@ -2,7 +2,7 @@ export function Skills({ data }: { data: Record<string, string[]> }) {
     return (
         <div id="skills" className="w-full">
             <h2 className="font-medium text-primary/90 text-base">
-                technical skills.
+                skill.
             </h2>
 
             <ul className="flex flex-col gap-2 mt-4 font-normal text-primary/90 text-base">
