@@ -1,0 +1,122 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 500" width="1100" height="500">
+<defs><marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#1f1f2a"/></marker>
+<marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#d6455d"/></marker><style>
+  text { font-family: -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif; }
+  .h { font-size: 18px; font-weight: 700; fill: #1f1f2a; }
+  .lab { font-size: 13px; font-weight: 700; fill: #1f1f2a; }
+  .cap { font-size: 12px; fill: #5a5a68; }
+  .sm { font-size: 11px; fill: #5a5a68; }
+  .note { font-size: 11px; font-weight: 600; fill: #ffffff; }
+  @media (prefers-color-scheme: dark) {
+    /* neutrals: text, arrowheads, lines */
+    text[fill="#1f1f2a"], path[fill="#1f1f2a"] { fill: #ececf1; }
+    [stroke="#1f1f2a"] { stroke: #ececf1; }
+    rect[fill="#ffffff"][stroke] { fill: #15151c; }
+    text[fill="#3d3d4a"], path[fill="#3d3d4a"] { fill: #b8b8c4; }
+    [stroke="#3d3d4a"] { stroke: #b8b8c4; }
+    [stroke="#4a4a58"] { stroke: #8a8a98; }
+    text[fill="#5a5a68"] { fill: #a8a8b6; }
+    [stroke="#5a5a68"] { stroke: #8a8a98; }
+    [stroke="#e3e3ea"] { stroke: #2e2e38; }
+    [stroke="#c9c9d4"] { stroke: #44444f; }
+    /* accent text + strokes (filled bars keep their colour) */
+    text[fill="#3c5fa8"] { fill: #8aa6e8; }  [stroke="#3c5fa8"] { stroke: #7d9be0; }
+    text[fill="#2f7a45"] { fill: #6fcf8c; }  [stroke="#2f7a45"] { stroke: #5cbf7a; }
+    text[fill="#c46a1f"] { fill: #eda062; }  [stroke="#c46a1f"] { stroke: #e8954f; }
+    text[fill="#7a56c2"] { fill: #b399ee; }  [stroke="#7a56c2"] { stroke: #a98ae8; }
+    text[fill="#a35a1c"] { fill: #e8a868; }  [stroke="#a35a1c"] { stroke: #e0a060; }
+    text[fill="#d6455d"], path[fill="#d6455d"] { fill: #f07a8d; }  [stroke="#d6455d"] { stroke: #f07a8d; }
+    /* pastel section bands */
+    [fill="#eef3ff"] { fill: #161d30; }
+    [fill="#fff3ea"] { fill: #2a1e15; }
+    [fill="#ecf8ef"] { fill: #14261a; }
+    [fill="#fffbe8"] { fill: #282513; }
+    [fill="#b9d9c2"] { fill: #3d6b4a; }
+    /* class-based styles (declared after so they win, same as light mode) */
+    .h, .lab, .t { fill: #ececf1; }
+    .cap, .sm, .s { fill: #a8a8b6; }
+    .box { fill: #15151c; stroke: #8a8a98; }
+    .w { stroke: #b8b8c4; }
+    .l { fill: #c4c4cf; stroke: #000000; }
+    .lp { fill: #f07a8d; stroke: #000000; }
+  }
+</style></defs>
+<text class="h" x="40.0" y="46.0" text-anchor="start" >Timestamps absorb USB jitter</text>
+<text class="cap" x="40.0" y="68.0" text-anchor="start" >Commands leave the browser early and unevenly, then wait on the Teensy until their exact time.</text>
+<rect x="24" y="100" width="1052" height="62" rx="10" fill="#3c5fa8" fill-opacity=".06" stroke="#3c5fa8" stroke-opacity=".3"/>
+<text class="lab" x="40.0" y="122.0" text-anchor="start" fill="#3c5fa8" >Browser sends</text>
+<text class="sm" x="40.0" y="138.0" text-anchor="start" >0.1–0.3 s early</text>
+<rect x="24" y="200" width="1052" height="40" rx="10" fill="#5a5a68" fill-opacity=".06" stroke="#5a5a68" stroke-opacity=".3"/>
+<text class="lab" x="40.0" y="222.0" text-anchor="start" fill="#5a5a68" >USB serial</text>
+<text class="sm" x="40.0" y="238.0" text-anchor="start" >variable delay</text>
+<rect x="24" y="290" width="1052" height="62" rx="10" fill="#2f7a45" fill-opacity=".06" stroke="#2f7a45" stroke-opacity=".3"/>
+<text class="lab" x="40.0" y="312.0" text-anchor="start" fill="#2f7a45" >Teensy queue</text>
+<text class="sm" x="40.0" y="328.0" text-anchor="start" >sorted by time</text>
+<rect x="24" y="390" width="1052" height="62" rx="10" fill="#e0559f" fill-opacity=".06" stroke="#e0559f" stroke-opacity=".3"/>
+<text class="lab" x="40.0" y="412.0" text-anchor="start" fill="#e0559f" >Keys struck</text>
+<text class="sm" x="40.0" y="428.0" text-anchor="start" >on the device clock</text>
+<line x1="180.0" y1="96" x2="180.0" y2="462" stroke="#e3e3ea" stroke-width="1"/>
+<text class="sm" x="180.0" y="480.0" text-anchor="middle" >0 ms</text>
+<line x1="253.3" y1="96" x2="253.3" y2="462" stroke="#e3e3ea" stroke-width="1"/>
+<text class="sm" x="253.3" y="480.0" text-anchor="middle" >100 ms</text>
+<line x1="326.7" y1="96" x2="326.7" y2="462" stroke="#e3e3ea" stroke-width="1"/>
+<text class="sm" x="326.7" y="480.0" text-anchor="middle" >200 ms</text>
+<line x1="400.0" y1="96" x2="400.0" y2="462" stroke="#e3e3ea" stroke-width="1"/>
+<text class="sm" x="400.0" y="480.0" text-anchor="middle" >300 ms</text>
+<line x1="473.3" y1="96" x2="473.3" y2="462" stroke="#e3e3ea" stroke-width="1"/>
+<text class="sm" x="473.3" y="480.0" text-anchor="middle" >400 ms</text>
+<line x1="546.7" y1="96" x2="546.7" y2="462" stroke="#e3e3ea" stroke-width="1"/>
+<text class="sm" x="546.7" y="480.0" text-anchor="middle" >500 ms</text>
+<line x1="620.0" y1="96" x2="620.0" y2="462" stroke="#e3e3ea" stroke-width="1"/>
+<text class="sm" x="620.0" y="480.0" text-anchor="middle" >600 ms</text>
+<line x1="693.3" y1="96" x2="693.3" y2="462" stroke="#e3e3ea" stroke-width="1"/>
+<text class="sm" x="693.3" y="480.0" text-anchor="middle" >700 ms</text>
+<line x1="766.7" y1="96" x2="766.7" y2="462" stroke="#e3e3ea" stroke-width="1"/>
+<text class="sm" x="766.7" y="480.0" text-anchor="middle" >800 ms</text>
+<line x1="840.0" y1="96" x2="840.0" y2="462" stroke="#e3e3ea" stroke-width="1"/>
+<text class="sm" x="840.0" y="480.0" text-anchor="middle" >900 ms</text>
+<line x1="913.3" y1="96" x2="913.3" y2="462" stroke="#e3e3ea" stroke-width="1"/>
+<text class="sm" x="913.3" y="480.0" text-anchor="middle" >1000 ms</text>
+<line x1="986.7" y1="96" x2="986.7" y2="462" stroke="#e3e3ea" stroke-width="1"/>
+<text class="sm" x="986.7" y="480.0" text-anchor="middle" >1100 ms</text>
+<line x1="1060.0" y1="96" x2="1060.0" y2="462" stroke="#e3e3ea" stroke-width="1"/>
+<text class="sm" x="1060.0" y="480.0" text-anchor="middle" >1200 ms</text>
+<circle cx="370.7" cy="126" r="6" fill="#3c5fa8"/>
+<text class="sm" x="370.7" y="112.0" text-anchor="middle" fill="#3c5fa8" >due 500</text>
+<path d="M370.7 134 L394.1 298" stroke="#5a5a68" stroke-width="1.2" stroke-dasharray="3 3" marker-end="url(#ar)"/>
+<rect x="394.1" y="300" width="152.5" height="12" rx="4" fill="#2f7a45" fill-opacity=".3" stroke="#2f7a45" stroke-opacity=".6"/>
+<path d="M546.7 312 V402" stroke="#1f1f2a" stroke-width="1.4" marker-end="url(#ar)"/>
+<rect x="540.7" y="406" width="12" height="20" rx="3" fill="#e0559f"/>
+<circle cx="422.0" cy="126" r="6" fill="#3c5fa8"/>
+<text class="sm" x="422.0" y="148.0" text-anchor="middle" fill="#3c5fa8" >due 625</text>
+<path d="M422.0 134 L486.5 316" stroke="#5a5a68" stroke-width="1.2" stroke-dasharray="3 3" marker-end="url(#ar)"/>
+<rect x="486.5" y="318" width="151.8" height="12" rx="4" fill="#2f7a45" fill-opacity=".3" stroke="#2f7a45" stroke-opacity=".6"/>
+<path d="M638.3 330 V402" stroke="#1f1f2a" stroke-width="1.4" marker-end="url(#ar)"/>
+<rect x="632.3" y="406" width="12" height="20" rx="3" fill="#e0559f"/>
+<circle cx="579.7" cy="126" r="6" fill="#3c5fa8"/>
+<text class="sm" x="579.7" y="112.0" text-anchor="middle" fill="#3c5fa8" >due 750</text>
+<path d="M579.7 134 L594.3 298" stroke="#5a5a68" stroke-width="1.2" stroke-dasharray="3 3" marker-end="url(#ar)"/>
+<rect x="594.3" y="300" width="135.7" height="12" rx="4" fill="#2f7a45" fill-opacity=".3" stroke="#2f7a45" stroke-opacity=".6"/>
+<path d="M730.0 312 V402" stroke="#1f1f2a" stroke-width="1.4" marker-end="url(#ar)"/>
+<rect x="724.0" y="406" width="12" height="20" rx="3" fill="#e0559f"/>
+<circle cx="620.0" cy="126" r="6" fill="#3c5fa8"/>
+<text class="sm" x="620.0" y="148.0" text-anchor="middle" fill="#3c5fa8" >due 875</text>
+<path d="M620.0 134 L708.0 316" stroke="#5a5a68" stroke-width="1.2" stroke-dasharray="3 3" marker-end="url(#ar)"/>
+<rect x="708.0" y="318" width="113.7" height="12" rx="4" fill="#2f7a45" fill-opacity=".3" stroke="#2f7a45" stroke-opacity=".6"/>
+<path d="M821.7 330 V402" stroke="#1f1f2a" stroke-width="1.4" marker-end="url(#ar)"/>
+<rect x="815.7" y="406" width="12" height="20" rx="3" fill="#e0559f"/>
+<circle cx="759.3" cy="126" r="6" fill="#3c5fa8"/>
+<text class="sm" x="759.3" y="112.0" text-anchor="middle" fill="#3c5fa8" >due 1000</text>
+<path d="M759.3 134 L794.5 298" stroke="#5a5a68" stroke-width="1.2" stroke-dasharray="3 3" marker-end="url(#ar)"/>
+<rect x="794.5" y="300" width="118.8" height="12" rx="4" fill="#2f7a45" fill-opacity=".3" stroke="#2f7a45" stroke-opacity=".6"/>
+<path d="M913.3 312 V402" stroke="#1f1f2a" stroke-width="1.4" marker-end="url(#ar)"/>
+<rect x="907.3" y="406" width="12" height="20" rx="3" fill="#e0559f"/>
+<circle cx="796.0" cy="126" r="6" fill="#3c5fa8"/>
+<text class="sm" x="796.0" y="148.0" text-anchor="middle" fill="#3c5fa8" >due 1125</text>
+<path d="M796.0 134 L848.8 316" stroke="#5a5a68" stroke-width="1.2" stroke-dasharray="3 3" marker-end="url(#ar)"/>
+<rect x="848.8" y="318" width="156.2" height="12" rx="4" fill="#2f7a45" fill-opacity=".3" stroke="#2f7a45" stroke-opacity=".6"/>
+<path d="M1005.0 330 V402" stroke="#1f1f2a" stroke-width="1.4" marker-end="url(#ar)"/>
+<rect x="999.0" y="406" width="12" height="20" rx="3" fill="#e0559f"/>
+<text class="sm" x="275.3" y="322.0" text-anchor="start" fill="#2f7a45" >bar = time spent waiting</text>
+<text class="sm" x="275.3" y="422.0" text-anchor="start" fill="#e0559f" >exactly on time, whatever the delay</text>
+</svg>
