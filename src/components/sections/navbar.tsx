@@ -9,7 +9,7 @@ export function Navbar() {
     const router = useRouter();
 
     return (
-        <header className="flex justify-between items-end mb-4 px-5 sm:px-8 lg:px-28">
+        <header className="flex justify-between items-end mb-4 px-5 sm:px-8 lg:px-16">
             <MovingElement
                 change={() => router.push("/")}
                 ariaLabel="Navigate to home"

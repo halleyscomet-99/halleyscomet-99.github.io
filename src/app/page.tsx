@@ -15,7 +15,7 @@ export default function Page() {
         <>
             <Navbar />
 
-            <main className="flex flex-col items-center gap-12 px-5 py-8 sm:px-8 lg:px-28 w-full">
+            <main className="flex flex-col items-center gap-12 px-5 py-8 sm:px-8 lg:px-16 w-full">
                 <Header data={DATA.HEADER} />
                 <Projects data={DATA.PROJECTS} />
                 <Skills data={DATA.SKILLS} />
