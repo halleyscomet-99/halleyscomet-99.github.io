@@ -52,3 +52,6 @@ yarn.lock
 package-lock.json
 pnpm-lock.yaml
 bun.lock
+# iCloud conflict duplicates
+/out */
+/package-lock *.json

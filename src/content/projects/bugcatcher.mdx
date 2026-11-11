@@ -42,7 +42,7 @@ The Sort node's entire execute cycle becomes a flat, readable sequence of `mpi.*
 
 ## Perception
 
-### AprilTag calibration
+### **AprilTag calibration**
 
 The sky cam sits on a fixed overhead mount with no odometry — its pose relative to the robot is unknown at startup and can drift if the mount is bumped. Rather than hardcoding a transform, the system performs a **live extrinsic calibration** every time it boots.
 
@@ -62,7 +62,7 @@ The white hexagonal sort destination zones are detected in the same calibration 
 
 */}
 
-### Runtime detection and Persistent List
+### **Runtime detection and Persistent List**
 
 {/* ===== MEDIA: color_seg.webp =====
     File: /media/projects/catfisher/color_seg.webp
@@ -96,11 +96,11 @@ IDs are assigned by nearest-neighbor matching against the previous frame with a 
 
 ## Dynamic tracking
 
-### Why MoveIt fails for moving targets
+### **Why MoveIt fails for moving targets**
 
 The standard MoveIt 2 `plan → execute` loop has two fundamental problems for dynamic targets. First, **planning latency**: OMPL-based planning for a 7-DOF arm in a cluttered scene takes 200–500 ms per call. Second, **goal fixation**: once a plan is committed, the arm follows it to the original goal pose regardless of where the target has moved. At typical Hex-Bug speeds (~5 cm/s), the target can be 1–2.5 cm away from the planned grasp point by the time execution completes.
 
-### Direct JTC injection
+### **Direct JTC injection**
 
 The solution bypasses MoveIt entirely and injects `JointTrajectory` messages directly into `fer_arm_controller`, the underlying `ros2_control` joint trajectory controller. This controller accepts trajectory goals from any publisher on its command topic — MoveIt normally has exclusive access, but nothing prevents a second publisher from taking over.
 

@@ -37,46 +37,46 @@ export function ProjectHeader({ projectName, project }: ProjectHeaderProps) {
                     </div>
                 </div>
 
-                <div className="flex items-center gap-2 text-sm">
+                <div className="flex items-center gap-1 pt-3 -ml-2.5 text-sm">
                     {project.GITHUB && (
                         <MovingElement
-                            className="inline-flex h-auto w-auto items-center justify-center bg-transparent p-0 text-muted-foreground shadow-none hover:bg-transparent hover:text-primary transition-colors"
+                            className="inline-flex size-10 items-center justify-center bg-transparent p-0 text-muted-foreground shadow-none hover:bg-transparent hover:text-primary transition-colors [&_svg]:size-5"
                             change={() => handleExternalLink(project.GITHUB!)}
                             toChange={true}
                             ariaLabel="GitHub Repo"
                         >
-                            <Github size={20} />
+                            <Github size={24} />
                         </MovingElement>
                     )}
                     {project.PAPER && (
                         <MovingElement
-                            className="inline-flex h-auto w-auto items-center justify-center bg-transparent p-0 text-muted-foreground shadow-none hover:bg-transparent hover:text-primary transition-colors"
+                            className="inline-flex size-10 items-center justify-center bg-transparent p-0 text-muted-foreground shadow-none hover:bg-transparent hover:text-primary transition-colors [&_svg]:size-5"
                             change={() => handleExternalLink(project.PAPER!)}
                             toChange={true}
                             ariaLabel="Publication"
                         >
-                            <BookOpenText size={20} />
+                            <BookOpenText size={24} />
                         </MovingElement>
                     )}
                     {project.LIVE_PREVIEW && (
                         <MovingElement
-                            className="inline-flex h-auto w-auto items-center justify-center bg-transparent p-0 text-muted-foreground shadow-none hover:bg-transparent hover:text-primary transition-colors"
+                            className="inline-flex size-10 items-center justify-center bg-transparent p-0 text-muted-foreground shadow-none hover:bg-transparent hover:text-primary transition-colors [&_svg]:size-5"
                             change={() => handleExternalLink(project.LIVE_PREVIEW!)}
                             toChange={true}
                             ariaLabel="Website"
                         >
-                            <Globe size={20} />
+                            <Globe size={24} />
                         </MovingElement>
                     )}
-                    <div className="flex gap-2">
+                    <div className="flex gap-1">
                         {project.YOUTUBE && (
                             <MovingElement
-                                className="inline-flex h-auto w-auto items-center justify-center bg-transparent p-0 text-muted-foreground shadow-none hover:bg-transparent hover:text-primary transition-colors"
+                                className="inline-flex size-10 items-center justify-center bg-transparent p-0 text-muted-foreground shadow-none hover:bg-transparent hover:text-primary transition-colors [&_svg]:size-5"
                                 change={() => handleExternalLink(project.YOUTUBE!)}
                                 toChange={true}
                                 ariaLabel="YouTube"
                             >
-                                <Youtube size={20} />
+                                <Youtube size={24} />
                             </MovingElement>
                         )}
                     </div>
@@ -84,7 +84,7 @@ export function ProjectHeader({ projectName, project }: ProjectHeaderProps) {
             </div>
 
             <h2 className="mt-6 font-medium text-primary/90 text-base">
-                overview.
+                 
             </h2>
         </div>
     );

@@ -29,7 +29,8 @@ export default function Page() {
             const matchTech = project.TECH_STACK.some(t =>
                 t.toLowerCase().includes(query)
             );
-            return matchTitle || matchDescription || matchTech;
+            const matchSummary = project.SUMMARY.toLowerCase().includes(query);
+            return matchTitle || matchDescription || matchTech || matchSummary;
         });
     }, [searchQuery, projectsData]);
 
@@ -90,20 +91,21 @@ export default function Page() {
                         </div>
 
                         <div className="relative group w-full">
-                            <div className="absolute inset-y-0 left-4 flex items-center pointer-events-none text-muted-foreground group-focus-within:text-primary transition-colors">
-                                <Search size={18} />
+                            <div className="absolute inset-y-0 left-4 flex items-center pointer-events-none text-foreground/60 group-focus-within:text-foreground transition-colors">
+                                <Search size={18} strokeWidth={2.25} />
                             </div>
                             <input
                                 type="text"
                                 placeholder="Search relevant tags or project titles..."
                                 value={searchQuery}
                                 onChange={(e) => setSearchQuery(e.target.value)}
-                                className="w-full bg-muted/30 border border-muted hover:border-muted-foreground/30 focus:border-primary focus:ring-4 focus:ring-primary/5 outline-hidden rounded-3xl py-3 pl-12 pr-12 text-base transition-all shadow-sm"
+                                className="w-full h-12 bg-transparent border-2 border-foreground/70 hover:border-foreground focus:border-foreground outline-hidden rounded-lg pl-12 pr-12 text-base text-foreground placeholder:text-muted-foreground transition-colors"
                             />
                             {searchQuery && (
                                 <button
                                     onClick={() => setSearchQuery("")}
-                                    className="absolute inset-y-0 right-4 flex items-center text-muted-foreground hover:text-primary transition-colors"
+                                    aria-label="Clear search"
+                                    className="absolute inset-y-0 right-4 flex items-center text-foreground/60 hover:text-foreground transition-colors"
                                 >
                                     <X size={18} />
                                 </button>
@@ -119,6 +121,7 @@ export default function Page() {
                             {filteredProjects.map(([key, value]) => (
                                 <ProjectCard
                                     key={key}
+                                    highlight={searchQuery}
                                     title={key}
                                     project={value}
                                     onClick={() => handleProjectClick(value)}
