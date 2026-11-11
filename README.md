@@ -2,7 +2,7 @@
 
 Personal portfolio website for [Chenwan Halley Zhong](https://halleyscomet-99.github.io), showcasing robotics projects, research and creative work.
 
-![HomePage Demonstration](<./out 2/media/projects/Thumbnail.png>)
+![HomePage Demonstration](./public/media/projects/Thumbnail.png)
 
 ## Overview
 
