@@ -42,7 +42,7 @@ export const DATA = {
         AGE: "23",
         PRONOUN: "she/her",
         HEADLINE: "MS in Robotics student @ Northwestern University | Musician",
-        RESUME: "/Resume-Chenwan(Halley)Zhong.pdf",
+        RESUME: "/media/about/Resume-Chenwan(Halley)Zhong.pdf",
         EMAIL: "mailto:halleyscomet678@gmail.com",
         GITHUB: "https://github.com/halleyscomet-99",
         LINKEDIN: "https://www.linkedin.com/in/halleyscomet99",

@@ -3,10 +3,11 @@
 import { Github, Linkedin, Youtube, Mail } from "lucide-react";
 
 import { MovingElement } from "@/components/navbar";
+import { openLink } from "@/lib/open-link";
 
 export function Header({ data }: { data: Record<string, string> }) {
     const handleChange = (url: string) => {
-        window.open(url, "_blank");
+        openLink(url);
     };
 
     return (
@@ -40,6 +41,7 @@ export function Header({ data }: { data: Record<string, string> }) {
                     <div className="flex gap-2">
                         <MovingElement
                             change={() => handleChange(data.EMAIL)}
+                            title="Click to copy email"
                             ariaLabel="Email"
                         >
                             <Mail />

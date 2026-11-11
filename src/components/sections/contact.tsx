@@ -3,10 +3,11 @@
 import { FileText, Github, Linkedin, Mail, Youtube } from "lucide-react";
 
 import { MovingElement } from "@/components/navbar";
+import { openLink } from "@/lib/open-link";
 
 export function Contact({ data }: { data: Record<string, string> }) {
     const handleChange = (url: string) => {
-        window.open(url, "_blank");
+        openLink(url);
     };
 
     return (
@@ -29,6 +30,7 @@ export function Contact({ data }: { data: Record<string, string> }) {
                         <button
                             className="inline-flex justify-center items-center bg-primary hover:bg-primary/90 disabled:opacity-50 shadow-sm px-4 rounded-md focus-visible:outline-hidden focus-visible:ring-1 focus-visible:ring-ring h-9 font-medium text-primary-foreground text-sm whitespace-nowrap transition-colors cursor-target disabled:pointer-events-none"
                             onClick={() => handleChange(data.EMAIL)}
+                            title="Click to copy email"
                         >
                             <Mail className="mr-2 w-4 h-4" />
                             Get in touch
@@ -62,6 +64,7 @@ export function Contact({ data }: { data: Record<string, string> }) {
                         </MovingElement>
                         <MovingElement
                             change={() => handleChange(data.EMAIL)}
+                            title="Click to copy email"
                             ariaLabel="Email"
                         >
                             <Mail />

@@ -6,6 +6,7 @@ import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import { DATA } from "@/app/data";
 import { MovingElement } from "@/components/navbar";
+import { openLink } from "@/lib/open-link";
 
 interface IAboutData {
     WEBSITE?: string;
@@ -29,7 +30,7 @@ export function About({
     };
 
     const handleChange = (url: string) => {
-        window.open(url, "_blank");
+        openLink(url);
     };
 
     return (
@@ -59,7 +60,7 @@ export function About({
                             </MovingElement>
                             
                             <div className="flex gap-2">
-                                <MovingElement change={() => handleChange(DATA.HEADER.EMAIL)} ariaLabel="Email">
+                                <MovingElement change={() => handleChange(DATA.HEADER.EMAIL)} title="Click to copy email" ariaLabel="Email">
                                     <Mail size={20} />
                                 </MovingElement>
                                 <MovingElement change={() => handleChange(DATA.HEADER.GITHUB)} ariaLabel="Github">

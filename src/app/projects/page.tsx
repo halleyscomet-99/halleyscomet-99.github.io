@@ -10,6 +10,7 @@ import { MovingElement } from "@/components/navbar";
 import { Contact, Footer, Navbar } from "@/components/sections";
 import { ProjectCard } from "@/components/sections/project-card";
 import { CursorManager } from "@/components/ui/cursor-manager";
+import { openLink } from "@/lib/open-link";
 
 export default function Page() {
     const projectsData: Record<string, IProjectData> = DATA.PROJECTS;
@@ -23,20 +24,16 @@ export default function Page() {
         const query = searchQuery.toLowerCase();
         return entries.filter(([title, project]) => {
             const matchTitle = title.toLowerCase().includes(query);
-            const matchDescription = project.DESCRIPTION.some(d =>
+            const matchDescription = project.DESCRIPTION.some((d) =>
                 d.toLowerCase().includes(query)
             );
-            const matchTech = project.TECH_STACK.some(t =>
+            const matchTech = project.TECH_STACK.some((t) =>
                 t.toLowerCase().includes(query)
             );
             const matchSummary = project.SUMMARY.toLowerCase().includes(query);
             return matchTitle || matchDescription || matchTech || matchSummary;
         });
     }, [searchQuery, projectsData]);
-
-    const openLink = (url: string) => {
-        window.open(url, "_blank");
-    };
 
     const handleProjectClick = (value: IProjectData) => {
         if (value.SLUG) {
@@ -50,7 +47,6 @@ export default function Page() {
         <>
             <Navbar />
             <div className="flex flex-col items-center gap-12 px-5 py-8 sm:px-8 lg:px-16 w-full">
-
                 {/* Search and Header Section */}
                 <section className="w-full space-y-4 pb-4">
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
@@ -63,7 +59,8 @@ export default function Page() {
                                     My Projects.
                                 </h1>
                                 <div className="mt-1 text-primary/90 text-sm font-normal">
-                                    Robotics | Mechatronics | Music | Creative Technology
+                                    Robotics | Mechatronics | Music | Creative
+                                    Technology
                                 </div>
                             </div>
                             <div className="flex items-center gap-2 pt-2 text-sm">
@@ -75,16 +72,31 @@ export default function Page() {
                                 >
                                     Resume
                                 </MovingElement>
-                                <MovingElement change={() => openLink(DATA.HEADER.EMAIL)} ariaLabel="Email">
+                                <MovingElement
+                                    change={() => openLink(DATA.HEADER.EMAIL)}
+                                    title="Click to copy email"
+                                    ariaLabel="Email"
+                                >
                                     <Mail size={20} />
                                 </MovingElement>
-                                <MovingElement change={() => openLink(DATA.HEADER.GITHUB)} ariaLabel="Github">
+                                <MovingElement
+                                    change={() => openLink(DATA.HEADER.GITHUB)}
+                                    ariaLabel="Github"
+                                >
                                     <Github size={20} />
                                 </MovingElement>
-                                <MovingElement change={() => openLink(DATA.HEADER.LINKEDIN)} ariaLabel="Linkedin">
+                                <MovingElement
+                                    change={() =>
+                                        openLink(DATA.HEADER.LINKEDIN)
+                                    }
+                                    ariaLabel="Linkedin"
+                                >
                                     <Linkedin size={20} />
                                 </MovingElement>
-                                <MovingElement change={() => openLink(DATA.HEADER.YOUTUBE)} ariaLabel="Youtube">
+                                <MovingElement
+                                    change={() => openLink(DATA.HEADER.YOUTUBE)}
+                                    ariaLabel="Youtube"
+                                >
                                     <Youtube size={20} />
                                 </MovingElement>
                             </div>
@@ -131,7 +143,8 @@ export default function Page() {
                     ) : (
                         <div className="w-full py-20 text-center space-y-3">
                             <p className="text-muted-foreground text-lg">
-                                No projects found matching &quot;{searchQuery}&quot;
+                                No projects found matching &quot;{searchQuery}
+                                &quot;
                             </p>
                             <button
                                 onClick={() => setSearchQuery("")}

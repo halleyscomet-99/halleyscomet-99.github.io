@@ -12,6 +12,8 @@ interface MovingElementProps {
     change?: () => void;
     toChange?: boolean;
     ariaLabel: string;
+    onRightClick?: () => void;
+    title?: string;
 }
 
 export const MovingElement: React.FC<MovingElementProps> = ({
@@ -20,6 +22,8 @@ export const MovingElement: React.FC<MovingElementProps> = ({
     change,
     toChange = true,
     ariaLabel,
+    onRightClick,
+    title,
 }) => {
     const x = useMotionValue(0);
     const y = useMotionValue(0);
@@ -72,6 +76,15 @@ export const MovingElement: React.FC<MovingElementProps> = ({
             <Button
                 variant={toChange ? "ghost" : undefined}
                 onClick={change}
+                onContextMenu={
+                    onRightClick
+                        ? (event) => {
+                              event.preventDefault();
+                              onRightClick();
+                          }
+                        : undefined
+                }
+                title={title}
                 className={className}
                 aria-label={ariaLabel}
             >
