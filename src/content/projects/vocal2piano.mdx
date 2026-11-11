@@ -29,7 +29,7 @@ The entire mechanism is mounted inside a custom keyboard-mounted enclosure that 
 </TextDiagram>
 
 
-### Solenoid Finger & Carriage
+### **Solenoid Finger & Carriage**
 
 The main mechanical challenge was converting the solenoids' short linear strokes into reliable piano key presses while keeping the entire mechanism compact. I designed **lever-based finger mechanisms** to transfer the solenoids' motion to the piano keys, with separate geometries for white and black keys to accommodate their different heights, lengths, and spacing. Each moving carriage integrates **13 independently actuated fingers** (7 white-key and 6 black-key), driven along the keyboard by a **NEMA17 stepper motor and GT2 belt**. This design allows two robotic hands to cover a wide playing range with only two motors, while the software handles carriage positioning, note reachability, and collision avoidance.
 
@@ -51,7 +51,7 @@ Driving 26 solenoids and two stepper motors requires significantly more power th
   size="md"
 />
 
-### C0nTrollER — Power & Motion Control
+### **C0nTrollER — Power & Motion Control**
 
 The **C0nTrollER** is the central control board, integrating the microcontroller, stepper drivers, and power-management circuitry. Key components were selected for their roles in precise motion control and reliable power delivery:
 
@@ -81,7 +81,7 @@ The **C0nTrollER** is the central control board, integrating the microcontroller
 </div>
 </TextDiagram>
 
-### PLAyeRs — Solenoid Driver Boards
+### **PLAyeRs — Solenoid Driver Boards**
 
 <TextDiagram
   src="/media/projects/vocal2piano/PLAyeRs_schematics.png"
@@ -116,10 +116,10 @@ Each **PLAyeRs** board drives the 13 solenoids on one robotic hand. Rather than 
 
 Before the robot can play, the system needs to solve two problems: **turning a melody into a musical accompaniment** and **making that accompaniment physically playable**.
 
-### From Humming to Harmony
+### **From Humming to Harmony**
 
 <TextDiagram
-  src="/media/projects/vocal2piano/hum-to-harmony.png"
+  src="/media/projects/vocal2piano/hum-to-harmony.svg"
   caption="Music processing pipeline"
   diagramWidth="60%"
 >
@@ -133,7 +133,7 @@ A hummed melody contains vibrato, pitch variations, and timing errors, so the ap
 The result is an editable piano accompaniment created from just a hummed melody.
 </TextDiagram>
 
-### Physically Constrained Motion Planning
+### **Physically Constrained Motion Planning**
 
 A musically valid arrangement isn't necessarily playable by the robot. Each carriage reaches only **one octave at a time**, and repositioning takes time.
 
@@ -148,7 +148,7 @@ The web app decides **what to play**, while the **Teensy 4.1 firmware**, written
 Browser scheduling and USB communication introduce unpredictable delays, making them unsuitable for precisely timing individual key presses. Instead, the app streams commands **0.1–0.3 seconds ahead**, each with a device timestamp. The Teensy stores them in a **time-sorted command queue** and executes each command at its scheduled time. A **50 kHz timer interrupt** generates step pulses for the two TMC2209 drivers, while the firmware coordinates solenoid actuation. This keeps the robot synchronized with audio playback without relying on the exact arrival time of USB messages.
 
 <Diagram
-  src="/media/projects/vocal2piano/timestamped-stream.png"
+  src="/media/projects/vocal2piano/timestamped-stream.svg"
   caption="Real-time control architecture"
   size="lg"
 />

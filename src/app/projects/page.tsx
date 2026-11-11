@@ -1,11 +1,12 @@
 "use client";
 
-import { Search, X } from "lucide-react";
+import { Github, Linkedin, Mail, Search, X, Youtube } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState, useMemo } from "react";
 
 import type { IProjectData } from "@/app/data";
 import { DATA } from "@/app/data";
+import { MovingElement } from "@/components/navbar";
 import { Contact, Footer, Navbar } from "@/components/sections";
 import { ProjectCard } from "@/components/sections/project-card";
 import { CursorManager } from "@/components/ui/cursor-manager";
@@ -32,6 +33,10 @@ export default function Page() {
         });
     }, [searchQuery, projectsData]);
 
+    const openLink = (url: string) => {
+        window.open(url, "_blank");
+    };
+
     const handleProjectClick = (value: IProjectData) => {
         if (value.SLUG) {
             router.push(`/projects/${value.SLUG}`);
@@ -50,15 +55,37 @@ export default function Page() {
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
                         <div className="space-y-2">
                             <p className="font-normal text-muted-foreground text-base">
-                                hello world 👋, these are my
+                                hello world 👋, these are
                             </p>
                             <div>
                                 <h1 className="font-bold text-primary/90 text-4xl tracking-tight">
                                     My Projects.
                                 </h1>
                                 <div className="mt-1 text-primary/90 text-sm font-normal">
-                                    Robotics | Mechatronics | Music
+                                    Robotics | Mechatronics | Music | Creative Technology
                                 </div>
+                            </div>
+                            <div className="flex items-center gap-2 pt-2 text-sm">
+                                <MovingElement
+                                    className="inline-flex justify-center items-center bg-primary betterhover:hover:bg-primary/90 shadow-sm px-4 py-2 rounded-md h-9 font-medium text-primary-foreground text-sm transition-colors whitespace-nowrap"
+                                    change={() => openLink(DATA.HEADER.RESUME)}
+                                    toChange={false}
+                                    ariaLabel="Resume"
+                                >
+                                    Resume
+                                </MovingElement>
+                                <MovingElement change={() => openLink(DATA.HEADER.EMAIL)} ariaLabel="Email">
+                                    <Mail size={20} />
+                                </MovingElement>
+                                <MovingElement change={() => openLink(DATA.HEADER.GITHUB)} ariaLabel="Github">
+                                    <Github size={20} />
+                                </MovingElement>
+                                <MovingElement change={() => openLink(DATA.HEADER.LINKEDIN)} ariaLabel="Linkedin">
+                                    <Linkedin size={20} />
+                                </MovingElement>
+                                <MovingElement change={() => openLink(DATA.HEADER.YOUTUBE)} ariaLabel="Youtube">
+                                    <Youtube size={20} />
+                                </MovingElement>
                             </div>
                         </div>
 
@@ -88,7 +115,7 @@ export default function Page() {
                 {/* Projects Grid Section */}
                 <div className="w-full mb-12">
                     {filteredProjects.length > 0 ? (
-                        <div className="gap-x-8 gap-y-12 grid grid-cols-[repeat(auto-fit,minmax(min(100%,max(300px,calc((100%_-_4rem)/3))),1fr))]">
+                        <div className="gap-x-8 gap-y-12 grid grid-cols-[repeat(auto-fill,minmax(min(100%,max(300px,calc((100%_-_4rem)/3))),1fr))]">
                             {filteredProjects.map(([key, value]) => (
                                 <ProjectCard
                                     key={key}

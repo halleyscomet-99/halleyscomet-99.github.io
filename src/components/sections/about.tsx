@@ -36,11 +36,17 @@ export function About({
         <div id="about" className="flex flex-col gap-12 w-full">
             <section className="space-y-4">
                 <h2 className="font-medium text-primary/90 text-base">about me.</h2>
-                <div className="grid grid-cols-1 gap-12 items-start">
+                <div className="grid grid-cols-1 sm:grid-cols-[1fr_auto] gap-8 sm:gap-12 items-start">
                     <div className="w-full font-normal text-muted-foreground text-base text-justify">
                     <span>
-                        As a robotics student at Northwestern University, I build robots designed to survive the transition from the lab to the real world.{" "}
-                        <span className="hidden sm:inline">{DATA.HEADER.EXPERTISE}</span>
+                        I'm a robotics engineer and creative technologist pursuing my Master's in Robotics at Northwestern University.{" "}
+                        {DATA.HEADER.EXPERTISE.split(/\s*\n\s*\n\s*/).map((para, i) =>
+                            i === 0 ? (
+                                <span key={i} className="hidden sm:inline whitespace-pre-line">{para}</span>
+                            ) : (
+                                <span key={i} className="hidden sm:block mt-2 whitespace-pre-line">{para}</span>
+                            )
+                        )}
                     </span>
                         <div className="flex items-center gap-2 text-sm mt-auto pt-8">
                             <MovingElement
@@ -69,6 +75,7 @@ export function About({
                         </div>
                     </div>
 
+                    <ProfilePhoto src="/media/about/profile.jpg" alt={DATA.HEADER.NAME} />
                 </div>
             </section>
 
@@ -228,6 +235,24 @@ export function About({
                     })}              
                 </ul>
             </section>
+        </div>
+    );
+}
+
+function ProfilePhoto({ src, alt }: { src: string; alt: string }) {
+    const [failed, setFailed] = useState(false);
+
+    return (
+        <div className="order-first sm:order-none mx-auto sm:mx-0 relative size-36 sm:size-40 lg:size-48 shrink-0 rounded-full overflow-hidden border border-muted bg-muted shadow-2xl shadow-black/5">
+            {!failed && (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img
+                    src={src}
+                    alt={alt}
+                    className="size-full object-cover"
+                    onError={() => setFailed(true)}
+                />
+            )}
         </div>
     );
 }

@@ -47,8 +47,8 @@ export const DATA = {
         GITHUB: "https://github.com/halleyscomet-99",
         LINKEDIN: "https://www.linkedin.com/in/halleyscomet99",
         YOUTUBE: "https://www.youtube.com/@halleyscomet-99",
-        INTRO: "As a robotics student at Northwestern University, I build robots designed to survive the transition from the lab to the real world. My passion lies in creating robust, life-enhancing robotics that solve tangible problems while maintaining a playful, artistic edge. I believe that the future of technology should be as much about soul and aesthetics as it is about sensors and code, and I am committed to developing reliable platforms that make a more beautiful, functional world possible.",
-        EXPERTISE: "My expertise spans the full robotics stack, from designing custom embedded electronics and mechanical structures to implementing robust perception and motion planning pipelines. Beyond the lab, I also create indie games and write music as a singer-songwriter.",
+        INTRO: "I'm a robotics engineer and creative technologist pursuing my Master's in Robotics at Northwestern University. I love building things at the intersection of robotics and interactive technology. My work explores how human data and digital motion can be translated into expressive robotic behavior, bridging the gap between digital worlds and physical action. I enjoy turning unexpected ideas into interactive experiences people can see, hear, and feel.",
+        EXPERTISE: "I've always been passionate about the intersection of engineering and creativity, especially how we can make machines move, interact, and express themselves in ways that feel more natural and human. I love working across disciplines, from mechanical design and custom electronics to embedded systems, AI, simulation, and interactive software. Ultimately, I want to bridge the gap between imagination and physical reality, turning human expression, digital animation, and intelligent models into machines that can move, perform, and interact in compelling ways. \n \n When I'm not debugging robots, I'm probably making music or developing games :)",
     },
 
     ABOUT_IMAGES: [

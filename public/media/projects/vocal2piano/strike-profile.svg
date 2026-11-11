@@ -7,8 +7,40 @@
   .cap { font-size: 12px; fill: #5a5a68; }
   .sm { font-size: 11px; fill: #5a5a68; }
   .note { font-size: 11px; font-weight: 600; fill: #ffffff; }
+  @media (prefers-color-scheme: dark) {
+    /* neutrals: text, arrowheads, lines */
+    text[fill="#1f1f2a"], path[fill="#1f1f2a"] { fill: #ececf1; }
+    [stroke="#1f1f2a"] { stroke: #ececf1; }
+    rect[fill="#ffffff"][stroke] { fill: #15151c; }
+    text[fill="#3d3d4a"], path[fill="#3d3d4a"] { fill: #b8b8c4; }
+    [stroke="#3d3d4a"] { stroke: #b8b8c4; }
+    [stroke="#4a4a58"] { stroke: #8a8a98; }
+    text[fill="#5a5a68"] { fill: #a8a8b6; }
+    [stroke="#5a5a68"] { stroke: #8a8a98; }
+    [stroke="#e3e3ea"] { stroke: #2e2e38; }
+    [stroke="#c9c9d4"] { stroke: #44444f; }
+    /* accent text + strokes (filled bars keep their colour) */
+    text[fill="#3c5fa8"] { fill: #8aa6e8; }  [stroke="#3c5fa8"] { stroke: #7d9be0; }
+    text[fill="#2f7a45"] { fill: #6fcf8c; }  [stroke="#2f7a45"] { stroke: #5cbf7a; }
+    text[fill="#c46a1f"] { fill: #eda062; }  [stroke="#c46a1f"] { stroke: #e8954f; }
+    text[fill="#7a56c2"] { fill: #b399ee; }  [stroke="#7a56c2"] { stroke: #a98ae8; }
+    text[fill="#a35a1c"] { fill: #e8a868; }  [stroke="#a35a1c"] { stroke: #e0a060; }
+    text[fill="#d6455d"], path[fill="#d6455d"] { fill: #f07a8d; }  [stroke="#d6455d"] { stroke: #f07a8d; }
+    /* pastel section bands */
+    [fill="#eef3ff"] { fill: #161d30; }
+    [fill="#fff3ea"] { fill: #2a1e15; }
+    [fill="#ecf8ef"] { fill: #14261a; }
+    [fill="#fffbe8"] { fill: #282513; }
+    [fill="#b9d9c2"] { fill: #3d6b4a; }
+    /* class-based styles (declared after so they win, same as light mode) */
+    .h, .lab, .t { fill: #ececf1; }
+    .cap, .sm, .s { fill: #a8a8b6; }
+    .box { fill: #15151c; stroke: #8a8a98; }
+    .w { stroke: #b8b8c4; }
+    .l { fill: #c4c4cf; stroke: #000000; }
+    .lp { fill: #f07a8d; stroke: #000000; }
+  }
 </style></defs>
-<rect width="1100" height="500" rx="16" fill="#ffffff"/>
 <text class="h" x="40.0" y="46.0" text-anchor="start" >Anatomy of one key strike</text>
 <text class="cap" x="40.0" y="68.0" text-anchor="start" >Solenoid duty over one 600 ms note. The firmware shapes every strike the same way.</text>
 <line x1="120" y1="390.0" x2="1000" y2="390.0" stroke="#e3e3ea"/>

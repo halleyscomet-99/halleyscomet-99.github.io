@@ -52,7 +52,7 @@ export function Projects({ data }: { data: Record<string, IProjectData> }) {
                                     : "opacity-0 scale-[0.96] blur-sm absolute inset-0 z-0 invisible"
                             }`}
                         >
-                            <div className="gap-x-8 gap-y-12 grid grid-cols-[repeat(auto-fit,minmax(min(100%,max(300px,calc((100%_-_4rem)/3))),1fr))]">
+                            <div className="gap-x-8 gap-y-12 grid grid-cols-[repeat(auto-fill,minmax(min(100%,max(300px,calc((100%_-_4rem)/3))),1fr))]">
                                 {group.map(([key, value]) => (
                                     <ProjectCard
                                         key={key}
