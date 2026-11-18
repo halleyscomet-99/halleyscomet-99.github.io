@@ -100,7 +100,7 @@ export const DATA = {
         },
         "HKUSTGZ": {
             WEBSITE: "https://arkxlab.github.io/",
-            POSITION: "HKUST(GZ) Information Hub - Research Assistant",
+            POSITION: "Hong Kong University of Science and Technology (HKUST) - Research Assistant",
             LOCATION: "Guangzhou, China",
             DURATION: "Oct, 2024 - May, 2025",
             DESCRIPTION: [
@@ -124,7 +124,7 @@ export const DATA = {
             // WEBSITE: "...",
             POSITION: "Lenovo Research - Software Engineer Intern",
             LOCATION: "Beijing, China",
-            DURATION: "Nov, 2023 - Apr, 2024",
+            DURATION: "Nov, 2023 - May, 2024",
             DESCRIPTION: [
                 "Developed a real-time 3D hand-object interaction system in Unity (C#), integrating Leap Motion tracking and monocular camera input for glasses-free 3D gaming.",
                 "Implemented skeletal motion retargeting using quaternion-based joint mapping, coordinate transformations, forward kinematics, and anatomical constraints.",
@@ -142,7 +142,7 @@ export const DATA = {
         },
         "NTU": {
             WEBSITE: "https://blogs.ntu.edu.sg/chau-yuen/",
-            POSITION: "NTU EEE - Research Assistant",
+            POSITION: "Nanyang Technological University (NTU) - Research Assistant",
             LOCATION: "Singapore",
             DURATION: "Jul, 2023 - Sep, 2023",
             DESCRIPTION: [
@@ -181,7 +181,7 @@ export const DATA = {
     PUBLICATIONS: {
         "SofiBuddy": {
             TITLE: "SofiBuddy: A Soft Mobile Interface for On-Body Interaction",
-            CONFERENCE: "SA Posters '25: SIGGRAPH Asia 2025 Posters",
+            CONFERENCE: "SIGGRAPH Asia 2025",
             LINK: "https://dl.acm.org/doi/10.1145/3757374.3771432",
             AUTHORS: [
                 "Yixuan Li", "Jie Yu", "Chenwan Halley Zhong", "Zhaowen Deng", "Teng Han", "Yi Cai", "Xin Tong",
@@ -189,7 +189,7 @@ export const DATA = {
         },
         "RoboTheater": {
             TITLE: "RoboTheater: A Multi-Robot Storytelling Platform from LLM Scripts to Stage Performance",
-            CONFERENCE: "TEI 2026 Work-in-Progress",
+            CONFERENCE: "TEI 2026",
             LINK: "https://dl.acm.org/doi/10.1145/3731459.3779333",
             AUTHORS: [
                 "Yinghao Gao", "Yongbo Yang", "Chenwan Halley Zhong", "Xinyi Zhang", "Junrong Song", "Lawrence H. Kim", "Tengfei Chang", "Xin Tong",
